@@ -3,58 +3,257 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="VEX Robotics 2024–2025 High Stakes — Trình's first competition season.">
-  <title>VEX 2024–2025 | Trình</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="vex.css">
+  <meta name="description" content="VEX Robotics 2024–2025 High Stakes — Trình's first competition season, told through real team, robot, and CAD photos.">
+  <title>2024–2025 · High Stakes | Trình</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root{--ink:#080b12;--paper:#f3f0e8;--acid:#a7ff52;--blue:#5f72ff;--sky:#71d9ff;--red:#ff554d;--muted:#667085}
+    *{box-sizing:border-box}
+    body.season-one{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;overflow-x:hidden}
+    .season-one h1,.season-one h2,.season-one h3,.season-one .brand{font-family:"Space Grotesk",system-ui,sans-serif}
+    .season-one .container{width:min(1240px,calc(100% - 48px));margin:auto}
+    .season-one .nav{position:fixed;inset:0 0 auto 0;z-index:100;background:rgba(243,240,232,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(8,11,18,.1)}
+    .season-one .nav-links a:hover,.season-one .nav-links a.active{color:#111}
+    .season-one .nav-btn{background:#080b12;color:#fff!important}
+    .season-one .brand span{color:var(--blue)}
+    .season-subnav{position:sticky;top:72px;z-index:80;background:rgba(8,11,18,.94);color:#fff;backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.12)}
+    .season-subnav .container{display:flex;gap:10px;align-items:center;min-height:48px;overflow-x:auto}
+    .season-subnav a{font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#b9c1d2;padding:8px 12px;border-radius:999px;white-space:nowrap}
+    .season-subnav a.active{background:var(--acid);color:#081009}
+    .scroll-progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--acid),var(--sky),var(--blue));z-index:200}
+
+    .s1-hero{padding:148px 0 36px;min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 8% 18%,rgba(167,255,82,.22),transparent 28%),radial-gradient(circle at 96% 24%,rgba(95,114,255,.2),transparent 26%),var(--paper)}
+    .s1-hero:after{content:"01";position:absolute;right:-.04em;bottom:-.22em;font-family:"Space Grotesk";font-size:clamp(190px,31vw,480px);font-weight:700;letter-spacing:-.09em;color:rgba(8,11,18,.035);pointer-events:none}
+    .hero-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:center;position:relative;z-index:1}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:9px 13px;border:1px solid rgba(8,11,18,.16);border-radius:999px;background:rgba(255,255,255,.46)}
+    .eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px rgba(255,85,77,.12)}
+    .hero-copy h1{font-size:clamp(58px,7.8vw,116px);line-height:.84;letter-spacing:-.075em;margin:24px 0 28px;max-width:720px}
+    .hero-copy h1 span{display:block;color:var(--blue)}
+    .hero-copy>p{font-size:clamp(18px,1.7vw,22px);line-height:1.55;max-width:650px;color:#4d5563;margin:0}
+    .proof-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+    .proof{padding:12px 14px;border-radius:17px;background:#fff;border:1px solid rgba(8,11,18,.08);box-shadow:0 10px 28px rgba(8,11,18,.06)}
+    .proof strong{display:block;font-family:"Space Grotesk";font-size:20px;letter-spacing:-.04em}
+    .proof span{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#737b8a;margin-top:2px}
+    .hero-media{position:relative;min-height:670px}
+    .hero-photo{position:absolute;inset:24px 18px 24px 44px;border-radius:220px 220px 34px 34px;overflow:hidden;box-shadow:0 36px 80px rgba(8,11,18,.18);background:#dde2e9;transform:rotate(1.6deg)}
+    .hero-photo img{width:100%;height:100%;object-fit:cover;animation:heroPan 10s ease-in-out infinite alternate}
+    .hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,11,18,.26))}
+    .photo-label{position:absolute;left:74px;bottom:54px;z-index:2;color:#fff;font-size:11px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;padding:10px 13px;border-radius:999px;background:rgba(8,11,18,.58);backdrop-filter:blur(10px)}
+    .float-tag{position:absolute;z-index:5;padding:11px 14px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 16px 34px rgba(8,11,18,.13);animation:float 4.2s ease-in-out infinite}
+    .tag-a{left:0;top:22%;background:var(--acid);transform:rotate(-7deg)}
+    .tag-b{right:-8px;top:48%;background:#080b12;color:#fff;animation-delay:.7s;transform:rotate(5deg)}
+    .tag-c{left:15px;bottom:17%;background:var(--blue);color:#fff;animation-delay:1.2s;transform:rotate(4deg)}
+    .orbit{position:absolute;border:1px dashed rgba(8,11,18,.18);border-radius:50%;inset:-4% -2% 0 8%;animation:spin 26s linear infinite;pointer-events:none}
+    @keyframes heroPan{from{transform:scale(1.02)}to{transform:scale(1.075)}}
+    @keyframes float{0%,100%{translate:0 0}50%{translate:0 -12px}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .ticker{overflow:hidden;background:#080b12;color:#fff;border-top:1px solid #080b12;border-bottom:1px solid #080b12}
+    .ticker-track{display:flex;width:max-content;animation:ticker 24s linear infinite}
+    .ticker-track span{font-family:"Space Grotesk";font-size:clamp(18px,2.4vw,32px);font-weight:700;letter-spacing:-.03em;padding:18px 20px;white-space:nowrap}
+    .ticker-track b{color:var(--acid);padding:20px 4px;font-size:22px}
+    @keyframes ticker{to{transform:translateX(-50%)}}
+
+    .section{padding:92px 0}
+    .section.dark{background:#080b12;color:#fff}
+    .section-head{display:grid;grid-template-columns:.55fr 1.45fr;gap:40px;align-items:start;margin-bottom:38px}
+    .kicker{font-size:11px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;color:#727b8a}
+    .dark .kicker{color:#99a4b5}
+    .section-head h2{font-size:clamp(42px,5.8vw,78px);line-height:.92;letter-spacing:-.065em;margin:0 0 18px;max-width:900px}
+    .section-head p{font-size:18px;line-height:1.6;max-width:720px;margin:0;color:#626b78}
+    .dark .section-head p{color:#b8c1cf}
+
+    .story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .story-card{min-height:370px;border-radius:30px;padding:26px;position:relative;overflow:hidden;border:1px solid rgba(8,11,18,.08);background:#fff;box-shadow:0 18px 42px rgba(8,11,18,.06);transition:transform .3s ease,box-shadow .3s ease}
+    .story-card:hover{transform:translateY(-8px) rotate(-.5deg);box-shadow:0 28px 60px rgba(8,11,18,.12)}
+    .story-card.darkish{background:#111827;color:#fff}
+    .story-card.acid{background:var(--acid)}
+    .story-no{font-family:"Space Grotesk";font-size:70px;font-weight:700;letter-spacing:-.08em;line-height:.75;color:rgba(8,11,18,.12)}
+    .darkish .story-no{color:rgba(255,255,255,.12)}
+    .story-card h3{font-size:28px;line-height:1;letter-spacing:-.045em;margin:56px 0 12px}
+    .story-card p{margin:0;line-height:1.6;color:#646d7b}
+    .darkish p{color:#c9d3e1}
+    .acid p{color:#25301c}
+
+    .photo-chapter{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}
+    .photo-wall{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .atlas{background-image:url('assets/vex/2024-2025/atlas.webp');background-size:300% 300%;background-repeat:no-repeat;background-color:#dfe4ec}
+    .tile{min-height:255px;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.08);box-shadow:0 16px 38px rgba(0,0,0,.12);transition:transform .28s ease,filter .28s ease}
+    .tile:hover{transform:scale(1.025) rotate(.5deg);filter:saturate(1.08)}
+    .tile:after{content:attr(data-label);position:absolute;left:14px;bottom:14px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(8,11,18,.64);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px}
+    .p0{background-position:0 0}.p1{background-position:50% 0}.p2{background-position:100% 0}.p3{background-position:0 50%}.p4{background-position:50% 50%}.p5{background-position:100% 50%}.p6{background-position:0 100%}.p7{background-position:50% 100%}.p8{background-position:100% 100%}
+    .process-copy{border-radius:32px;background:linear-gradient(150deg,#5f72ff,#3444c7);color:#fff;padding:34px;display:flex;flex-direction:column;justify-content:space-between;min-height:526px;box-shadow:0 22px 52px rgba(25,38,152,.22)}
+    .process-copy .mini-label{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#dce2ff}
+    .process-copy h3{font-size:clamp(34px,4vw,56px);line-height:.94;letter-spacing:-.055em;margin:18px 0}
+    .process-copy p{font-size:17px;line-height:1.65;color:#e5e9ff;margin:0}
+    .process-chain{display:grid;gap:10px;margin-top:28px}
+    .process-chain span{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.13);font-weight:800}
+    .process-chain em{font-style:normal;color:var(--acid)}
+
+    .anatomy{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}
+    .anatomy-stack{display:grid;gap:14px}
+    .anatomy-stack .tile{min-height:300px}
+    .notes{display:grid;gap:14px}
+    .note{padding:22px;border-radius:24px;background:#fff;border:1px solid rgba(8,11,18,.08);box-shadow:0 14px 34px rgba(8,11,18,.05)}
+    .note span{font-size:10px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:#6c7480}
+    .note h3{font-size:24px;line-height:1.06;letter-spacing:-.04em;margin:8px 0 8px}
+    .note p{margin:0;color:#606977;line-height:1.55}
+
+    .cad-stage{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:stretch}
+    .cad-copy{padding:34px;border-radius:32px;background:var(--acid);display:flex;flex-direction:column;justify-content:space-between}
+    .cad-copy h3{font-size:clamp(38px,4.8vw,64px);line-height:.9;letter-spacing:-.06em;margin:12px 0 20px}
+    .cad-copy p{font-size:17px;line-height:1.6;color:#28351d;margin:0}
+    .cad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .cad-grid .tile{min-height:420px;border-radius:28px;background-color:#fff}
+
+    .result-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+    .result{padding:24px;border-radius:24px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11)}
+    .result strong{display:block;font-family:"Space Grotesk";font-size:42px;line-height:1;letter-spacing:-.055em;color:#fff}
+    .result span{display:block;margin-top:8px;color:#c8d1df;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+    .competition-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:28px;align-items:stretch}
+    .competition-layout .tile{min-height:470px}
+    .quote-card{border-radius:32px;background:linear-gradient(135deg,#171d2b,#080b12);padding:34px;border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;justify-content:space-between}
+    .quote-card blockquote{font-family:"Space Grotesk";font-size:clamp(30px,3.8vw,52px);line-height:1.02;letter-spacing:-.05em;margin:0;color:#fff}
+    .quote-card blockquote em{font-style:normal;color:var(--acid)}
+    .quote-card p{margin:28px 0 0;color:#b7c1cf;line-height:1.6}
+
+    .lessons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .lesson{padding:28px;border-radius:28px;background:#fff;border:1px solid rgba(8,11,18,.08);box-shadow:0 16px 38px rgba(8,11,18,.05);position:relative;overflow:hidden}
+    .lesson:before{content:attr(data-num);position:absolute;right:12px;top:0;font-family:"Space Grotesk";font-size:98px;font-weight:700;line-height:.9;letter-spacing:-.08em;color:rgba(95,114,255,.08)}
+    .lesson strong{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#080b12;color:#fff;margin-bottom:22px}
+    .lesson h3{font-size:25px;line-height:1.06;letter-spacing:-.04em;margin:0 0 12px;position:relative}
+    .lesson p{margin:0;color:#606977;line-height:1.58;position:relative}
+
+    .next-season{padding:54px 0 80px}
+    .next-card{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;background:#080b12;color:#fff;border-radius:36px;padding:34px 38px;box-shadow:0 24px 60px rgba(8,11,18,.18)}
+    .next-card span{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#98a4b8}
+    .next-card h2{font-size:clamp(32px,4vw,56px);line-height:.95;letter-spacing:-.055em;margin:8px 0 6px}
+    .next-card p{margin:0;color:#b9c3d1}
+    .next-card a{display:inline-flex;align-items:center;gap:10px;padding:15px 20px;border-radius:999px;background:var(--acid);color:#081009;font-weight:900;white-space:nowrap}
+
+    .footer{padding-top:0}
+    .footer-box{border-top:1px solid rgba(8,11,18,.12)}
+    .reveal-up,.reveal-scale{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+    .reveal-scale{transform:scale(.97)}
+    .reveal-up.is-visible,.reveal-scale.is-visible{opacity:1;transform:none}
+    @media(max-width:980px){.hero-grid,.photo-chapter,.anatomy,.cad-stage,.competition-layout{grid-template-columns:1fr}.hero-media{min-height:610px}.section-head{grid-template-columns:1fr}.story-grid,.lessons{grid-template-columns:1fr}.cad-grid{grid-template-columns:repeat(3,1fr)}.result-strip{grid-template-columns:1fr 1fr 1fr}}
+    @media(max-width:700px){.season-one .container{width:min(100% - 24px,1240px)}.s1-hero{padding-top:132px;min-height:auto}.hero-copy h1{font-size:clamp(52px,18vw,78px)}.hero-media{min-height:490px}.hero-photo{inset:20px 8px 20px 20px}.tag-a{left:0}.tag-b{right:0}.photo-label{left:38px;bottom:40px}.section{padding:66px 0}.section-head h2{font-size:44px}.photo-wall{grid-template-columns:1fr 1fr}.tile{min-height:190px}.cad-grid{grid-template-columns:1fr}.cad-grid .tile{min-height:330px}.result-strip{grid-template-columns:1fr}.next-card{grid-template-columns:1fr}.next-card a{justify-content:center}.season-subnav{top:72px}.proof-row{display:grid;grid-template-columns:1fr 1fr}.orbit{display:none}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal-up,.reveal-scale{opacity:1;transform:none}}
+  </style>
 </head>
-<body class="vex-shell">
+<body class="season-one">
   <div class="scroll-progress" aria-hidden="true"></div>
-  <nav class="nav vex-nav"><div class="container nav-inner"><a class="brand" href="index.html">TRÌNH<span>.</span></a><button class="mobile-toggle" aria-label="Open navigation">☰</button><div class="nav-links"><a href="index.html">Home</a><a class="active" href="vex.html">VEX</a><a href="service.html">Service</a><a href="index.html#projects">Projects</a><a href="index.html#awards">Awards</a><a class="nav-btn" href="index.html#contact">Say hi ↗</a></div></div></nav>
+  <nav class="nav"><div class="container nav-inner"><a class="brand" href="index.html">TRÌNH<span>.</span></a><button class="mobile-toggle" aria-label="Open navigation">☰</button><div class="nav-links"><a href="index.html">Home</a><a class="active" href="vex.html">VEX</a><a href="service.html">Service</a><a href="index.html#projects">Projects</a><a href="index.html#awards">Awards</a><a class="nav-btn" href="index.html#contact">Say hi ↗</a></div></div></nav>
   <div class="season-subnav"><div class="container"><a href="vex.html">← All seasons</a><a class="active" href="vex-2024-2025.html">2024–25</a><a href="vex-2025-2026.html">2025–26</a><a href="vex-2026-2027.html">2026–27</a></div></div>
 
   <main>
-    <section class="season-hero"><div class="container season-hero-grid">
-      <div class="reveal-up"><span class="season-eyebrow">SEASON 01 · 2024—2025 · HIGH STAKES</span><h1><span>Learning how to build</span>My first real VEX season.</h1><p>I entered VEX by building first and understanding the system later. That approach made progress fast at the beginning — but expensive when geometry, drivetrain choices, or mechanisms needed to change.</p></div>
-      <div class="season-hero-media reveal-scale">
-        <div class="photo-slot"><span>HERO PHOTO SLOT</span><strong>Robot + you</strong><small>Ideal: competition-field photo or build-session portrait</small></div>
-        <div class="photo-slot"><span>DETAIL PHOTO SLOT</span><strong>Robot close-up</strong><small>Ideal: mechanism / drivetrain / notebook</small></div>
+    <section class="s1-hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal-up">
+          <span class="eyebrow"><i></i> Season 01 · High Stakes · 2024–2025</span>
+          <h1>Before the process,<span>there was “make it work.”</span></h1>
+          <p>My first VEX season started with metal, motors, and urgency. I learned to build a competition robot — then learned why engineering is much more than assembling one.</p>
+          <div class="proof-row">
+            <div class="proof"><strong>Top 12</strong><span>Vietnam Nationals · Qualification</span></div>
+            <div class="proof"><strong>Top 8</strong><span>Southern Qualifier · Skills</span></div>
+            <div class="proof"><strong>509225S</strong><span>VERTEX</span></div>
+          </div>
+        </div>
+        <div class="hero-media reveal-scale">
+          <div class="orbit"></div>
+          <figure class="hero-photo"><img src="assets/vex/2024-2025/hero-team.webp" alt="VERTEX 509225S team in red jerseys posing with their VEX robot during the 2024–2025 season."></figure>
+          <span class="photo-label">VERTEX · SEASON 01 · REAL PHOTO</span>
+          <span class="float-tag tag-a">BUILD → TEST → BREAK</span>
+          <span class="float-tag tag-b">VEX HIGH STAKES</span>
+          <span class="float-tag tag-c">FIRST SEASON ↗</span>
+        </div>
       </div>
-    </div></section>
+    </section>
 
-    <section class="case-section"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">SEASON AT A GLANCE / 01</span><div><h2>The starting point.</h2><p>The value of this season was not only the result. It gave me the baseline I needed to understand why engineering process matters.</p></div></div>
-      <div class="metric-strip reveal-up"><div class="metric-chip"><strong>Top 12</strong><span>Vietnam National Championship</span></div><div class="metric-chip"><strong>Top 8</strong><span>Skills · Southern qualifier</span></div><div class="metric-chip"><strong>Top 16</strong><span>Qualification · Southern qualifier</span></div><div class="metric-chip"><strong>Season 01</strong><span>First full VEX cycle</span></div></div>
-    </div></section>
+    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>BUILD FAST</span><b>✦</b><span>FIND THE WEAK POINT</span><b>✦</b><span>REBUILD SMARTER</span><b>✦</b><span>HIGH STAKES 2024–2025</span><b>✦</b><span>BUILD FAST</span><b>✦</b><span>FIND THE WEAK POINT</span><b>✦</b><span>REBUILD SMARTER</span><b>✦</b><span>HIGH STAKES 2024–2025</span><b>✦</b></div></div>
 
-    <section class="case-section dark"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">ENGINEERING STORY / 02</span><div><h2>What broke the “just build it” mindset.</h2><p>My first season made design trade-offs visible. When a robot is already assembled, even a small drivetrain or mechanism change can cascade through the entire structure.</p></div></div>
-      <div class="case-grid">
-        <article class="case-card reveal-up"><span class="case-no">01 · BUILD</span><h3>Freestyle first.</h3><p>We moved quickly without a complete CAD/BOM workflow, which made early construction flexible but later changes harder to coordinate.</p></article>
-        <article class="case-card reveal-up"><span class="case-no">02 · TEST</span><h3>Problems became structural.</h3><p>Reliability issues were not always isolated mechanism failures; sometimes they traced back to drivetrain alignment, motor distribution, or how the robot had been assembled.</p></article>
-        <article class="case-card reveal-up"><span class="case-no">03 · LEARN</span><h3>Plan before cutting metal.</h3><p>The season pushed me toward a more deliberate process: CAD, BOM planning, testing criteria, version history, and evidence-based revision.</p></article>
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal-up"><span class="kicker">THE STORY / 01</span><div><h2>Three stages changed how I saw a robot.</h2><p>The first season was valuable because the mistakes were visible. Every difficult adjustment forced me to connect the physical robot back to an earlier design decision.</p></div></div>
+        <div class="story-grid">
+          <article class="story-card reveal-up"><div class="story-no">01</div><h3>Build first.</h3><p>We moved quickly and built mechanisms directly on the robot. It felt flexible at the beginning because changes could happen immediately.</p></article>
+          <article class="story-card darkish reveal-up"><div class="story-no">02</div><h3>Then pay for it.</h3><p>Once systems were packed together, a small drivetrain or mechanism revision could affect structure, clearance, wiring, and access somewhere else.</p></article>
+          <article class="story-card acid reveal-up"><div class="story-no">03</div><h3>Think like an engineer.</h3><p>I began to understand why CAD, BOM planning, deliberate testing, and version history matter before the robot reaches the field.</p></article>
+        </div>
       </div>
-    </div></section>
+    </section>
 
-    <section class="case-section"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">ROBOT EVOLUTION / 03</span><div><h2>Leave space for the versions.</h2><p>These image frames are intentionally reserved for your real robot photos. We can later add exact dates, mechanism names, and captions after you upload them.</p></div></div>
-      <div class="evolution-grid">
-        <div class="evolution-item reveal-up"><div class="photo-slot"><span>PHOTO SLOT</span><strong>Early build</strong><small>Overall robot / first competition-ready version</small></div><h3>Version 01</h3><p>What we thought would work.</p></div>
-        <div class="evolution-item reveal-up"><div class="photo-slot"><span>PHOTO SLOT</span><strong>Mid-season revision</strong><small>Mechanism or drivetrain change</small></div><h3>Version 02</h3><p>What testing forced us to change.</p></div>
-        <div class="evolution-item reveal-up"><div class="photo-slot"><span>PHOTO SLOT</span><strong>Final season robot</strong><small>Nationals / final event</small></div><h3>Version 03</h3><p>What the season taught us to prioritize.</p></div>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head reveal-up"><span class="kicker">INSIDE THE SEASON / 02</span><div><h2>Not a trophy shelf. A working notebook in pictures.</h2><p>These are real photos from the year: the team, early robot builds, mechanism close-ups, competition versions, and the CAD work that helped me understand the machine more clearly.</p></div></div>
+        <div class="photo-chapter">
+          <div class="photo-wall">
+            <div class="tile atlas p0 reveal-scale" data-label="Team · SSIS"></div>
+            <div class="tile atlas p1 reveal-scale" data-label="Early robot"></div>
+            <div class="tile atlas p4 reveal-scale" data-label="Competition robot"></div>
+            <div class="tile atlas p5 reveal-scale" data-label="Robot on table"></div>
+          </div>
+          <aside class="process-copy reveal-up">
+            <div><span class="mini-label">MY FIRST ENGINEERING LOOP</span><h3>I stopped asking only “does it work?”</h3><p>I started asking a better set of questions: What exactly failed? Was it geometry, alignment, packaging, mechanism reliability, or the way we had built the whole system around it?</p></div>
+            <div class="process-chain"><span>Build <em>→</em></span><span>Compete <em>→</em></span><span>Diagnose <em>→</em></span><span>Change the design <em>↻</em></span></div>
+          </aside>
+        </div>
       </div>
-    </div></section>
+    </section>
 
-    <section class="case-section"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">REAL PHOTO GALLERY / 04</span><div><h2>Process over trophy shelf.</h2><p>Best future images: building, debugging, mechanism close-ups, drive-team moments, field setup, notebook pages, and one competition photo.</p></div></div>
-      <div class="gallery-grid"><div class="photo-slot large"><span>PHOTO SLOT 01</span><strong>Build process</strong><small>Wide image</small></div><div class="photo-slot"><span>PHOTO SLOT 02</span><strong>Drive team</strong></div><div class="photo-slot"><span>PHOTO SLOT 03</span><strong>Competition</strong></div><div class="photo-slot large"><span>PHOTO SLOT 04</span><strong>Robot detail / notebook / CAD</strong></div></div>
-    </div></section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal-up"><span class="kicker">ROBOT ANATOMY / 03</span><div><h2>The details taught me systems thinking.</h2><p>Close-ups made one thing obvious: there is no isolated mechanism. Every bracket, roller, gear, pneumatic element, and support competes for the same space and affects what can be changed later.</p></div></div>
+        <div class="anatomy">
+          <div class="anatomy-stack"><div class="tile atlas p2 reveal-scale" data-label="Front intake / geometry"></div><div class="tile atlas p3 reveal-scale" data-label="Side mechanism / pneumatics"></div></div>
+          <div class="notes">
+            <article class="note reveal-up"><span>01 · PACKAGING</span><h3>Space is part of the mechanism.</h3><p>A mechanism can work alone and still become difficult once structure, electronics, drivetrain, and access are added around it.</p></article>
+            <article class="note reveal-up"><span>02 · ADJUSTABILITY</span><h3>A design should leave room to change.</h3><p>One of my strongest lessons from the season was how expensive a drivetrain or structural change becomes after everything else has already been built.</p></article>
+            <article class="note reveal-up"><span>03 · RELIABILITY</span><h3>Competition exposes what practice hides.</h3><p>The field turned small inconsistencies into real performance problems. That made testing and repeatability feel much more important than a mechanism working once.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <section class="case-section"><div class="container"><div class="reflection-card reveal-up"><span class="vex-kicker" style="color:#d8ffbb">REFLECTION / 05</span><h2>I stopped treating the robot as a collection of parts.</h2><p>By the end of the season, I was beginning to see it as an engineering system: geometry, structure, mechanisms, electronics, code, documentation, driver behavior, and testing all affect one another. That became the foundation for the next season.</p></div></div></section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal-up"><span class="kicker">THE CAD AWAKENING / 04</span><div><h2>I learned what I should have done earlier.</h2><p>The strongest takeaway from year one was not “CAD looks professional.” It was that CAD lets a team think through geometry, motion, spacing, and revisions before the robot becomes expensive to change.</p></div></div>
+        <div class="cad-stage">
+          <div class="cad-copy reveal-up"><div><span class="kicker" style="color:#34421f">FROM FREESTYLE → SYSTEM</span><h3>Plan before cutting metal.</h3><p>That mindset became the bridge into my next season: CAD first, clearer BOM planning, intentional testing, and more robot versions instead of trying to make one build survive everything.</p></div><div style="margin-top:28px;font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase">The lesson that carried forward →</div></div>
+          <div class="cad-grid"><div class="tile atlas p6 reveal-scale" data-label="Full CAD"></div><div class="tile atlas p7 reveal-scale" data-label="Intake CAD"></div><div class="tile atlas p8 reveal-scale" data-label="Side profile CAD"></div></div>
+        </div>
+      </div>
+    </section>
 
-    <section class="season-pagination"><div class="container"><a href="vex.html">← VEX season archive</a><a href="vex-2025-2026.html">Next · 2025–2026 →</a></div></section>
+    <section class="section dark">
+      <div class="container">
+        <div class="section-head reveal-up"><span class="kicker">COMPETITION / 05</span><div><h2>Pressure turned design decisions into data.</h2><p>Results gave us a scoreboard. The more important information was everything behind it: which mechanisms held up, which changes were difficult, and which habits needed to change before the next season.</p></div></div>
+        <div class="result-strip"><div class="result reveal-up"><strong>Top 12</strong><span>Vietnam National Championship · Qualification</span></div><div class="result reveal-up"><strong>Top 8</strong><span>Southern Qualifier · Skills</span></div><div class="result reveal-up"><strong>Top 16</strong><span>Southern Qualifier · Qualification</span></div></div>
+        <div class="competition-layout">
+          <div class="tile atlas p0 reveal-scale" data-label="The team behind Season 01"></div>
+          <article class="quote-card reveal-up"><blockquote>Season one taught me to stop seeing the robot as <em>separate parts.</em></blockquote><p>Geometry, structure, mechanisms, electronics, code, documentation, driver behavior, and testing all affect one another. That systems view became the foundation for what I built next.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal-up"><span class="kicker">WHAT STAYED / 06</span><div><h2>Three lessons I carried into every rebuild after this.</h2></div></div>
+        <div class="lessons">
+          <article class="lesson reveal-up" data-num="01"><strong>01</strong><h3>A robot is one system.</h3><p>A drivetrain issue cannot always be solved in code; a mechanism problem may begin with geometry or structure. The interactions matter.</p></article>
+          <article class="lesson reveal-up" data-num="02"><strong>02</strong><h3>Design for the next revision.</h3><p>Good engineering is not only building the current idea. It is making the robot measurable, accessible, and easier to improve.</p></article>
+          <article class="lesson reveal-up" data-num="03"><strong>03</strong><h3>Iteration is the work.</h3><p>A rebuild is not evidence that the earlier robot was useless. It is evidence that the team learned enough to make a better decision.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-season"><div class="container"><div class="next-card reveal-up"><div><span>SEASON 02 · 2025–2026</span><h2>Next: learning how to iterate.</h2><p>CAD, testing, autonomous control, competition data, multiple robot versions — and eventually VEX Worlds.</p></div><a href="vex-2025-2026.html">Enter Season 02 →</a></div></div></section>
   </main>
-  <footer class="footer vex-footer"><div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>Season 01 · High Stakes</span></div></footer>
+
+  <footer class="footer"><div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>VEX · Season 01 · High Stakes</span></div></footer>
   <script src="script.js"></script>
-</body></html>
+</body>
+</html>
