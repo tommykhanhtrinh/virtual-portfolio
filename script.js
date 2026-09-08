@@ -86,3 +86,37 @@ if ('IntersectionObserver' in window) {
   }), { threshold: .45 });
   counters.forEach(c => countObserver.observe(c));
 }
+
+// VEX 2024–2025: replace the old tiny sprite assets with sharper real-photo files.
+if (location.pathname.endsWith('/vex-2024-2025.html') || location.pathname.endsWith('vex-2024-2025.html')) {
+  const root = 'assets/vex/2024-2025/';
+  const hero = document.querySelector('.season-hero img');
+  if (hero) {
+    hero.src = `${root}hero-team.avif?v=3`;
+    hero.decoding = 'async';
+    hero.style.imageRendering = 'auto';
+  }
+
+  const photoMap = {
+    p0: { src: 'team-ssis.avif', pos: 'center center', size: 'cover' },
+    p1: { src: 'competition-robot.avif', pos: 'center center', size: 'cover' },
+    p2: { src: 'competition-robot.avif', pos: 'left center', size: 'cover' },
+    p3: { src: 'competition-robot.avif', pos: 'right center', size: 'cover' },
+    p4: { src: 'competition-robot.avif', pos: 'center center', size: 'cover' },
+    p5: { src: 'competition-robot.avif', pos: 'center top', size: 'cover' },
+    p6: { src: 'cad-full.avif', pos: 'center center', size: 'contain' },
+    p7: { src: 'cad-full.avif', pos: 'left center', size: 'contain' },
+    p8: { src: 'cad-full.avif', pos: 'right center', size: 'contain' }
+  };
+
+  Object.entries(photoMap).forEach(([cls, cfg]) => {
+    document.querySelectorAll(`.${cls}`).forEach(el => {
+      el.style.backgroundImage = `url('${root}${cfg.src}?v=3')`;
+      el.style.backgroundSize = cfg.size;
+      el.style.backgroundPosition = cfg.pos;
+      el.style.backgroundRepeat = 'no-repeat';
+      el.style.imageRendering = 'auto';
+      if (cfg.size === 'contain') el.style.backgroundColor = '#fff';
+    });
+  });
+}
