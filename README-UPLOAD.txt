@@ -1,0 +1,1 @@
+Upload vex-2025-2026.html, then upload all images inside assets/pushback/ to your repo at the same paths. This avoids GitHub's 25MB web upload limit for one giant embedded HTML file.
