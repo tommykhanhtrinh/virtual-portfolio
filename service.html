@@ -1,9 +1,266 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Service Learning | Trình</title><link rel="stylesheet" href="styles.css"></head><body>
-<nav class="nav"><div class="container nav-inner"><a class="brand" href="index.html">TRÌNH<span>.</span></a><button class="mobile-toggle">☰</button><div class="nav-links"><a href="index.html">Home</a><a href="vex.html">VEX Robotics</a><a class="active" href="service.html">Service Learning</a><a class="nav-btn" href="index.html#contact">Contact</a></div></div></nav>
-<main><section class="page-hero"><div class="container"><div class="page-hero-box" style="background:linear-gradient(135deg,#12372a,#0f766e 60%,#06b6d4)"><span class="eyebrow" style="color:#a7f3d0">SERVICE LEARNING • STEM ACCESS • LEADERSHIP</span><h1>Technology matters when people can use it.</h1><p>My service work focuses on making STEM approachable — from first-time Scratch learners in Kon Tum to robotics workshops, peer mentorship, and international exchange.</p></div></div></section>
-<section class="section"><div class="container"><div class="metrics"><div class="metric"><strong>200+</strong><span>Students taught across summer camps</span></div><div class="metric"><strong>2</strong><span>Summer camp programs</span></div><div class="metric"><strong>4+</strong><span>International FGC exchange teams</span></div><div class="metric"><strong>2026</strong><span>Vietnam Robotics Ambassador</span></div></div></div></section>
-<section class="section"><div class="container"><div class="bento"><div class="card span-7 accent-green"><span class="tag green">LSTS × FU JEN CATHOLIC UNIVERSITY</span><h3>Career Summer Camp & Coding Summer Camp</h3><p>Across two programs in Kon Tum, I taught English, Scratch programming, PowerPoint, presentation skills, and foundational soft skills to approximately 200 elementary and middle school students. In 2025, I also served as Vice Camp Leader, coordinated operations and media, supported translation, and worked with Fu Jen students and professors.</p></div><div class="card span-5 accent-blue"><span class="tag">WHY IT MATTERED</span><p class="quote">The goal was not just to “teach software,” but to help students feel that <strong>technology was something they could touch, understand, and create with.</strong></p></div><div class="card span-5 accent-purple"><span class="tag purple">VIETNAM ROBOTICS AMBASSADOR</span><h3>FIRST Global Challenge Team Vietnam</h3><p>As Southern Region Innovation Department Leader, I helped deliver Open STEM Day and Think Bootcamp at FPT Hau Giang School, integrating fire-prevention STEM workshops with hands-on robotics experiences.</p></div><div class="card span-7 accent-orange"><span class="tag orange">CROSS-CULTURAL EXCHANGE</span><h3>Robotics as a common language.</h3><p>I co-hosted technical and cultural exchange sessions with FIRST Global teams from Taiwan, France, Türkiye, and Palestine, assembled demonstration robots, and supported project funding and hardware supply efforts.</p></div></div></div></section>
-<section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">School community</span><h2>Leadership close to home</h2></div></div><div class="bento"><div class="card span-6 accent-blue"><span class="tag">LSTS ROBOTICS CLUB</span><h3>President, 2025–2026</h3><p>Led the club to earn “Best Club of the Year” for the first time, coordinated robotics activities and competition preparation, and mentored younger members in mechanical systems and autonomous programming.</p></div><div class="card span-6 accent-purple"><span class="tag purple">LSTS FAMILY / HOUSE</span><h3>Student leadership, 2023–Present</h3><p>Supported student self-governance, peer mentorship, student concerns, parent-teacher communication, school activities, and family-wide events through progressively larger coordination roles.</p></div></div></div></section>
-<section class="section"><div class="container"><div class="section-head"><div><span class="eyebrow">Suggested gallery</span><h2>Make the impact visible</h2></div></div><div class="photo-grid"><div class="photo-placeholder tall green">Main teaching photo — interacting with students</div><div class="photo-placeholder purple">Classroom / slides</div><div class="photo-placeholder">Camp leadership</div><div class="photo-placeholder green">STEM workshop</div><div class="photo-placeholder purple">International exchange</div></div></div></section>
-<section class="section"><div class="container"><div class="card accent-green"><span class="tag green">GOOGLE SITES TIP</span><h3>Turn activities into mini-stories.</h3><p>For each program, use this order: <b>Context → What I did → Who it affected → What changed → What I learned.</b> Keep each block around 80–120 words and let photos carry the emotion.</p></div></div></section>
-</main><footer class="footer"><div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>Service Learning Portfolio</span></div></footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Service learning portfolio of Trần Nguyễn Khánh Trình — Coding Summer Camp 2024 in Kon Tum, STEM access, teaching, and leadership.">
+  <title>Service Learning | Trình</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root{--svc-ink:#08130f;--svc-paper:#f4f6ef;--svc-mint:#b9ff6a;--svc-teal:#006b5c;--svc-cyan:#6ce4ff;--svc-yellow:#ffe26a;--svc-red:#ff6c5f;--svc-violet:#8e74ff}
+    body.service-story{background:var(--svc-paper);color:var(--svc-ink);font-family:"DM Sans",Inter,system-ui,sans-serif;overflow-x:hidden}
+    .service-story h1,.service-story h2,.service-story h3,.service-story .brand{font-family:"Space Grotesk",Inter,system-ui,sans-serif}
+    .service-story .container{width:min(1240px,calc(100% - 48px))}
+    .service-nav{position:fixed;inset:0 0 auto 0;background:rgba(244,246,239,.8);backdrop-filter:blur(18px);border-bottom:1px solid rgba(8,19,15,.1);z-index:100}
+    .service-nav .nav-links{color:#29332f}.service-nav .nav-links a:hover,.service-nav .nav-links a.active{color:var(--svc-teal)}
+    .service-nav .brand span{color:var(--svc-teal)}.service-nav .nav-btn{background:var(--svc-ink);color:#fff!important}
+    .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--svc-mint),var(--svc-cyan),var(--svc-violet));z-index:1000}
+    .cursor-orb{position:fixed;width:26px;height:26px;border-radius:50%;background:rgba(0,107,92,.13);border:1px solid rgba(0,107,92,.35);pointer-events:none;z-index:999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:multiply}
+
+    .svc-hero{min-height:100svh;padding:132px 0 72px;position:relative;overflow:hidden;display:flex;align-items:center;background:radial-gradient(circle at 8% 10%,rgba(185,255,106,.35),transparent 24%),radial-gradient(circle at 90% 14%,rgba(108,228,255,.26),transparent 23%),var(--svc-paper)}
+    .svc-hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(8,19,15,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(8,19,15,.045) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 78%);pointer-events:none}
+    .svc-hero-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:64px;align-items:center;position:relative;z-index:2}
+    .svc-kicker{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(8,19,15,.15);border-radius:999px;padding:9px 13px;background:rgba(255,255,255,.58);font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+    .svc-kicker i{width:8px;height:8px;background:#17b45d;border-radius:50%;box-shadow:0 0 0 6px rgba(23,180,93,.10)}
+    .svc-hero h1{font-size:clamp(58px,7.1vw,108px);line-height:.88;letter-spacing:-.068em;margin:26px 0 28px;max-width:850px;color:var(--svc-ink)}
+    .svc-hero h1 em{font-style:normal;background:linear-gradient(100deg,#007563,#157f73 42%,#4a71d7 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .svc-lede{font-size:clamp(18px,1.7vw,22px);line-height:1.55;color:#4b5752;max-width:650px;margin:0}
+    .svc-lede strong{color:var(--svc-ink)}
+    .svc-proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.svc-proof span{padding:9px 12px;border:1px solid rgba(8,19,15,.12);background:rgba(255,255,255,.65);border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+    .svc-hero-art{position:relative;min-height:650px}
+    .svc-photo{position:absolute;overflow:hidden;border-radius:28px;box-shadow:0 24px 60px rgba(8,19,15,.16);background:#ddd;border:7px solid rgba(255,255,255,.92)}
+    .svc-photo img{width:100%;height:100%;object-fit:cover}.svc-photo.a{width:63%;height:66%;left:1%;top:8%;transform:rotate(-4deg)}.svc-photo.b{width:51%;height:54%;right:0;top:0;transform:rotate(5deg)}.svc-photo.c{width:59%;height:47%;right:7%;bottom:0;transform:rotate(-2deg)}
+    .svc-sticker{position:absolute;z-index:4;padding:12px 15px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.08em;box-shadow:0 14px 30px rgba(8,19,15,.14)}.svc-sticker.one{left:-2%;bottom:17%;background:var(--svc-mint);transform:rotate(-7deg)}.svc-sticker.two{right:-3%;top:47%;background:var(--svc-ink);color:white;transform:rotate(4deg)}
+
+    .svc-section{padding:96px 0}.svc-section.dark{background:#07110e;color:#fff}.svc-section.white{background:#fff}.svc-section.soft{background:#e9f0e7}
+    .svc-head{display:grid;grid-template-columns:180px 1fr;gap:36px;align-items:start;margin-bottom:46px}.svc-index{font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#708077;padding-top:8px}.dark .svc-index{color:#8da097}.svc-head h2{font-size:clamp(44px,6vw,82px);line-height:.92;letter-spacing:-.058em;margin:0;max-width:900px}.svc-head p{grid-column:2;font-size:18px;line-height:1.6;color:#5d6a64;max-width:760px;margin:0}.dark .svc-head p{color:#b6c1bc}
+    .story-callout{grid-column:2;border-left:3px solid var(--svc-mint);padding:3px 0 3px 20px;margin-top:4px;font-size:clamp(21px,2.3vw,30px);line-height:1.42;max-width:830px;color:#23302a}.dark .story-callout{color:#e8f2ed}
+
+    .prep-grid{display:grid;grid-template-columns:1.1fr .9fr .9fr;grid-template-rows:280px 250px 300px;gap:16px}
+    .prep-tile{position:relative;overflow:hidden;border-radius:24px;background:#1a2822}.prep-tile img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}.prep-tile:hover img{transform:scale(1.045)}
+    .prep-tile:nth-child(1){grid-row:span 2}.prep-tile:nth-child(4){grid-column:2 / span 2}.prep-tile:nth-child(7){grid-column:2 / span 2}.prep-tile .cap{position:absolute;left:13px;bottom:13px;background:rgba(7,17,14,.78);backdrop-filter:blur(10px);color:#fff;padding:8px 10px;border-radius:10px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+    .process-rail{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:34px 0 0}.process-step{border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;background:rgba(255,255,255,.035)}.process-step b{display:block;color:var(--svc-mint);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}.process-step span{font-weight:800;font-size:16px}
+
+    .teach-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch}.teach-main,.teach-side{border-radius:30px;overflow:hidden;position:relative;min-height:620px;background:#ddd}.teach-main img,.teach-side img{width:100%;height:100%;object-fit:cover}.teach-main:after{content:"";position:absolute;inset:auto 0 0;background:linear-gradient(transparent,rgba(0,0,0,.74));height:48%}.teach-copy{position:absolute;z-index:2;left:30px;right:30px;bottom:28px;color:#fff}.teach-copy small{font-size:11px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;color:var(--svc-mint)}.teach-copy h3{font-size:clamp(30px,3vw,46px);line-height:1;letter-spacing:-.04em;margin:10px 0}.teach-copy p{max-width:600px;color:#e9efec;margin:0;line-height:1.55}.teach-side{display:grid;grid-template-rows:1fr 1fr;gap:0}.teach-side figure{margin:0;min-height:0;overflow:hidden;position:relative}.teach-side figure:first-child{border-bottom:5px solid #fff}.teach-side img{transition:transform .6s ease}.teach-side figure:hover img{transform:scale(1.04)}
+
+    .moments{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:18px}.moment{margin:0;border-radius:22px;overflow:hidden;background:#ddd;min-height:240px;position:relative}.moment img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.moment:hover img{transform:scale(1.035)}.moment.wide{grid-column:span 7}.moment.medium{grid-column:span 5}.moment.third{grid-column:span 4}.moment.tall{min-height:390px}
+    .moment-label{position:absolute;left:12px;bottom:12px;padding:7px 9px;border-radius:9px;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#14211b}
+
+    .reflection-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:46px;align-items:start}.reflection-quote{position:sticky;top:120px}.reflection-quote h2{font-size:clamp(46px,5.8vw,80px);line-height:.93;letter-spacing:-.055em;margin:0 0 24px}.reflection-quote h2 span{color:var(--svc-teal)}.reflection-quote p{font-size:18px;color:#52605a;line-height:1.6;max-width:530px}.lesson-stack{display:grid;gap:14px}.lesson-card{padding:28px;border-radius:24px;border:1px solid rgba(8,19,15,.1);background:rgba(255,255,255,.75);box-shadow:0 14px 34px rgba(8,19,15,.05)}.lesson-card b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--svc-teal);margin-bottom:9px}.lesson-card h3{font-size:25px;line-height:1.1;margin:0 0 10px}.lesson-card p{margin:0;color:#5b6862;line-height:1.58}
+
+    .end-strip{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}.end-strip figure{margin:0;border-radius:26px;overflow:hidden;min-height:390px;position:relative}.end-strip img{width:100%;height:100%;object-fit:cover}.end-strip figcaption{position:absolute;inset:auto 18px 18px 18px;background:rgba(7,17,14,.78);color:#fff;border-radius:14px;padding:13px 14px;font-size:12px;line-height:1.45;backdrop-filter:blur(10px)}
+
+    .more-service{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.more-card{padding:26px;border-radius:24px;background:#fff;border:1px solid rgba(8,19,15,.09);min-height:230px}.more-card .year{font-size:10px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;color:var(--svc-teal)}.more-card h3{font-size:25px;margin:10px 0 12px;line-height:1.05}.more-card p{color:#66716c;margin:0;font-size:14px;line-height:1.55}.more-card.next{background:var(--svc-ink);color:#fff}.more-card.next p{color:#bcc7c1}.more-card.next .year{color:var(--svc-mint)}
+
+    .reveal-up,.reveal-scale{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.reveal-scale{transform:scale(.97)}.reveal-up.is-visible,.reveal-scale.is-visible{opacity:1;transform:none}
+    @media(max-width:980px){.svc-hero-grid{grid-template-columns:1fr}.svc-hero{padding-top:118px}.svc-hero-art{min-height:560px}.svc-head{grid-template-columns:1fr;gap:12px}.svc-head p,.story-callout{grid-column:1}.prep-grid{grid-template-columns:1fr 1fr;grid-template-rows:260px 230px 230px 260px}.prep-tile:nth-child(1){grid-row:span 2}.prep-tile:nth-child(4),.prep-tile:nth-child(7){grid-column:auto}.process-rail{grid-template-columns:1fr 1fr}.teach-grid{grid-template-columns:1fr}.teach-main{min-height:580px}.teach-side{min-height:520px}.reflection-wrap{grid-template-columns:1fr}.reflection-quote{position:static}.more-service{grid-template-columns:1fr}.moment.wide,.moment.medium,.moment.third{grid-column:span 6}.end-strip{grid-template-columns:1fr}}
+    @media(max-width:680px){.service-story .container{width:min(100% - 24px,1240px)}.svc-hero h1{font-size:clamp(52px,16vw,74px)}.svc-hero-art{min-height:460px}.svc-photo{border-width:4px;border-radius:20px}.svc-photo.a{width:70%;height:61%}.svc-photo.b{width:53%;height:48%}.svc-photo.c{width:67%;height:43%;right:2%}.svc-sticker{font-size:9px;padding:9px 11px}.svc-section{padding:68px 0}.svc-head h2{font-size:44px}.prep-grid{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:190px}.prep-tile:nth-child(1){grid-row:span 2}.process-rail{grid-template-columns:1fr}.teach-main{min-height:520px}.teach-copy{left:20px;right:20px;bottom:18px}.teach-side{min-height:460px}.moments{gap:10px}.moment.wide,.moment.medium,.moment.third{grid-column:span 12;min-height:270px}.moment.tall{min-height:320px}.end-strip figure{min-height:300px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.prep-tile img,.moment img,.teach-side img{transition:none!important}.reveal-up,.reveal-scale{opacity:1!important;transform:none!important;transition:none!important}.cursor-orb{display:none}}
+  
+    /* Added story chapter: the people around the code */
+    .people-story{display:grid;gap:22px}
+    .people-beat{display:grid;grid-template-columns:.72fr 1.28fr;gap:18px;align-items:stretch}
+    .people-beat.flip{grid-template-columns:1.28fr .72fr}
+    .people-copy{border-radius:28px;padding:30px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);display:flex;flex-direction:column;justify-content:flex-end;min-height:360px}
+    .people-copy b{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--svc-mint);margin-bottom:10px}
+    .people-copy h3{font-size:clamp(28px,3vw,44px);line-height:1;letter-spacing:-.045em;margin:0 0 14px}
+    .people-copy p{margin:0;color:#bcc9c3;line-height:1.62;max-width:560px}
+    .people-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .people-photos.three{grid-template-columns:1.05fr .95fr;grid-template-rows:1fr 1fr}
+    .people-photos figure{margin:0;position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:#1a2722}
+    .people-photos.three figure:first-child{grid-row:span 2}
+    .people-photos img{width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+    .people-photos figure:hover img{transform:scale(1.04)}
+    .people-photos figcaption{position:absolute;left:12px;right:12px;bottom:12px;padding:8px 10px;border-radius:11px;background:rgba(7,17,14,.76);backdrop-filter:blur(9px);font-size:10px;font-weight:800;line-height:1.35;color:#fff}
+    .people-close{margin-top:28px;padding:24px 28px;border-radius:24px;background:linear-gradient(110deg,rgba(185,255,106,.13),rgba(108,228,255,.08));border:1px solid rgba(185,255,106,.2);font-size:clamp(20px,2.2vw,29px);line-height:1.42;color:#eef8f3}
+    .people-close strong{color:var(--svc-mint)}
+
+  
+    @media(max-width:900px){.people-beat,.people-beat.flip{grid-template-columns:1fr}.people-copy{min-height:0}.people-photos figure{min-height:240px}}
+    @media(max-width:680px){.people-photos,.people-photos.three{grid-template-columns:1fr;grid-template-rows:none}.people-photos.three figure:first-child{grid-row:auto}.people-photos figure{min-height:230px}.people-copy{padding:24px}}
+  </style>
+</head>
+<body class="service-story">
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <div class="cursor-orb" aria-hidden="true"></div>
+  <nav class="nav service-nav"><div class="container nav-inner"><a class="brand" href="index.html">TRÌNH<span>.</span></a><button class="mobile-toggle" aria-label="Open menu">☰</button><div class="nav-links"><a href="index.html">Home</a><a href="vex.html">VEX Robotics</a><a class="active" href="service.html">Service Learning</a><a class="nav-btn" href="index.html#contact">Contact</a></div></div></nav>
+
+  <main>
+    <section class="svc-hero">
+      <div class="container svc-hero-grid">
+        <div class="reveal-up">
+          <span class="svc-kicker"><i></i> Coding Summer Camp 2024 · Kon Tum</span>
+          <h1>Before I taught code, I had to make it <em>feel real.</em></h1>
+          <p class="svc-lede">My first instinct was to prepare more content. The better answer was the opposite: <strong>make the idea simpler, more visual, and easier to touch.</strong> That changed the way I think about teaching — and later, the way I think about engineering.</p>
+          <div class="svc-proof"><span>Prototype the lesson</span><span>Demo before syntax</span><span>Teach by debugging</span></div>
+        </div>
+        <div class="svc-hero-art reveal-scale" aria-label="Coding Summer Camp 2024 photo collage">
+          <figure class="svc-photo a"><img src="assets/service-2024/01-learning-props.jpg" alt="Hands-on learning materials prepared for Coding Summer Camp 2024" fetchpriority="high"></figure>
+          <figure class="svc-photo b"><img src="assets/service-2024/02-painted-blue-model-parts.jpg" alt="Blue painted model parts used as visual learning aids" fetchpriority="high"></figure>
+          <figure class="svc-photo c"><img src="assets/service-2024/07-scratch-demo-prep.jpg" alt="Preparing a Scratch demonstration before teaching students" fetchpriority="high"></figure>
+          <span class="svc-sticker one">BUILD → EXPLAIN → LET THEM TRY</span>
+          <span class="svc-sticker two">SERVICE, DESIGNED</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="svc-section dark" id="build-the-lesson">
+      <div class="container">
+        <div class="svc-head reveal-up"><span class="svc-index">01 / Before class</span><h2>We built the lesson before we taught it.</h2><p>Instead of beginning with a screen full of blocks, our team prepared physical and visual learning aids, color-coded pieces, Scratch demos, and practice explanations. The goal was to reduce the distance between an abstract instruction and something a student could immediately recognize.</p><div class="story-callout">I started seeing teaching as another design problem: if the learner is confused, the “interface” needs to change.</div></div>
+        <div class="prep-grid">
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/01-learning-props.jpg" alt="Craft materials and learning props"><span class="cap">Make concepts tangible</span></figure>
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/02-painted-blue-model-parts.jpg" alt="Painted blue model parts"><span class="cap">Color-code the idea</span></figure>
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/03-color-coded-model-parts.jpg" alt="Orange and blue model parts being prepared"><span class="cap">Build visual cues</span></figure>
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/04-prep-lab.jpg" alt="Team preparing coding activities in the computer lab"><span class="cap">Test the activity</span></figure>
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/05-demo-rehearsal.jpg" alt="Team rehearsing a classroom demonstration"><span class="cap">Rehearse together</span></figure>
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/06-team-rehearsal.jpg" alt="Teaching team practicing together"><span class="cap">Align the team</span></figure>
+          <figure class="prep-tile reveal-scale"><img src="assets/service-2024/07-scratch-demo-prep.jpg" alt="Preparing a Scratch coding demonstration"><span class="cap">Debug the explanation</span></figure>
+        </div>
+        <div class="process-rail reveal-up">
+          <div class="process-step"><b>Step 01</b><span>Translate the idea</span></div>
+          <div class="process-step"><b>Step 02</b><span>Make it visible</span></div>
+          <div class="process-step"><b>Step 03</b><span>Demo it simply</span></div>
+          <div class="process-step"><b>Step 04</b><span>Hand over control</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="svc-section white" id="teach">
+      <div class="container">
+        <div class="svc-head reveal-up"><span class="svc-index">02 / In the room</span><h2>The classroom became a prototype, too.</h2><p>Once students started building, the lesson stopped being a script. I moved between the board, the screen, and individual laptops — watching where they hesitated, changing examples, and helping them trace problems one step at a time.</p><div class="story-callout">Robotics taught me to debug machines. Kon Tum taught me to debug explanations.</div></div>
+        <div class="teach-grid">
+          <figure class="teach-main reveal-scale"><img src="assets/service-2024/08-teaching-briefing.jpg" alt="Explaining a coding activity at Coding Summer Camp 2024"><div class="teach-copy"><small>From presenting → facilitating</small><h3>Explain less. Make the next step obvious.</h3><p>I learned that confidence grows when a student can see a small win quickly — then understand why it worked well enough to try the next thing without waiting for me.</p></div></figure>
+          <div class="teach-side reveal-scale"><figure><img src="assets/service-2024/09-visual-card-demo.jpg" alt="Demonstrating a visual learning card"></figure><figure><img src="assets/service-2024/12-blackboard-explanation.jpg" alt="Writing and explaining an activity on the blackboard"></figure></div>
+        </div>
+
+        <div class="moments">
+          <figure class="moment wide tall reveal-scale"><img src="assets/service-2024/10-powerpoint-guidance.jpg" alt="Guiding students through a PowerPoint activity"><span class="moment-label">From blank slide to something they made</span></figure>
+          <figure class="moment medium tall reveal-scale"><img src="assets/service-2024/11-scratch-project-screen.jpg" alt="Scratch project being built on a classroom computer"><span class="moment-label">Code becomes a playground</span></figure>
+          <figure class="moment third reveal-scale"><img src="assets/service-2024/14-student-presentation.jpg" alt="Students presenting their work"><span class="moment-label">Let students explain</span></figure>
+          <figure class="moment third reveal-scale"><img src="assets/service-2024/15-peer-debugging.jpg" alt="Helping students debug a Scratch project"><span class="moment-label">Debug side-by-side</span></figure>
+          <figure class="moment third reveal-scale"><img src="assets/service-2024/16-one-on-one-debugging.jpg" alt="One-on-one support during a coding activity"><span class="moment-label">One learner at a time</span></figure>
+          <figure class="moment medium reveal-scale"><img src="assets/service-2024/17-scratch-group-demo.jpg" alt="Explaining Scratch blocks to a small group"><span class="moment-label">Small-group explanation</span></figure>
+          <figure class="moment wide reveal-scale"><img src="assets/service-2024/18-scratch-group-demo-close.jpg" alt="Students gathered around a Scratch demonstration"><span class="moment-label">Curiosity pulls people closer</span></figure>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="svc-section dark" id="people">
+      <div class="container">
+        <div class="svc-head reveal-up">
+          <span class="svc-index">03 / The people around the code</span>
+          <h2>A coding lesson became something bigger than code.</h2>
+          <p>Once the sessions were running, I stopped thinking of teaching as standing at the front and delivering a perfect explanation. The real work happened in the transitions: noticing confusion, kneeling beside a laptop, changing the example, pulling the group back together, and keeping the room curious enough to try again.</p>
+          <div class="story-callout">The more I taught, the less the lesson felt like a presentation — and the more it felt like a system built around people.</div>
+        </div>
+
+        <div class="people-story">
+          <article class="people-beat reveal-up">
+            <div class="people-copy">
+              <b>Beat 01 · Read the room</b>
+              <h3>Start with the learners, not the slides.</h3>
+              <p>I could prepare instructions beforehand, but the classroom decided the pace. I learned to watch faces, notebooks, and screens for the moment an explanation stopped landing — then reset before confusion turned into silence.</p>
+            </div>
+            <div class="people-photos">
+              <figure class="reveal-scale"><img src="assets/service-2024/21-classroom-launch.jpg" alt="Briefing students before a Coding Summer Camp activity"><figcaption>Set the next step clearly, then watch how the room responds.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/25-scratch-coaching.jpg" alt="Coaching students through Scratch blocks"><figcaption>Move from whole-class instruction to the exact block a student is working on.</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="people-beat flip reveal-up">
+            <div class="people-photos">
+              <figure class="reveal-scale"><img src="assets/service-2024/22-side-by-side-notes.jpg" alt="Working through notes beside students"><figcaption>Sometimes debugging begins on paper before it returns to the screen.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/30-one-on-one-computer-help.jpg" alt="One-on-one support at a classroom computer"><figcaption>Get close enough to see what the learner sees.</figcaption></figure>
+            </div>
+            <div class="people-copy">
+              <b>Beat 02 · Debug together</b>
+              <h3>Do not take the mouse too quickly.</h3>
+              <p>The fastest way to “fix” a project was often to do it myself. The better way was slower: ask what the student expected, trace the logic together, and let them make the final change. That small handoff turned troubleshooting into ownership.</p>
+            </div>
+          </article>
+
+          <article class="people-beat reveal-up">
+            <div class="people-copy">
+              <b>Beat 03 · Learning is social</b>
+              <h3>Confidence grew between activities, too.</h3>
+              <p>Not every useful moment happened inside Scratch. Shared classroom activities, quick explanations with our hands, and informal moments outside helped lower the distance between “teacher” and “student.” Once the room felt safer, asking questions became easier.</p>
+            </div>
+            <div class="people-photos three">
+              <figure class="reveal-scale"><img src="assets/service-2024/26-shared-classroom-activity.jpg" alt="Collaborative classroom activity during the camp"><figcaption>Use activity and participation to make the room less intimidating.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/27-explain-with-hands.jpg" alt="Using gestures while explaining to the class"><figcaption>When words are not enough, make the idea visible.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/28-outdoor-check-in.jpg" alt="Checking in with students outside the classroom"><figcaption>Trust is built outside the formal lesson as well.</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="people-beat flip reveal-up">
+            <div class="people-photos three">
+              <figure class="reveal-scale"><img src="assets/service-2024/29-outdoor-group-energy.jpg" alt="Students and camp team interacting outdoors"><figcaption>A camp works when students feel they belong in it.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/23-camp-team-exchange.jpg" alt="Camp teams exchanging and coordinating together"><figcaption>Different teams, one learning environment.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/24-team-debrief-circle.jpg" alt="Camp team debriefing in a circle"><figcaption>Debrief the room, not just the lesson plan.</figcaption></figure>
+            </div>
+            <div class="people-copy">
+              <b>Beat 04 · The team is part of the system</b>
+              <h3>Teaching well meant coordinating well.</h3>
+              <p>We compared what worked, shared observations, and adjusted together. That made the camp feel less like a collection of individual presenters and more like one team learning how to serve the same students from different angles.</p>
+            </div>
+          </article>
+
+          <article class="people-beat reveal-up">
+            <div class="people-copy">
+              <b>Beat 05 · Bring the energy back home</b>
+              <h3>Service changed how I worked with my own team.</h3>
+              <p>By the time we were back in the lab, I was paying more attention to group energy, clarity, and participation — the same variables I had learned to read in Kon Tum. Communication was no longer separate from technical work; it was part of whether the work could move at all.</p>
+            </div>
+            <div class="people-photos">
+              <figure class="reveal-scale"><img src="assets/service-2024/31-team-energy-lab.jpg" alt="LSTS students sharing an energetic team activity in the computer lab"><figcaption>Technical teams also need rhythm, trust, and shared energy.</figcaption></figure>
+              <figure class="reveal-scale"><img src="assets/service-2024/08-teaching-briefing.jpg" alt="Teaching students during Coding Summer Camp 2024"><figcaption>The lesson I kept: design for people, then keep listening.</figcaption></figure>
+            </div>
+          </article>
+        </div>
+
+        <div class="people-close reveal-up"><strong>What changed in me:</strong> I arrived wanting to explain technology clearly. I left more interested in something harder — creating the conditions where another person feels confident enough to explore it without me.</div>
+      </div>
+    </section>
+
+    <section class="svc-section soft" id="ownership">
+      <div class="container">
+        <div class="svc-head reveal-up"><span class="svc-index">04 / Ownership</span><h2>The best moment was when I was no longer needed.</h2><p>Students began presenting, comparing screens, pointing out blocks to one another, and turning our demonstrations into their own experiments. By then, the room no longer felt like “us teaching them.” It felt like a shared workshop. That shift — from following instructions to owning the next step — became my definition of a successful lesson.</p></div>
+        <div class="end-strip">
+          <figure class="reveal-scale"><img src="assets/service-2024/13-student-name-cards.jpg" alt="Handmade student name cards from the camp"><figcaption>Names, jokes, drawings, questions — the classroom felt personal because learning was happening between people, not just between a student and a computer.</figcaption></figure>
+          <figure class="reveal-scale"><img src="assets/service-2024/20-facilitation-speaking.jpg" alt="Facilitating a student activity"><figcaption>Teaching pushed me out from behind the screen. I had to read the room, change pace, invite quieter students in, and make technology feel less intimidating.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="svc-section" id="reflection">
+      <div class="container reflection-wrap">
+        <div class="reflection-quote reveal-up"><span class="svc-index">05 / What stayed with me</span><h2>Service changed the way I <span>build.</span></h2><p>I entered the camp thinking technical knowledge was the thing I could give. I left understanding that access depends just as much on explanation, trust, and design.</p></div>
+        <div class="lesson-stack">
+          <article class="lesson-card reveal-up"><b>Engineering lesson</b><h3>A solution is only useful if someone can understand it.</h3><p>Whether I am designing a robot mechanism or a learning activity, I now pay more attention to the interface between the system and the person using it.</p></article>
+          <article class="lesson-card reveal-up"><b>Leadership lesson</b><h3>Do not solve every problem for the team.</h3><p>The stronger move is to build enough structure that other people can make decisions, test ideas, and recover from mistakes themselves.</p></article>
+          <article class="lesson-card reveal-up"><b>Service lesson</b><h3>Lower the first barrier, then let curiosity do the rest.</h3><p>A visual prop, a simpler demo, or one patient debugging conversation can be the difference between “I cannot code” and “let me try one more thing.”</p></article>
+          <figure class="lesson-card reveal-scale" style="padding:0;overflow:hidden"><img src="assets/service-2024/19-camp-life-teamwork.jpg" alt="Camp team sharing daily responsibilities" style="width:100%;height:330px;object-fit:cover"><div style="padding:20px 24px"><b>Beyond the classroom</b><p>Living and working together also made service feel less like a one-off activity and more like shared responsibility — preparing, teaching, cleaning up, and doing the unglamorous work that keeps a program running.</p></div></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="svc-section dark">
+      <div class="container">
+        <div class="svc-head reveal-up"><span class="svc-index">More service chapters</span><h2>This was only the beginning.</h2><p>The same idea kept returning in later projects: make technical knowledge easier to enter, then give people enough ownership to take it further than I could alone.</p></div>
+        <div class="more-service">
+          <article class="more-card next reveal-up"><span class="year">2025 · Next chapter</span><h3>Career Summer Camp</h3><p>I returned with a larger leadership role, teaching PowerPoint and presentation skills while helping coordinate camp operations, media, translation, and collaboration with Fu Jen Catholic University.</p></article>
+          <article class="more-card reveal-up"><span class="year">2026 · Robotics outreach</span><h3>Vietnam Robotics Ambassador</h3><p>Hands-on robotics workshops, STEM activities, and technical exchange became another way to turn engineering knowledge into something other students could actually use.</p></article>
+          <article class="more-card reveal-up"><span class="year">At LSTS</span><h3>Teach what I learn.</h3><p>Inside the robotics club, mentoring younger members became part of the same cycle: learn, test, document, explain, and pass the system forward.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>Service Learning · Build knowledge that travels.</span></div></footer>
+  <script src="script.js"></script>
+</body>
+</html>
