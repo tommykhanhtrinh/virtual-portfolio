@@ -79,6 +79,31 @@
     .people-close strong{color:var(--svc-mint)}
 
   
+
+
+    /* V3 story interlude: trust before technology */
+    .human-bridge{margin:28px 0 10px;padding:26px;border-radius:30px;background:linear-gradient(135deg,rgba(185,255,106,.10),rgba(108,228,255,.055) 48%,rgba(142,116,255,.08));border:1px solid rgba(255,255,255,.12);overflow:hidden;position:relative}
+    .human-bridge:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-110px;background:rgba(185,255,106,.10);filter:blur(4px)}
+    .human-bridge-head{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:start;margin-bottom:22px;position:relative;z-index:1}
+    .human-bridge-head .eyebrow{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--svc-mint);padding-top:7px}
+    .human-bridge-head h3{font-size:clamp(30px,4vw,54px);line-height:.98;letter-spacing:-.05em;margin:0 0 12px;color:#fff;max-width:800px}
+    .human-bridge-head p{margin:0;color:#bcc9c3;line-height:1.62;max-width:760px}
+    .human-collage{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:180px;gap:12px;position:relative;z-index:1}
+    .human-shot{margin:0;position:relative;overflow:hidden;border-radius:22px;background:#1b2923;border:1px solid rgba(255,255,255,.09);box-shadow:0 16px 38px rgba(0,0,0,.16)}
+    .human-shot img{width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.7,.2,1)}
+    .human-shot:hover img{transform:scale(1.04)}
+    .human-shot figcaption{position:absolute;left:11px;right:11px;bottom:11px;padding:8px 10px;border-radius:11px;background:rgba(7,17,14,.76);backdrop-filter:blur(10px);font-size:10px;font-weight:800;line-height:1.35;color:#fff}
+    .human-shot.one{grid-column:span 5;grid-row:span 2;transform:rotate(-.6deg)}
+    .human-shot.two{grid-column:span 3;grid-row:span 1;transform:rotate(.8deg)}
+    .human-shot.three{grid-column:span 4;grid-row:span 1;transform:rotate(-.5deg)}
+    .human-shot.four{grid-column:span 4;grid-row:span 1;transform:rotate(.55deg)}
+    .human-shot.five{grid-column:span 3;grid-row:span 1;transform:rotate(-.7deg)}
+    .human-bridge-note{margin-top:18px;display:flex;gap:12px;align-items:flex-start;color:#e8f2ed;font-size:15px;line-height:1.55;position:relative;z-index:1}
+    .human-bridge-note:before{content:"→";display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:50%;background:var(--svc-mint);color:var(--svc-ink);font-weight:900}
+    .human-bridge-note strong{color:var(--svc-mint)}
+    @media(max-width:900px){.human-bridge-head{grid-template-columns:1fr;gap:9px}.human-collage{grid-auto-rows:160px}.human-shot.one{grid-column:span 12;grid-row:span 2}.human-shot.two,.human-shot.three,.human-shot.four,.human-shot.five{grid-column:span 6}}
+    @media(max-width:680px){.human-bridge{padding:16px;border-radius:24px}.human-collage{grid-template-columns:1fr;grid-auto-rows:250px}.human-shot.one,.human-shot.two,.human-shot.three,.human-shot.four,.human-shot.five{grid-column:1;grid-row:auto;transform:none}.human-bridge-note{font-size:14px}}
+
     @media(max-width:900px){.people-beat,.people-beat.flip{grid-template-columns:1fr}.people-copy{min-height:0}.people-photos figure{min-height:240px}}
     @media(max-width:680px){.people-photos,.people-photos.three{grid-template-columns:1fr;grid-template-rows:none}.people-photos.three figure:first-child{grid-row:auto}.people-photos figure{min-height:230px}.people-copy{padding:24px}}
   </style>
@@ -196,6 +221,24 @@
             </div>
           </article>
 
+          <div class="human-bridge reveal-up" aria-label="Story interlude about building trust and participation during Coding Summer Camp 2024">
+            <div class="human-bridge-head">
+              <span class="eyebrow">Interlude · Trust before technology</span>
+              <div>
+                <h3>Before they trusted the code, they had to trust the room.</h3>
+                <p>Some of the most important teaching happened away from the keyboard. Warm-ups, quick games, physical demos, and small moments of laughter changed the atmosphere first. When students felt comfortable moving, answering, and being wrong in front of one another, they became more willing to experiment on screen too.</p>
+              </div>
+            </div>
+            <div class="human-collage">
+              <figure class="human-shot one reveal-scale"><img src="assets/service-2024/32-heart-icebreaker.jpg" alt="Leading a group icebreaker with students during Coding Summer Camp 2024"><figcaption>Start by lowering the distance between us.</figcaption></figure>
+              <figure class="human-shot two reveal-scale"><img src="assets/service-2024/33-hands-on-button-demo.jpg" alt="Students watching a hands-on button demonstration"><figcaption>Give an abstract idea something they can touch.</figcaption></figure>
+              <figure class="human-shot three reveal-scale"><img src="assets/service-2024/34-outdoor-group-activity.jpg" alt="Students participating together in an outdoor group activity"><figcaption>Learning did not stop at the classroom door.</figcaption></figure>
+              <figure class="human-shot four reveal-scale"><img src="assets/service-2024/35-classroom-between-sessions.jpg" alt="Students relaxing and interacting between learning activities"><figcaption>A safe room makes participation feel natural.</figcaption></figure>
+              <figure class="human-shot five reveal-scale"><img src="assets/service-2024/36-student-answer-boards.jpg" alt="Students raising answer boards during a classroom activity"><figcaption>Participation became part of the lesson itself.</figcaption></figure>
+            </div>
+            <div class="human-bridge-note"><div><strong>That became another engineering lesson for me:</strong> before optimizing the system, understand the people inside it. The best activity was not always the most technically impressive one; it was the one that made a student want to take the next step.</div></div>
+          </div>
+
           <article class="people-beat flip reveal-up">
             <div class="people-photos three">
               <figure class="reveal-scale"><img src="assets/service-2024/29-outdoor-group-energy.jpg" alt="Students and camp team interacting outdoors"><figcaption>A camp works when students feel they belong in it.</figcaption></figure>
@@ -228,7 +271,7 @@
 
     <section class="svc-section soft" id="ownership">
       <div class="container">
-        <div class="svc-head reveal-up"><span class="svc-index">04 / Ownership</span><h2>The best moment was when I was no longer needed.</h2><p>Students began presenting, comparing screens, pointing out blocks to one another, and turning our demonstrations into their own experiments. By then, the room no longer felt like “us teaching them.” It felt like a shared workshop. That shift — from following instructions to owning the next step — became my definition of a successful lesson.</p></div>
+        <div class="svc-head reveal-up"><span class="svc-index">04 / Ownership</span><h2>The best moment was when I was no longer needed.</h2><p>I stopped measuring the lesson by how much I had explained. I looked for a different signal: students volunteering answers, helping one another, comparing screens, and turning our demonstrations into their own experiments. By then, the room no longer felt like “us teaching them.” It felt like a shared workshop. That shift — from participating because we asked to participating because they wanted to — became my definition of a successful lesson.</p></div>
         <div class="end-strip">
           <figure class="reveal-scale"><img src="assets/service-2024/13-student-name-cards.jpg" alt="Handmade student name cards from the camp"><figcaption>Names, jokes, drawings, questions — the classroom felt personal because learning was happening between people, not just between a student and a computer.</figcaption></figure>
           <figure class="reveal-scale"><img src="assets/service-2024/20-facilitation-speaking.jpg" alt="Facilitating a student activity"><figcaption>Teaching pushed me out from behind the screen. I had to read the room, change pace, invite quieter students in, and make technology feel less intimidating.</figcaption></figure>

@@ -1,23 +1,30 @@
-SERVICE LEARNING — CODING SUMMER CAMP 2024 UPDATE V2
+SERVICE LEARNING — CODING SUMMER CAMP 2024 — V3 UPDATE
+======================================================
 
-Upload/replace these items in the root of your GitHub repository:
-1. service.html
-2. assets/service-2024/  (all files inside this folder)
+This package is an incremental update from the latest Service page you already uploaded.
 
-This package is an updated version of the previous Service Coding Summer Camp 2024 package.
-It contains the original 20 service photos plus 11 additional photos (31 total).
+UPLOAD / REPLACE:
+1) Replace repository-root `service.html` with the `service.html` in this package.
+2) Upload these NEW files into `assets/service-2024/`:
+   - 32-heart-icebreaker.jpg
+   - 33-hands-on-button-demo.jpg
+   - 34-outdoor-group-activity.jpg
+   - 35-classroom-between-sessions.jpg
+   - 36-student-answer-boards.jpg
 
-New storyline chapter added:
-03 / THE PEOPLE AROUND THE CODE
-- Read the room
-- Debug together
-- Learning is social
-- The team is part of the system
-- Bring the energy back home
+Do NOT delete your existing service-2024 assets. The updated page still references them.
 
-Story arc:
-prepare the learning experience -> teach -> adapt beside students -> build trust -> coordinate as a team -> hand over ownership -> reflect on how service changed the way I build and lead.
+What changed:
+- Added a new visual/story interlude: “Trust before technology.”
+- Uses the five new photos as a scrapbook-style collage inside the existing people-centered story.
+- Storytelling now connects warm-ups, physical demos, informal interaction and participation to confidence in coding.
+- Strengthened the Ownership chapter so the progression is clearer: explain -> participate -> trust -> experiment -> ownership.
+- Added responsive styling for desktop/tablet/mobile inside service.html; no CSS or JS file replacement is required.
 
-GitHub upload note:
-Replace service.html and merge/replace assets/service-2024 with this folder.
-All images are browser-friendly JPEGs and each file is below GitHub's normal web-upload limit.
+Files in this update package only:
+- service.html
+- assets/service-2024/32-heart-icebreaker.jpg
+- assets/service-2024/33-hands-on-button-demo.jpg
+- assets/service-2024/34-outdoor-group-activity.jpg
+- assets/service-2024/35-classroom-between-sessions.jpg
+- assets/service-2024/36-student-answer-boards.jpg
