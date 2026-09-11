@@ -94,7 +94,7 @@
     .camp25-hero figcaption,.camp25-card figcaption,.camp25-wide figcaption{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(8,19,15,.8);color:#fff;border-radius:12px;padding:9px 11px;font-size:10px;font-weight:800;letter-spacing:.02em;backdrop-filter:blur(8px)}
     .camp25-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin:14px 0 30px}
     .camp25-card{margin:0;position:relative;overflow:hidden;border-radius:24px;background:#ddd;min-height:280px}
-    .camp25-card.span7{grid-column:span 7}.camp25-card.span5{grid-column:span 5}.camp25-card.span4{grid-column:span 4}.camp25-card.span8{grid-column:span 8}
+    .camp25-card.span7{grid-column:span 7}.camp25-card.span5{grid-column:span 5}.camp25-card.span4{grid-column:span 4}.camp25-card.span8{grid-column:span 8}.camp25-card.span6{grid-column:span 6}.camp25-card.span12{grid-column:span 12}
     .camp25-card.tall{min-height:430px}.camp25-card img{transition:transform .65s cubic-bezier(.2,.7,.2,1)}.camp25-card:hover img{transform:scale(1.035)}
     .camp25-beat{display:grid;grid-template-columns:180px 1fr;gap:28px;padding:26px 0;border-top:1px solid rgba(8,19,15,.12);align-items:start}
     .camp25-beat .tag{font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--svc-teal);padding-top:6px}
@@ -103,8 +103,34 @@
     .camp25-wide{margin:18px 0 0;border-radius:28px;overflow:hidden;position:relative;min-height:430px;background:#ddd}
     .camp25-close{margin-top:28px;padding:28px;border-radius:26px;background:linear-gradient(115deg,#0b1813,#14352c);color:#fff;font-size:clamp(21px,2.4vw,31px);line-height:1.42}
     .camp25-close strong{color:var(--svc-mint)}
-    @media(max-width:900px){.camp25-intro{grid-template-columns:1fr}.camp25-beat{grid-template-columns:1fr;gap:8px}.camp25-card.span7,.camp25-card.span5,.camp25-card.span4,.camp25-card.span8{grid-column:span 6}}
-    @media(max-width:680px){.camp25-card.span7,.camp25-card.span5,.camp25-card.span4,.camp25-card.span8{grid-column:span 12}.camp25-card,.camp25-card.tall{min-height:280px}.camp25-copy{padding:26px;min-height:360px}.camp25-hero,.camp25-wide{min-height:320px}}
+    @media(max-width:900px){.camp25-intro{grid-template-columns:1fr}.camp25-beat{grid-template-columns:1fr;gap:8px}.camp25-card.span7,.camp25-card.span5,.camp25-card.span4,.camp25-card.span8,.camp25-card.span6{grid-column:span 6}.camp25-card.span12{grid-column:span 12}}
+    @media(max-width:680px){.camp25-card.span7,.camp25-card.span5,.camp25-card.span4,.camp25-card.span8,.camp25-card.span6,.camp25-card.span12{grid-column:span 12}.camp25-card,.camp25-card.tall{min-height:280px}.camp25-copy{padding:26px;min-height:360px}.camp25-hero,.camp25-wide{min-height:320px}}
+
+    /* V6 — clearer 2024 → 2025 role transition + expanded teaching tracks */
+    .camp25-rolebridge{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin:18px 0 28px}
+    .role-card{border-radius:26px;padding:26px 28px;min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+    .role-card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-65px;top:-70px;background:rgba(255,255,255,.08)}
+    .role-card.old{background:#ece8df;color:#101b16;border:1px solid rgba(8,19,15,.08)}
+    .role-card.now{background:linear-gradient(135deg,#0b1813,#174438);color:#fff}
+    .role-card small{font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;margin-bottom:10px;opacity:.7}
+    .role-card.now small{color:var(--svc-mint);opacity:1}
+    .role-card h3{font-size:clamp(26px,3vw,42px);line-height:1.02;letter-spacing:-.04em;margin:0 0 10px}
+    .role-card p{font-size:14px;line-height:1.55;margin:0;max-width:520px;color:#52605a}
+    .role-card.now p{color:#c8d6d0}
+    .role-arrow{align-self:center;justify-self:center;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--svc-mint);color:#0b1813;font-weight:1000;font-size:22px;box-shadow:0 12px 28px rgba(50,90,70,.16)}
+    .camp25-minihead{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:40px 0 14px}
+    .camp25-minihead div:first-child{max-width:790px}
+    .camp25-minihead small{display:block;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--svc-teal);margin-bottom:8px}
+    .camp25-minihead h3{font-size:clamp(31px,4vw,54px);line-height:1;letter-spacing:-.045em;margin:0}
+    .camp25-minihead p{max-width:440px;color:#647069;font-size:14px;line-height:1.55;margin:0}
+    .camp25-card.focus:after{content:"";position:absolute;inset:0;border:1px solid rgba(185,255,106,.35);border-radius:inherit;pointer-events:none}
+    @media(max-width:760px){
+      .camp25-rolebridge{grid-template-columns:1fr}
+      .role-arrow{transform:rotate(90deg)}
+      .camp25-minihead{display:block}
+      .camp25-minihead p{margin-top:12px}
+    }
+
   </style>
 </head>
 <body class="service-story">
@@ -272,24 +298,112 @@
       </div>
     </section>
 
+
     <section class="svc-section camp25" id="career-summer-camp-2025">
       <div class="container">
-        <div class="svc-head reveal-up"><span class="svc-index">06 / Career Summer Camp 2025</span><h2>I came back with a bigger question: what does access actually require?</h2><p>In 2024, I learned that a good lesson begins by lowering the first barrier. A year later, I returned to Kon Tum and saw the bigger picture more clearly: learning depends on much more than the lesson itself. Someone has to prepare the machines, organize the room, teach clearly, translate across differences, and still make the whole experience feel warm and human.</p><div class="story-callout">This chapter became less about “delivering a class” and more about building the conditions in which learning, trust, and connection could actually happen.</div></div>
+        <div class="svc-head reveal-up">
+          <span class="svc-index">06 / Career Summer Camp 2025</span>
+          <h2>I returned to the same place — but not in the same role.</h2>
+          <p>In 2024, I came to Kon Tum as a member of the teaching team. My world was the lesson in front of me: how to explain a block, make a demo clearer, or help one student get unstuck. In 2025, I came back as Vice Camp Leader. Suddenly, I had to see the whole system — people, schedules, classrooms, equipment, teaching teams, cultural exchange, and the atmosphere that held all of it together.</p>
+          <div class="story-callout">The place was familiar. The responsibility was not. That difference changed what service meant to me.</div>
+        </div>
+
+        <div class="camp25-rolebridge reveal-up" aria-label="Role progression from 2024 to 2025">
+          <article class="role-card old">
+            <small>2024 · Teaching-team member</small>
+            <h3>How do I explain this better?</h3>
+            <p>I learned to read hesitation, simplify technical ideas, and build confidence one learner at a time.</p>
+          </article>
+          <div class="role-arrow" aria-hidden="true">→</div>
+          <article class="role-card now">
+            <small>2025 · Vice Camp Leader</small>
+            <h3>How do we make the whole camp work?</h3>
+            <p>My responsibility expanded from one lesson to the conditions around every lesson: access, coordination, energy, people, and trust.</p>
+          </article>
+        </div>
 
         <div class="camp25-intro">
-          <article class="camp25-copy reveal-up"><b>Before the first lesson</b><h3>Access starts before anyone opens a file.</h3><p>Before students ever sat down to learn, we were already working behind the scenes — moving desktop computers, preparing the room, checking the equipment, and making sure the camp could truly function. It was a simple but important reminder: opportunity often begins with practical work that nobody applauds, but everyone depends on.</p></article>
-          <figure class="camp25-hero reveal-scale"><img src="assets/service-2025/01-computer-setup.jpg" alt="Setting up desktop computers before the camp"><figcaption>Before the curriculum came the infrastructure: computers had to be moved, protected, connected, and made ready for students.</figcaption></figure>
+          <article class="camp25-copy reveal-up">
+            <b>Before the first lesson</b>
+            <h3>Service started before anyone sat down to learn.</h3>
+            <p>We moved and set up desktop computers, checked the room, prepared materials, and made sure the basic infrastructure actually worked. It was unglamorous work, but it taught me something important: access is not an abstract idea. Sometimes it begins with carrying a computer across a room and making sure it turns on.</p>
+          </article>
+          <figure class="camp25-hero reveal-scale">
+            <img src="assets/service-2025/01-computer-setup.jpg" alt="Setting up desktop computers before Career Summer Camp 2025">
+            <figcaption>Before the curriculum came the infrastructure: computers had to be moved, protected, connected, and made ready for students.</figcaption>
+          </figure>
         </div>
 
         <div class="camp25-grid">
-          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/02-before-departure-school-leadership.jpg" alt="Camp team with Lawrence S. Ting School leadership before departure"><figcaption>Before departure, the team stood with school leaders — a reminder that we were carrying the trust of a larger community with us.</figcaption></figure>
-          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/03-ceremony-donation.jpg" alt="Career Summer Camp 2025 opening ceremony and desktop computer donation"><figcaption>The opening ceremony made the purpose tangible: the camp began not only with lessons, but with the handover of 20 desktop computers so access could continue after we left.</figcaption></figure>
-          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/04-ceremony-stage.jpg" alt="Career Summer Camp 2025 opening ceremony with students gathered"><figcaption>The second opening-ceremony moment felt like a threshold — we were no longer preparing for the week; we were stepping into it.</figcaption></figure>
-          <figure class="camp25-card span5 tall reveal-scale"><img src="assets/service-2025/05-english-small-group.jpg" alt="Small-group English learning activity"><figcaption>English worked best in smaller groups, where speaking felt less like a test and more like an invitation.</figcaption></figure>
-          <figure class="camp25-card span7 tall reveal-scale"><img src="assets/service-2025/06-english-circle.jpg" alt="English conversation circle with students"><figcaption>In a circle, the lesson could finally talk back. Students responded to one another, not only to the teacher.</figcaption></figure>
+          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/02-before-departure-school-leadership.jpg" alt="Camp team with Lawrence S. Ting School leadership before departure"><figcaption>Before departure, we stood with school leaders carrying more than luggage — we carried the trust of the community that sent us.</figcaption></figure>
+          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/03-ceremony-donation.jpg" alt="Career Summer Camp 2025 opening ceremony and desktop computer donation"><figcaption>The opening ceremony made the purpose tangible: 20 desktop computers were donated so access could remain after the camp ended.</figcaption></figure>
+          <figure class="camp25-card span12 reveal-scale"><img src="assets/service-2025/04-ceremony-stage.jpg" alt="Career Summer Camp 2025 opening ceremony"><figcaption>The opening marked the moment preparation became responsibility. From here, every plan had to survive contact with a real room full of people.</figcaption></figure>
         </div>
 
-        <div class="camp25-beat reveal-up"><div class="tag">Beat 01 · Teach people, not slides</div><div><h3>The room came alive when conversation replaced performance.</h3><p>The English sessions taught me that the real goal was not to finish more content. It was to make students willing to try, laugh, answer, and try again. A quiet smile, a brave sentence, or a group finally loosening up could matter more than any slide. Once the room felt safe, participation followed naturally.</p></div></div>
+        <div class="camp25-beat reveal-up">
+          <div class="tag">Beat 01 · One camp, many classrooms</div>
+          <div>
+            <h3>Teaching became less about “my subject” and more about helping every team succeed.</h3>
+            <p>Career Summer Camp was not one class repeated for a week. It moved between English, Mandarin, MOS and presentation skills, career guidance, STEM making, and life skills. As Vice Camp Leader, I had to keep looking across those tracks: where students were engaged, where a team needed support, and how each activity could feel practical instead of distant.</p>
+          </div>
+        </div>
+
+        <div class="camp25-minihead reveal-up">
+          <div><small>Language · confidence first</small><h3>Make speaking feel safer than staying silent.</h3></div>
+          <p>English and Mandarin sessions worked best when students could laugh, gesture, answer imperfectly, and still feel that they belonged in the conversation.</p>
+        </div>
+
+        <div class="camp25-grid">
+          <figure class="camp25-card span5 tall reveal-scale"><img src="assets/service-2025/05-english-small-group.jpg" alt="Small-group English learning activity"><figcaption>Small groups lowered the pressure. Speaking became an invitation rather than a test.</figcaption></figure>
+          <figure class="camp25-card span7 tall reveal-scale"><img src="assets/service-2025/06-english-circle.jpg" alt="English conversation circle with students"><figcaption>Once the room started talking back, the lesson stopped being a performance and became a conversation.</figcaption></figure>
+          <figure class="camp25-card span7 focus reveal-scale"><img src="assets/service-2025/25-english-interactive-session.jpg" alt="Interactive English teaching session with students"><figcaption>Games, examples, and reactions gave students a reason to speak before they had time to worry about being perfect.</figcaption></figure>
+          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/24-mandarin-life-skills-session.jpg" alt="Mandarin and life-skills learning session"><figcaption>Different language, same principle: make the first response easy enough that students are willing to try the second.</figcaption></figure>
+        </div>
+
+        <div class="camp25-minihead reveal-up">
+          <div><small>Digital access · from device to confidence</small><h3>A computer only becomes access when someone knows what to do with it.</h3></div>
+          <p>MOS and presentation sessions connected infrastructure to agency: not simply giving students machines, but helping them create something they could call their own.</p>
+        </div>
+
+        <div class="camp25-grid">
+          <figure class="camp25-card span5 tall reveal-scale"><img src="assets/service-2025/26-mos-powerpoint-coaching.jpg" alt="Coaching a student through PowerPoint during MOS training"><figcaption>A blank slide can feel like a wall. Side-by-side guidance turns it into a first decision.</figcaption></figure>
+          <figure class="camp25-card span7 tall reveal-scale"><img src="assets/service-2025/31-mos-side-by-side-guidance.jpg" alt="Guiding students side-by-side during a MOS lesson"><figcaption>I tried to point, ask, and wait — enough support to move forward without taking the mouse away from the learner.</figcaption></figure>
+          <figure class="camp25-card span12 reveal-scale"><img src="assets/service-2025/33-mos-one-on-one-coaching.jpg" alt="One-on-one computer coaching during MOS class"><figcaption>At the screen, progress was often quiet: one click understood, one tool remembered, one student needing a little less help than five minutes earlier.</figcaption></figure>
+        </div>
+
+        <div class="camp25-minihead reveal-up">
+          <div><small>Career guidance · make the future touchable</small><h3>“Career” made more sense when students could build, draw, test, and imagine.</h3></div>
+          <p>Instead of treating career guidance as a lecture about jobs, we connected it to making: simple STEM vehicles, collaborative construction, creative tasks, and conversations about what students wanted their own futures to look like.</p>
+        </div>
+
+        <div class="camp25-grid">
+          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/29-career-dreams-workshop.jpg" alt="Career guidance workshop about students' dreams"><figcaption>“Ước mơ của em” turned career guidance into a personal question: what kind of future can I picture for myself?</figcaption></figure>
+          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/32-career-creative-workshop.jpg" alt="Students drawing and creating during career guidance activities"><figcaption>Drawing and making gave quieter students another language for ideas they were not ready to say out loud.</figcaption></figure>
+          <figure class="camp25-card span6 tall reveal-scale"><img src="assets/service-2025/35-stem-toy-car-build.jpg" alt="Students building a STEM toy car from a recycled bottle"><figcaption>A bottle, bottle-cap wheels, a candle, and a question: can we turn ordinary materials into something that moves?</figcaption></figure>
+          <figure class="camp25-card span6 tall reveal-scale"><img src="assets/service-2025/36-stem-toy-car-making.jpg" alt="Student constructing and decorating a STEM toy car"><figcaption>The point was not a perfect model. It was the moment an idea became physical enough to change, test, and own.</figcaption></figure>
+          <figure class="camp25-card span12 reveal-scale"><img src="assets/service-2025/30-bamboo-stall-build.jpg" alt="Students standing inside a bamboo stall they constructed"><figcaption>Building a bamboo stall stretched the same mindset to a larger scale: plan together, divide the work, improvise, then stand inside something that did not exist before.</figcaption></figure>
+        </div>
+
+        <div class="camp25-beat reveal-up">
+          <div class="tag">Beat 02 · The lesson was only part of the job</div>
+          <div>
+            <h3>I began paying attention to the space between activities.</h3>
+            <p>Some of the strongest signals were not test scores or finished slides. They were students staying after an activity, joking with us, sharing snacks, asking another question, or pulling a friend over to see what they had made. Those small moments told me whether the camp felt like a place they wanted to be.</p>
+          </div>
+        </div>
+
+        <div class="camp25-grid">
+          <figure class="camp25-card span5 tall reveal-scale"><img src="assets/service-2025/23-between-lessons-with-students.jpg" alt="Sharing snacks and a casual moment with students between lessons"><figcaption>Between classes, hierarchy softened. Sharing snacks and jokes did more for trust than another formal introduction ever could.</figcaption></figure>
+          <figure class="camp25-card span7 tall reveal-scale"><img src="assets/service-2025/28-life-skills-team-photo.jpg" alt="Life-skills group photo with students"><figcaption>Life-skills sessions were less about giving answers and more about creating situations where students could speak, collaborate, and be seen.</figcaption></figure>
+        </div>
+
+        <div class="camp25-beat reveal-up">
+          <div class="tag">Beat 03 · Exchange, not outreach</div>
+          <div>
+            <h3>Then the classroom opened into the community.</h3>
+            <p>Cultural exchange, bamboo dancing, field work, meals, and shared chores changed the direction of learning. We were no longer only the people bringing activities. We were guests learning local rhythms, working beside students, and sharing the discomfort of doing unfamiliar things badly before doing them a little better.</p>
+          </div>
+        </div>
 
         <div class="camp25-grid">
           <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/07-community-dance.jpg" alt="Large group cultural activity with students and volunteers"><figcaption>Energy spread quickly when everyone joined the same rhythm together.</figcaption></figure>
@@ -301,29 +415,44 @@
           <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/13-shared-chores.jpg" alt="Students washing dishes together under umbrellas"><figcaption>Even the ordinary tasks mattered. Shared chores made the camp feel lived together, not simply delivered.</figcaption></figure>
         </div>
 
-        <div class="camp25-beat reveal-up"><div class="tag">Beat 02 · Exchange, not outreach</div><div><h3>The week widened beyond teaching.</h3><p>Some of the most meaningful moments happened when nobody was standing in front of a class. Cultural activities, field experiences, meals, and chores turned the trip into something much more reciprocal. We were still teaching, but we were also listening, adapting, and learning from the community around us. That was when service stopped feeling one-directional.</p></div></div>
-
-        <div class="camp25-grid">
-          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/14-goodbye-bus-wave.jpg" alt="Children waving goodbye through the bus window in Kon Tum"><figcaption>At the end, the goodbye was not abstract at all. The bus pulled away, and the children kept waving until the road carried us out of sight.</figcaption></figure>
-          <figure class="camp25-card span5 tall reveal-scale"><img src="assets/service-2025/15-boys-gift-box.jpg" alt="Group portrait with boys holding a gift box"><figcaption>Before leaving, there was always room for one more photo, one more smile, one more small memory to hold onto.</figcaption></figure>
-          <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/16-girls-group-portrait.jpg" alt="Group portrait with girls at the camp"><figcaption>By then, the relationship no longer felt formal. The camera captured comfort, playfulness, and trust.</figcaption></figure>
-          <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/17-boys-group-portrait.jpg" alt="Group portrait with boys at the camp"><figcaption>Friendship had replaced distance. What began as a camp was starting to feel like a shared community.</figcaption></figure>
-          <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/18-girls-certificates-outdoor.jpg" alt="Group photo with girls holding certificates outdoors"><figcaption>Outside, students proudly held their certificates — not just as paper, but as visible proof that the week had meant something to them.</figcaption></figure>
-          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/19-farewell-room-wide.jpg" alt="Wide farewell gathering with students in the camp hall"><figcaption>The final gathering filled the room with the loud, messy energy of a real goodbye — raised hands, laughter, and the feeling that nobody wanted the moment to end yet.</figcaption></figure>
+        <div class="camp25-beat reveal-up">
+          <div class="tag">Beat 04 · The ending made the relationships visible</div>
+          <div>
+            <h3>By the last days, the schedule had turned into people I did not want to leave.</h3>
+            <p>Closing activities, certificates, photos, and little gifts made the emotional side of the camp impossible to ignore. Students who had first been names on a list had become faces I knew, personalities I could recognize across the room, and people who had changed the way I understood service.</p>
+          </div>
         </div>
 
-        <div class="camp25-beat reveal-up"><div class="tag">Beat 03 · The ending made the relationships visible</div><div><h3>The last days in Kon Tum were the most emotional.</h3><p>By the time we reached the closing moments, the camp no longer felt like a schedule of activities. It felt personal. Students asked for photos, held onto little gifts and certificates, and kept waving even as the bus began to leave. That was when I felt most clearly that the real impact of service is often measured in human closeness, not only in what was taught.</p></div></div>
-
         <div class="camp25-grid">
-          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/20-lsts-cultural-performance.jpg" alt="Performing a cultural exchange dance during a school assembly at Lawrence S. Ting School"><figcaption>Back at Đinh Thiện Lý, the story travelled with us. We performed a cultural exchange piece during flag ceremony so the experience could be shared with the wider school.</figcaption></figure>
-          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/21-bien-ho-taiwan-group.jpg" alt="Group photo with the Taiwanese university team at Bien Ho"><figcaption>At Biển Hồ (Hồ T&apos;Nưng), a group photo with the Taiwanese team captured another part of the journey: partnership, friendship, and the way exchange keeps deepening outside the classroom.</figcaption></figure>
+          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/14-goodbye-bus-wave.jpg" alt="Children waving goodbye through the bus window in Kon Tum"><figcaption>The bus finally moved. They kept waving. For a few seconds, nobody inside needed to say anything.</figcaption></figure>
+          <figure class="camp25-card span5 tall reveal-scale"><img src="assets/service-2025/15-boys-gift-box.jpg" alt="Group portrait with boys holding a gift box"><figcaption>One more photo, one more joke, one more small memory to carry home.</figcaption></figure>
+          <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/16-girls-group-portrait.jpg" alt="Group portrait with girls at the camp"><figcaption>By then, the camera captured comfort more than ceremony.</figcaption></figure>
+          <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/17-boys-group-portrait.jpg" alt="Group portrait with boys at the camp"><figcaption>The distance between “volunteer” and “student” had become much smaller.</figcaption></figure>
+          <figure class="camp25-card span4 reveal-scale"><img src="assets/service-2025/18-girls-certificates-outdoor.jpg" alt="Group photo with girls holding certificates outdoors"><figcaption>Certificates marked the end of a program; the pride on students' faces said more than the paper did.</figcaption></figure>
+          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/19-farewell-room-wide.jpg" alt="Wide farewell gathering with students in the camp hall"><figcaption>The final gathering had the loud, messy energy of a real goodbye — nobody quite ready for the room to empty.</figcaption></figure>
+          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/27-career-guidance-awards.jpg" alt="Students and camp team during an awarding moment"><figcaption>Awarding gave us a reason to celebrate effort publicly — especially the students who had learned to step forward during the week.</figcaption></figure>
+          <figure class="camp25-card span12 reveal-scale"><img src="assets/service-2025/34-camp-final-group.jpg" alt="Career Summer Camp 2025 final group photo"><figcaption>The final group photo compressed the whole camp into one frame: students, teachers, volunteers, different ages, different roles — one shared week.</figcaption></figure>
         </div>
 
-        <div class="camp25-beat reveal-up"><div class="tag">Beat 04 · The exchange kept moving</div><div><h3>Kon Tum did not end when the camp ended.</h3><p>What we experienced there kept travelling afterward. It showed up in cultural performances back at school, in the friendships formed with the Taiwanese university team, and in the way I told the story when I returned home. The camp may have had an official closing, but the exchange continued through memory, collaboration, and the communities it connected.</p></div></div>
+        <div class="camp25-beat reveal-up">
+          <div class="tag">Beat 05 · The exchange kept moving</div>
+          <div>
+            <h3>Kon Tum did not end when we left Kon Tum.</h3>
+            <p>Back at Đinh Thiện Lý, we brought part of the exchange onto the school stage. With the Taiwanese university team, we also carried the relationships into places like Biển Hồ (Hồ T&apos;Nưng). The trip had an ending date, but the exchange kept showing up in friendships, performances, stories, and the way I worked with people afterward.</p>
+          </div>
+        </div>
 
-        <figure class="camp25-wide reveal-scale"><img src="assets/service-2025/22-final-camp-group.jpg" alt="Large final group photo of students, volunteers, and the service-learning team"><figcaption>The final group photo says what the whole week taught me: service is strongest when it feels like a shared space — many people, different roles, one atmosphere of trust.</figcaption></figure>
+        <div class="camp25-grid">
+          <figure class="camp25-card span5 reveal-scale"><img src="assets/service-2025/20-lsts-cultural-performance.jpg" alt="Performing a cultural exchange dance during a school assembly at Lawrence S. Ting School"><figcaption>Back at Đinh Thiện Lý, we performed a cultural exchange piece during flag ceremony so the experience could travel beyond the people who went on the trip.</figcaption></figure>
+          <figure class="camp25-card span7 reveal-scale"><img src="assets/service-2025/21-bien-ho-taiwan-group.jpg" alt="Group photo with the Taiwanese university team at Bien Ho"><figcaption>At Biển Hồ, the relationship with the Taiwanese team felt less like a formal partnership and more like a friendship built through shared work.</figcaption></figure>
+        </div>
 
-        <div class="camp25-close reveal-up"><strong>What stayed with me:</strong> the deepest part of service was never only the lesson itself. It was the full chain around it — preparing access, making people feel safe, learning with the community, saying goodbye with real emotion, and carrying the exchange forward after the trip. In 2025, I understood more clearly that good service does not just create a moment. It builds a relationship that can keep moving after you leave.</div>
+        <figure class="camp25-wide reveal-scale">
+          <img src="assets/service-2025/22-final-camp-group.jpg" alt="Large final group photo of students, volunteers, and the service-learning team">
+          <figcaption>Many people, many roles, one shared space. That became my clearest image of what service could look like.</figcaption>
+        </figure>
+
+        <div class="camp25-close reveal-up"><strong>What changed between 2024 and 2025:</strong> in 2024, service taught me how to make one explanation clearer. In 2025, leadership taught me to widen the frame — to think about the infrastructure before the lesson, the team behind it, the student inside it, and the relationships that remain afterward. I returned to the same place, but I did not return as the same person.</div>
       </div>
     </section>
 
