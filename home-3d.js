@@ -1,454 +1,96 @@
 const stage = document.querySelector('.home-page .portrait-stage');
+const hero = document.querySelector('.home-page .home-hero');
 
-if (stage) {
-  stage.classList.add('robot-sim-stage');
+if (stage && hero) {
+  stage.classList.add('robot-cinematic-stage');
+  hero.classList.add('robot-cinematic-hero');
 
   const style = document.createElement('style');
-  style.id = 'robot-sim-styles';
+  style.id = 'robot-cinematic-styles';
   style.textContent = `
-    .home-page .robot-sim-stage{
-      min-height:650px;
-      display:grid;
-      place-items:center;
-      position:relative;
-      isolation:isolate;
-    }
-    .home-page .robot-sim-stage .robot-sim-shell{
-      width:min(100%,590px);
-      height:630px;
-      position:relative;
-      overflow:hidden;
-      border-radius:42px;
-      border:1px solid rgba(10,15,24,.12);
-      background:
-        radial-gradient(circle at 18% 16%,rgba(156,255,87,.18),transparent 28%),
-        radial-gradient(circle at 82% 24%,rgba(97,216,255,.16),transparent 30%),
-        #f7f5ee;
-      box-shadow:0 38px 90px rgba(10,15,24,.14);
-      transform:rotate(1deg);
-    }
-    .home-page .robot-sim-stage .robot-sim-shell:after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      border-radius:inherit;
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.52);
-      z-index:7;
-    }
-    .robot-sim-canvas{
-      width:100%;
-      height:100%;
+    .home-page .robot-cinematic-hero{
+      min-height:250svh;
+      padding:0;
       display:block;
-      cursor:crosshair;
+      overflow:visible;
+      background:radial-gradient(circle at 8% 8%,rgba(156,255,87,.18),transparent 28%),radial-gradient(circle at 92% 18%,rgba(97,216,255,.17),transparent 28%),var(--paper);
     }
-    .robot-sim-ui{
-      position:absolute;
-      inset:0;
-      z-index:5;
-      pointer-events:none;
-      font-family:"DM Sans",sans-serif;
-      color:#0a0f18;
-    }
-    .robot-sim-label{
-      position:absolute;
-      left:24px;
-      top:24px;
-      display:flex;
-      flex-direction:column;
-      gap:3px;
-      padding:12px 14px;
-      border-radius:18px;
-      background:rgba(247,245,238,.78);
-      border:1px solid rgba(10,15,24,.1);
-      backdrop-filter:blur(12px);
-      box-shadow:0 12px 28px rgba(10,15,24,.08);
-    }
-    .robot-sim-label span,
-    .robot-sim-status,
-    .robot-sim-hint,
-    .robot-sim-person small{
-      font-size:9px;
-      font-weight:900;
-      letter-spacing:.11em;
-      text-transform:uppercase;
-    }
-    .robot-sim-label strong{
-      font:700 15px/1.1 "Space Grotesk",sans-serif;
-      letter-spacing:-.02em;
-    }
-    .robot-sim-status{
-      position:absolute;
-      right:22px;
-      top:22px;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:9px 12px;
-      border-radius:999px;
-      color:#17331a;
-      background:rgba(156,255,87,.78);
-      border:1px solid rgba(10,15,24,.1);
-      box-shadow:0 10px 24px rgba(10,15,24,.08);
-    }
-    .robot-sim-status i{
-      width:7px;height:7px;border-radius:50%;background:#16a34a;
-      box-shadow:0 0 0 0 rgba(22,163,74,.32);
-      animation:robotPulse 1.7s infinite;
-    }
-    .robot-sim-hint{
-      position:absolute;
-      right:24px;
-      bottom:23px;
-      color:#6b7280;
-      background:rgba(247,245,238,.72);
-      border:1px solid rgba(10,15,24,.08);
-      padding:9px 12px;
-      border-radius:999px;
-      backdrop-filter:blur(10px);
-    }
-    .robot-sim-person{
-      position:absolute;
-      left:22px;
-      bottom:20px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:8px 13px 8px 8px;
-      border-radius:999px;
-      color:#fff;
-      background:rgba(10,15,24,.88);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow:0 14px 28px rgba(10,15,24,.14);
-      backdrop-filter:blur(10px);
-    }
-    .robot-sim-person img{
-      width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:50% 38%;
-      border:2px solid #9cff57;
-    }
-    .robot-sim-person strong{
-      display:block;
-      margin-top:2px;
-      font:700 13px/1 "Space Grotesk",sans-serif;
-    }
-    .robot-sim-loader{
-      position:absolute;
-      inset:0;
-      z-index:6;
-      display:grid;
-      place-items:center;
-      background:#f7f5ee;
-      transition:opacity .55s ease,visibility .55s ease;
-    }
-    .robot-sim-loader.is-ready{opacity:0;visibility:hidden}
-    .robot-loader-copy{text-align:center}
-    .robot-loader-copy b{
-      display:block;
-      margin-bottom:9px;
-      font:700 clamp(27px,3vw,40px)/1 "Space Grotesk",sans-serif;
-      letter-spacing:-.05em;
-    }
-    .robot-loader-copy span{
-      font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#6b7280;
-    }
-    .robot-loader-bar{
-      width:170px;height:3px;margin:17px auto 0;border-radius:999px;overflow:hidden;background:#dedbd1;
-    }
-    .robot-loader-bar:before{
-      content:"";display:block;width:42%;height:100%;background:#875cff;
-      animation:robotLoad 1.05s ease-in-out infinite alternate;
-    }
-    @keyframes robotLoad{from{transform:translateX(-100%)}to{transform:translateX(238%)}}
-    @keyframes robotPulse{70%{box-shadow:0 0 0 9px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
-
-    .home-page .robot-sim-stage .floating-chip,
-    .home-page .robot-sim-stage .orbit-ring,
-    .home-page .robot-sim-stage > .portrait-frame{display:none!important}
-
-    @media(max-width:1100px){
-      .home-page .robot-sim-stage .robot-sim-shell{height:570px}
-      .home-page .robot-sim-stage{min-height:590px}
-    }
-    @media(max-width:900px){
-      .home-page .robot-sim-stage .robot-sim-shell{width:min(100%,720px);height:520px;transform:none}
-      .home-page .robot-sim-stage{min-height:540px}
-    }
-    @media(max-width:560px){
-      .home-page .robot-sim-stage .robot-sim-shell{height:470px;border-radius:28px}
-      .home-page .robot-sim-stage{min-height:490px}
-      .robot-sim-label{left:14px;top:14px}
-      .robot-sim-status{right:14px;top:14px}
-      .robot-sim-hint{display:none}
-      .robot-sim-person{left:14px;bottom:14px}
-      .robot-sim-person img{width:40px;height:40px}
-    }
-    @media(prefers-reduced-motion:reduce){
-      .robot-sim-status i,.robot-loader-bar:before{animation:none!important}
-    }
+    .home-page .robot-cinematic-hero>.hero-grid-v2{position:sticky;top:0;min-height:100svh;padding-top:108px;padding-bottom:42px;align-items:center;z-index:2}
+    .home-page .robot-cinematic-stage{position:relative;min-height:680px;display:grid;place-items:center;isolation:isolate}
+    .home-page .robot-cinematic-stage>.portrait-frame,.home-page .robot-cinematic-stage>.floating-chip,.home-page .robot-cinematic-stage>.orbit-ring{display:none!important}
+    .robot-cinematic-shell{position:relative;width:min(100%,610px);height:650px;overflow:hidden;border-radius:44px;border:1px solid rgba(10,15,24,.11);background:#f5f2e9;box-shadow:0 34px 90px rgba(10,15,24,.16);transform:rotate(.7deg);isolation:isolate}
+    .robot-cinematic-shell:before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.2),transparent 22%),radial-gradient(circle at 72% 20%,rgba(97,216,255,.08),transparent 30%);mix-blend-mode:screen}
+    .robot-cinematic-shell:after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.58),inset 0 -90px 120px rgba(10,15,24,.025)}
+    .robot-cinematic-canvas{width:100%;height:100%;display:block}.robot-hud{position:absolute;inset:0;z-index:6;pointer-events:none;font-family:"DM Sans",sans-serif;color:#0a0f18}
+    .robot-hud-top{position:absolute;left:22px;right:22px;top:22px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.robot-hud-card{padding:11px 13px;border:1px solid rgba(10,15,24,.1);background:rgba(247,245,238,.78);backdrop-filter:blur(14px);border-radius:16px;box-shadow:0 12px 30px rgba(10,15,24,.07)}
+    .robot-hud-card span,.robot-hud-status,.robot-scroll-note,.robot-stage-label small,.robot-stat span{font-size:8.5px;font-weight:900;letter-spacing:.11em;text-transform:uppercase}.robot-hud-card strong{display:block;margin-top:3px;font:700 14px/1.1 "Space Grotesk",sans-serif;letter-spacing:-.025em}
+    .robot-hud-status{display:flex;align-items:center;gap:7px;padding:9px 11px;border-radius:999px;background:rgba(156,255,87,.82);border:1px solid rgba(10,15,24,.1)}.robot-hud-status i{width:7px;height:7px;border-radius:50%;background:#168c3e;box-shadow:0 0 0 0 rgba(22,140,62,.28);animation:robotSignal 1.8s infinite}
+    .robot-stage-label{position:absolute;left:22px;bottom:24px;max-width:280px;padding:14px 15px;border-radius:18px;background:rgba(10,15,24,.90);color:#fff;border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 38px rgba(10,15,24,.16);backdrop-filter:blur(12px);opacity:0;transform:translateY(10px);transition:opacity .25s ease,transform .25s ease}.robot-stage-label.is-active{opacity:1;transform:none}.robot-stage-label small{color:#9cff57;display:block;margin-bottom:5px}.robot-stage-label strong{font:700 clamp(22px,2.2vw,31px)/.95 "Space Grotesk",sans-serif;letter-spacing:-.045em}.robot-stage-label p{font-size:11px;line-height:1.45;color:#d5dae1;margin:8px 0 0}
+    .robot-scroll-note{position:absolute;right:22px;bottom:23px;padding:9px 11px;border-radius:999px;background:rgba(247,245,238,.8);border:1px solid rgba(10,15,24,.08);color:#646b74;backdrop-filter:blur(10px)}
+    .robot-stats{position:absolute;right:22px;top:88px;display:grid;gap:8px;width:150px}.robot-stat{padding:10px 11px;border-radius:14px;background:rgba(247,245,238,.72);border:1px solid rgba(10,15,24,.08);backdrop-filter:blur(12px);box-shadow:0 10px 22px rgba(10,15,24,.05)}.robot-stat strong{display:block;font:700 14px/1 "Space Grotesk",sans-serif;margin-top:4px}
+    .robot-progress{position:absolute;left:22px;right:22px;bottom:10px;height:2px;background:rgba(10,15,24,.10);overflow:hidden;border-radius:999px}.robot-progress b{display:block;width:0;height:100%;background:linear-gradient(90deg,#ff5f57,#875cff,#61d8ff);transform-origin:left center}
+    .robot-loader{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:#f5f2e9;transition:opacity .55s ease,visibility .55s ease}.robot-loader.is-ready{opacity:0;visibility:hidden}.robot-loader-inner{text-align:center;width:min(76%,320px)}.robot-loader-inner b{display:block;font:700 clamp(29px,3vw,42px)/.96 "Space Grotesk",sans-serif;letter-spacing:-.05em}.robot-loader-inner span{display:block;margin-top:8px;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#6b7280}.robot-loader-track{height:3px;margin-top:18px;background:#dedbd2;border-radius:999px;overflow:hidden}.robot-loader-track i{display:block;width:6%;height:100%;background:#875cff;transition:width .18s ease}
+    .robot-model-warning{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);z-index:7;display:none;max-width:78%;padding:8px 11px;border-radius:999px;background:rgba(255,110,91,.9);color:white;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;text-align:center}
+    @keyframes robotSignal{70%{box-shadow:0 0 0 9px rgba(22,140,62,0)}100%{box-shadow:0 0 0 0 rgba(22,140,62,0)}}.home-page .robot-cinematic-hero .hero-intro{transition:opacity .3s ease,transform .3s ease}.home-page .robot-cinematic-hero .scroll-cue{position:sticky;bottom:20px;z-index:4}
+    @media(max-width:1100px){.home-page .robot-cinematic-stage{min-height:610px}.robot-cinematic-shell{height:590px}}
+    @media(max-width:900px){.home-page .robot-cinematic-hero{min-height:auto;padding:110px 0 54px}.home-page .robot-cinematic-hero>.hero-grid-v2{position:relative;min-height:auto;padding-top:0;padding-bottom:0}.robot-cinematic-shell{width:min(100%,760px);height:550px;transform:none}.home-page .robot-cinematic-stage{min-height:570px}.robot-stats{display:none}}
+    @media(max-width:560px){.robot-cinematic-shell{height:480px;border-radius:28px}.home-page .robot-cinematic-stage{min-height:500px}.robot-hud-top{left:13px;right:13px;top:13px}.robot-hud-card{max-width:190px}.robot-stage-label{left:13px;right:13px;bottom:18px;max-width:none}.robot-scroll-note{display:none}.robot-progress{left:13px;right:13px;bottom:8px}}
+    @media(prefers-reduced-motion:reduce){.robot-hud-status i{animation:none!important}.home-page .robot-cinematic-hero{min-height:auto}.home-page .robot-cinematic-hero>.hero-grid-v2{position:relative}}
   `;
   document.head.appendChild(style);
 
   stage.insertAdjacentHTML('beforeend', `
-    <div class="robot-sim-shell" aria-label="Interactive VEX robot autonomous path animation">
-      <canvas class="robot-sim-canvas"></canvas>
-      <div class="robot-sim-ui" aria-hidden="true">
-        <div class="robot-sim-label"><span>AUTONOMOUS / PATH PLANNING</span><strong>Build → test → iterate.</strong></div>
-        <div class="robot-sim-status"><i></i> SIMULATING</div>
-        <div class="robot-sim-person">
-          <img src="assets/portrait-trinh.png" alt="">
-          <div><small>BUILDER / DRIVER</small><strong>Khánh Trình</strong></div>
-        </div>
-        <div class="robot-sim-hint">MOVE CURSOR · EXPLORE THE FIELD</div>
+    <div class="robot-cinematic-shell" aria-label="Interactive 3D VEX robot engineering scene">
+      <canvas class="robot-cinematic-canvas"></canvas>
+      <div class="robot-hud" aria-hidden="true">
+        <div class="robot-hud-top"><div class="robot-hud-card"><span>VERTEX / PUSH BACK</span><strong>Engineering in motion.</strong></div><div class="robot-hud-status"><i></i> LIVE SIMULATION</div></div>
+        <div class="robot-stats"><div class="robot-stat"><span>MODEL</span><strong>Onshape CAD</strong></div><div class="robot-stat"><span>CONTROL</span><strong>C++ / Odom</strong></div><div class="robot-stat"><span>LOOP</span><strong>Test → Rebuild</strong></div></div>
+        <div class="robot-stage-label is-active" data-scene="0"><small>01 / BUILD</small><strong>Start with the machine.</strong><p>CAD, drivetrain geometry, mechanisms, and the constraints that turn an idea into a physical system.</p></div>
+        <div class="robot-stage-label" data-scene="1"><small>02 / TEST</small><strong>Make the robot prove it.</strong><p>The red trajectory is not decoration — it represents the autonomous path, where every miss becomes data.</p></div>
+        <div class="robot-stage-label" data-scene="2"><small>03 / DIAGNOSE</small><strong>Follow the error, not the ego.</strong><p>Observe drift, alignment, sensor behavior, and field interaction. Then change the design or control system.</p></div>
+        <div class="robot-stage-label" data-scene="3"><small>04 / REBUILD</small><strong>The next version should know why it exists.</strong><p>Iteration is the point: mechanical redesign, new code, cleaner decisions, and another run.</p></div>
+        <div class="robot-scroll-note">SCROLL · FLY THROUGH THE SYSTEM</div><div class="robot-progress"><b></b></div>
       </div>
-      <div class="robot-sim-loader">
-        <div class="robot-loader-copy"><b>Initializing robot…</b><span>Loading autonomous field</span><div class="robot-loader-bar"></div></div>
-      </div>
+      <div class="robot-model-warning">3D CAD asset missing · showing fallback robot</div>
+      <div class="robot-loader"><div class="robot-loader-inner"><b>Loading the robot.</b><span>Initializing CAD · field · autonomous path</span><div class="robot-loader-track"><i></i></div></div></div>
     </div>
   `);
 
-  const canvas = stage.querySelector('.robot-sim-canvas');
-  const loader = stage.querySelector('.robot-sim-loader');
+  const shell = stage.querySelector('.robot-cinematic-shell');
+  const canvas = stage.querySelector('.robot-cinematic-canvas');
+  const loaderEl = stage.querySelector('.robot-loader');
+  const loaderBar = stage.querySelector('.robot-loader-track i');
+  const warning = stage.querySelector('.robot-model-warning');
+  const progressBar = stage.querySelector('.robot-progress b');
+  const stageLabels = [...stage.querySelectorAll('.robot-stage-label')];
+  const intro = hero.querySelector('.hero-intro');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v,a=0,b=1) => Math.max(a,Math.min(b,v));
+  const smooth = t => t*t*(3-2*t);
 
-  try {
-    const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf7f5ee);
-    scene.fog = new THREE.Fog(0xf7f5ee, 12, 27);
-
-    const camera = new THREE.PerspectiveCamera(37, 1, 0.1, 100);
-    camera.position.set(8.4, 7.1, 11.6);
-
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-    const hemi = new THREE.HemisphereLight(0xffffff, 0xc8c4b8, 2.1);
-    scene.add(hemi);
-    const key = new THREE.DirectionalLight(0xffffff, 4.0);
-    key.position.set(5, 10, 6);
-    key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
-    key.shadow.camera.left = -10;
-    key.shadow.camera.right = 10;
-    key.shadow.camera.top = 10;
-    key.shadow.camera.bottom = -10;
-    scene.add(key);
-
-    const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(22, 18),
-      new THREE.MeshStandardMaterial({ color: 0xf7f5ee, roughness: 0.95, metalness: 0 })
-    );
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
-    scene.add(floor);
-
-    const grid = new THREE.GridHelper(22, 18, 0x6d737c, 0xbfc1bd);
-    grid.position.y = 0.012;
-    grid.material.opacity = 0.62;
-    grid.material.transparent = true;
-    scene.add(grid);
-
-    const fieldBorder = new THREE.LineSegments(
-      new THREE.EdgesGeometry(new THREE.BoxGeometry(18.2, 0.04, 13.2)),
-      new THREE.LineBasicMaterial({ color: 0x8a8e93, transparent: true, opacity: 0.55 })
-    );
-    fieldBorder.position.y = 0.025;
-    scene.add(fieldBorder);
-
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-7.1, 0.08, 4.4),
-      new THREE.Vector3(-5.6, 0.08, 4.1),
-      new THREE.Vector3(-3.3, 0.08, 2.8),
-      new THREE.Vector3(-1.4, 0.08, 0.5),
-      new THREE.Vector3(0.0, 0.08, -1.8),
-      new THREE.Vector3(2.0, 0.08, -3.3),
-      new THREE.Vector3(4.2, 0.08, -3.8),
-      new THREE.Vector3(5.9, 0.08, -2.1),
-      new THREE.Vector3(5.2, 0.08, 0.3),
-      new THREE.Vector3(3.2, 0.08, 2.5),
-      new THREE.Vector3(1.1, 0.08, 3.7)
-    ], false, 'catmullrom', 0.42);
-
-    const pathPoints = curve.getPoints(180);
-    const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
-    const pathLine = new THREE.Line(pathGeo, new THREE.LineBasicMaterial({ color: 0xff6257, linewidth: 2 }));
-    scene.add(pathLine);
-
-    const waypointMat = new THREE.MeshStandardMaterial({ color: 0xff6257, emissive: 0x5b100d, emissiveIntensity: 0.14 });
-    [0, .2, .4, .6, .8, 1].forEach(t => {
-      const p = curve.getPointAt(t);
-      const dot = new THREE.Mesh(new THREE.SphereGeometry(.075, 14, 14), waypointMat);
-      dot.position.copy(p);
-      dot.position.y = .12;
-      scene.add(dot);
-    });
-
-    const nodeMat = new THREE.MeshStandardMaterial({ color: 0x121417, roughness: .55 });
-    const nodes = [
-      [-7.8,-4.7],[-6.1,-1.2],[-5.0,5.0],[-3.6,-4.0],[-2.2,4.9],[-.8,-5.2],[1.8,5.1],[3.8,-4.8],[6.0,4.2],[7.8,-.6],[7.2,2.5],[.4,5.8]
-    ];
-    nodes.forEach(([x,z], i) => {
-      const node = new THREE.Mesh(new THREE.SphereGeometry(i % 3 === 0 ? .10 : .075, 12, 12), nodeMat);
-      node.position.set(x,.11,z);
-      scene.add(node);
-    });
-
-    const robot = new THREE.Group();
-    const white = new THREE.MeshStandardMaterial({ color: 0xf1f2ee, metalness: .34, roughness: .36 });
-    const orange = new THREE.MeshStandardMaterial({ color: 0xf0a72f, metalness: .18, roughness: .42 });
-    const dark = new THREE.MeshStandardMaterial({ color: 0x232629, roughness: .62 });
-    const green = new THREE.MeshStandardMaterial({ color: 0x86f05f, roughness: .44, emissive: 0x18440f, emissiveIntensity: .08 });
-
-    const chassis = new THREE.Mesh(new THREE.BoxGeometry(2.25,.38,1.65), white);
-    chassis.position.y = .58;
-    chassis.castShadow = true;
-    robot.add(chassis);
-
-    const bumperFront = new THREE.Mesh(new THREE.BoxGeometry(2.36,.42,.24), orange);
-    bumperFront.position.set(0,.58,.94);
-    bumperFront.castShadow = true;
-    robot.add(bumperFront);
-    const bumperBack = bumperFront.clone();
-    bumperBack.position.z = -.94;
-    robot.add(bumperBack);
-
-    const railA = new THREE.Mesh(new THREE.BoxGeometry(.16,1.85,.16), orange);
-    railA.position.set(.78,1.45,-.30);
-    railA.rotation.z = -.10;
-    railA.castShadow = true;
-    robot.add(railA);
-    const railB = railA.clone();
-    railB.position.x = -.78;
-    railB.rotation.z = .10;
-    robot.add(railB);
-
-    const tower = new THREE.Mesh(new THREE.BoxGeometry(1.65,.16,.18), white);
-    tower.position.set(0,2.25,-.30);
-    tower.castShadow = true;
-    robot.add(tower);
-
-    const scoop = new THREE.Mesh(new THREE.BoxGeometry(1.55,.18,.82), orange);
-    scoop.position.set(0,1.53,.54);
-    scoop.rotation.x = -.34;
-    scoop.castShadow = true;
-    robot.add(scoop);
-
-    const ball = new THREE.Mesh(new THREE.SphereGeometry(.52,24,24), green);
-    ball.position.set(.43,1.35,-.38);
-    ball.castShadow = true;
-    robot.add(ball);
-
-    const wheelGeo = new THREE.CylinderGeometry(.34,.34,.28,24);
-    const wheels = [];
-    [[-1.08,.61],[-1.08,-.61],[1.08,.61],[1.08,-.61]].forEach(([x,z]) => {
-      const wheel = new THREE.Mesh(wheelGeo, dark);
-      wheel.rotation.z = Math.PI/2;
-      wheel.position.set(x,.38,z);
-      wheel.castShadow = true;
-      wheels.push(wheel);
-      robot.add(wheel);
-    });
-
-    const sensorRing = new THREE.Mesh(
-      new THREE.TorusGeometry(1.5,.025,8,64),
-      new THREE.MeshBasicMaterial({ color: 0x875cff, transparent:true, opacity:.45 })
-    );
-    sensorRing.rotation.x = Math.PI/2;
-    sensorRing.position.y = .12;
-    robot.add(sensorRing);
-
-    robot.scale.setScalar(.83);
-    scene.add(robot);
-
-    const robotShadow = new THREE.Mesh(
-      new THREE.CircleGeometry(1.15, 36),
-      new THREE.MeshBasicMaterial({ color:0x111111, transparent:true, opacity:.09, depthWrite:false })
-    );
-    robotShadow.rotation.x = -Math.PI/2;
-    robotShadow.position.y = .025;
-    scene.add(robotShadow);
-
-    const pointer = { x:0, y:0 };
-    const shell = stage.querySelector('.robot-sim-shell');
-    shell.addEventListener('pointermove', e => {
-      const r = shell.getBoundingClientRect();
-      pointer.x = ((e.clientX-r.left)/r.width-.5)*2;
-      pointer.y = ((e.clientY-r.top)/r.height-.5)*2;
-    }, {passive:true});
-    shell.addEventListener('pointerleave', () => { pointer.x = 0; pointer.y = 0; }, {passive:true});
-
-    const resize = () => {
-      const r = shell.getBoundingClientRect();
-      const w = Math.max(1, Math.round(r.width));
-      const h = Math.max(1, Math.round(r.height));
-      renderer.setSize(w,h,false);
-      camera.aspect = w/h;
-      camera.updateProjectionMatrix();
-    };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(shell);
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let visible = true;
-    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, {threshold:.05});
-    io.observe(shell);
-
-    const clock = new THREE.Clock();
-    let staticRendered = false;
-
-    const renderFrame = () => {
-      requestAnimationFrame(renderFrame);
-      if (!visible && !reduced) return;
-      if (reduced && staticRendered) return;
-
-      const elapsed = clock.getElapsedTime();
-      const t = reduced ? .54 : (elapsed * .055) % 1;
-      const pos = curve.getPointAt(t);
-      const tangent = curve.getTangentAt(Math.min(.999, t));
-      robot.position.copy(pos);
-      robot.position.y = .02 + (reduced ? 0 : Math.sin(elapsed*3.2)*.015);
-      robot.rotation.y = Math.atan2(tangent.x, tangent.z);
-      robotShadow.position.set(pos.x,.025,pos.z);
-      sensorRing.rotation.z = reduced ? 0 : elapsed*.8;
-      sensorRing.material.opacity = reduced ? .34 : .28 + Math.sin(elapsed*2.5)*.12;
-      wheels.forEach((wheel,i) => { wheel.rotation.x = reduced ? 0 : elapsed * (i<2 ? 2.8 : -2.8); });
-
-      const scrollShift = Math.min(window.scrollY / Math.max(window.innerHeight,1), 1.2);
-      camera.position.x += ((8.4 + pointer.x*.9) - camera.position.x) * .045;
-      camera.position.y += ((7.1 - pointer.y*.45 + scrollShift*.3) - camera.position.y) * .045;
-      camera.position.z += ((11.6 + pointer.x*.15) - camera.position.z) * .045;
-      camera.lookAt(.2,0.5,0);
-      renderer.render(scene,camera);
-      staticRendered = reduced;
-    };
-
-    setTimeout(() => loader?.classList.add('is-ready'), 420);
-    renderFrame();
-  } catch (error) {
-    console.warn('3D hero animation could not load; using static fallback.', error);
-    stage.querySelector('.robot-sim-shell')?.classList.add('is-fallback');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      const drawFallback = () => {
-        const r = canvas.getBoundingClientRect();
-        canvas.width = Math.max(1, Math.floor(r.width * devicePixelRatio));
-        canvas.height = Math.max(1, Math.floor(r.height * devicePixelRatio));
-        ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-        ctx.clearRect(0,0,r.width,r.height);
-        ctx.strokeStyle = 'rgba(10,15,24,.14)';
-        ctx.lineWidth = 1;
-        for(let x=0;x<r.width;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,r.height);ctx.stroke()}
-        for(let y=0;y<r.height;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(r.width,y);ctx.stroke()}
-        ctx.strokeStyle='#ff6257';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(35,r.height*.77);ctx.bezierCurveTo(r.width*.25,r.height*.77,r.width*.33,r.height*.42,r.width*.58,r.height*.40);ctx.bezierCurveTo(r.width*.74,r.height*.39,r.width*.76,r.height*.20,r.width*.88,r.height*.23);ctx.stroke();
-        ctx.fillStyle='#f0a72f';ctx.fillRect(r.width*.51-34,r.height*.37-22,68,44);ctx.fillStyle='#f1f2ee';ctx.fillRect(r.width*.51-25,r.height*.37-13,50,26);
-      };
-      drawFallback();
-      window.addEventListener('resize',drawFallback,{passive:true});
-    }
-    loader?.classList.add('is-ready');
+  async function init3D(){
+    const THREE = await import('https://esm.sh/three@0.180.0?bundle');
+    const { GLTFLoader } = await import('https://esm.sh/three@0.180.0/examples/jsm/loaders/GLTFLoader.js?bundle');
+    const scene = new THREE.Scene();scene.background = new THREE.Color(0xf5f2e9);scene.fog = new THREE.FogExp2(0xf5f2e9,0.035);
+    const camera = new THREE.PerspectiveCamera(33,1,.05,120);camera.position.set(8.6,6.3,10.8);
+    const renderer = new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
+    const world=new THREE.Group();scene.add(world);scene.add(new THREE.HemisphereLight(0xffffff,0xc6c0b0,2.4));const sun=new THREE.DirectionalLight(0xffffff,5.3);sun.position.set(7,12,8);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-12;sun.shadow.camera.right=12;sun.shadow.camera.top=12;sun.shadow.camera.bottom=-12;scene.add(sun);const cool=new THREE.PointLight(0x7bdcff,7,16,2);cool.position.set(-5,4,-5);scene.add(cool);const warm=new THREE.PointLight(0xffb24e,5,13,2);warm.position.set(6,2.8,5);scene.add(warm);
+    const floor=new THREE.Mesh(new THREE.PlaneGeometry(22,18),new THREE.MeshStandardMaterial({color:0xeeeae0,roughness:.96}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;world.add(floor);const grid=new THREE.GridHelper(22,22,0x676d73,0xb8b8b2);grid.position.y=.012;grid.material.transparent=true;grid.material.opacity=.50;world.add(grid);
+    const railMat=new THREE.MeshStandardMaterial({color:0xe6e1d6,metalness:.55,roughness:.38});[[0,.18,-6.6,18.6,.22,.13],[0,.18,6.6,18.6,.22,.13],[-9.25,.18,0,.13,.22,13.2],[9.25,.18,0,.13,.22,13.2]].forEach(([x,y,z,w,h,d])=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),railMat);m.position.set(x,y,z);m.castShadow=true;world.add(m)});
+    const redZone=new THREE.Mesh(new THREE.PlaneGeometry(3.7,12.8),new THREE.MeshBasicMaterial({color:0xff6e5b,transparent:true,opacity:.055,side:THREE.DoubleSide}));redZone.rotation.x=-Math.PI/2;redZone.position.set(-7.25,.018,0);world.add(redZone);const blueZone=redZone.clone();blueZone.material=redZone.material.clone();blueZone.material.color.set(0x61d8ff);blueZone.position.x=7.25;world.add(blueZone);
+    const goalMat=new THREE.MeshStandardMaterial({color:0xd7d4cc,metalness:.72,roughness:.32});const accentRed=new THREE.MeshStandardMaterial({color:0xff655f,roughness:.48});const accentBlue=new THREE.MeshStandardMaterial({color:0x54cfff,roughness:.48});const darkMat=new THREE.MeshStandardMaterial({color:0x24282d,roughness:.58});[[-5.7,-3.5,accentRed],[-5.7,3.5,accentRed],[5.7,-3.5,accentBlue],[5.7,3.5,accentBlue]].forEach(([x,z,mat])=>{const g=new THREE.Group();const post=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,1.7,16),goalMat);post.position.y=.86;post.castShadow=true;g.add(post);const ring=new THREE.Mesh(new THREE.TorusGeometry(.58,.08,12,40),mat);ring.rotation.x=Math.PI/2;ring.position.y=.58;ring.castShadow=true;g.add(ring);const base=new THREE.Mesh(new THREE.CylinderGeometry(.42,.55,.13,20),darkMat);base.position.y=.07;g.add(base);g.position.set(x,0,z);world.add(g)});
+    const particlesGeo=new THREE.BufferGeometry();const arr=new Float32Array(135*3);for(let i=0;i<135;i++){arr[i*3]=(Math.random()-.5)*24;arr[i*3+1]=.3+Math.random()*8;arr[i*3+2]=(Math.random()-.5)*19}particlesGeo.setAttribute('position',new THREE.BufferAttribute(arr,3));const particles=new THREE.Points(particlesGeo,new THREE.PointsMaterial({color:0x181b20,size:.045,transparent:true,opacity:.38}));scene.add(particles);
+    const path=new THREE.CatmullRomCurve3([new THREE.Vector3(-7,.09,4.55),new THREE.Vector3(-5.6,.09,3.5),new THREE.Vector3(-3.5,.09,2.5),new THREE.Vector3(-1.4,.09,.55),new THREE.Vector3(.15,.09,-1.9),new THREE.Vector3(2.4,.09,-3.6),new THREE.Vector3(4.8,.09,-3.3),new THREE.Vector3(6,.09,-1.4),new THREE.Vector3(5,.09,1.15),new THREE.Vector3(2.9,.09,3.25),new THREE.Vector3(.7,.09,4.15)],false,'catmullrom',.38);const pathTube=new THREE.Mesh(new THREE.TubeGeometry(path,180,.035,8,false),new THREE.MeshStandardMaterial({color:0xff514b,emissive:0x6b0805,emissiveIntensity:.55,roughness:.42}));pathTube.position.y=.035;world.add(pathTube);for(let i=0;i<9;i++){const p=path.getPointAt(i/8),d=new THREE.Mesh(new THREE.SphereGeometry(.085,16,16),new THREE.MeshStandardMaterial({color:0xff514b,emissive:0x8a0b06,emissiveIntensity:.4}));d.position.copy(p);d.position.y=.15;world.add(d)}
+    const robotRoot=new THREE.Group();world.add(robotRoot);
+    const fallback=(()=>{const r=new THREE.Group(),silver=new THREE.MeshStandardMaterial({color:0xcfd3d5,metalness:.78,roughness:.27}),steel=new THREE.MeshStandardMaterial({color:0x737b82,metalness:.85,roughness:.24}),orange=new THREE.MeshStandardMaterial({color:0xef9f2a,roughness:.42}),black=new THREE.MeshStandardMaterial({color:0x20242a,roughness:.64}),green=new THREE.MeshStandardMaterial({color:0x8cf05a,emissive:0x173e10,emissiveIntensity:.12,roughness:.45});const base=new THREE.Mesh(new THREE.BoxGeometry(2.15,.28,1.72),silver);base.position.y=.55;base.castShadow=true;r.add(base);for(const z of [-.68,.68])for(const x of [-.92,.92]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.29,.29,.24,24),black);w.rotation.z=Math.PI/2;w.position.set(x,.42,z);w.castShadow=true;r.add(w)}for(const x of [-.74,.74]){const rail=new THREE.Mesh(new THREE.BoxGeometry(.12,1.75,.12),orange);rail.position.set(x,1.45,-.22);rail.rotation.z=x>0?-.13:.13;rail.castShadow=true;r.add(rail)}const cross=new THREE.Mesh(new THREE.BoxGeometry(1.7,.13,.14),silver);cross.position.set(0,2.24,-.2);r.add(cross);const brain=new THREE.Mesh(new THREE.BoxGeometry(.72,.36,.55),green);brain.position.set(0,.91,.2);brain.castShadow=true;r.add(brain);const intake=new THREE.Mesh(new THREE.BoxGeometry(1.7,.18,.64),orange);intake.position.set(0,.38,1.05);intake.rotation.x=-.24;intake.castShadow=true;r.add(intake);for(let i=-2;i<=2;i++){const beam=new THREE.Mesh(new THREE.BoxGeometry(1.92,.05,.05),steel);beam.position.set(0,.75+i*.25,-.68);r.add(beam)}return r})();robotRoot.add(fallback);
+    try{const gltfLoader=new GLTFLoader();const gltf=await new Promise((resolve,reject)=>gltfLoader.load('assets/models/vertex-pushback.glb',resolve,xhr=>{if(xhr.total)loaderBar.style.width=`${Math.max(8,Math.min(92,(xhr.loaded/xhr.total)*92))}%`},reject));robotRoot.remove(fallback);const model=gltf.scene;model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;if(o.material)o.material.envMapIntensity=.55}});const box=new THREE.Box3().setFromObject(model),size=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3());model.position.sub(center);const scale=2.55/Math.max(size.x,size.z,.001);model.scale.setScalar(scale);const normalizedBox=new THREE.Box3().setFromObject(model);model.position.y-=normalizedBox.min.y;robotRoot.add(model);loaderBar.style.width='96%'}catch(err){console.warn('Real CAD model not available; using fallback.',err);warning.style.display='block'}
+    const sensorRing=new THREE.Mesh(new THREE.RingGeometry(.72,.77,64),new THREE.MeshBasicMaterial({color:0x61d8ff,transparent:true,opacity:.34,side:THREE.DoubleSide,depthWrite:false}));sensorRing.rotation.x=-Math.PI/2;sensorRing.position.y=.035;robotRoot.add(sensorRing);robotRoot.add(new THREE.ArrowHelper(new THREE.Vector3(0,0,1),new THREE.Vector3(0,1,0),1.35,0x875cff,.28,.17));
+    const camPath=new THREE.CatmullRomCurve3([new THREE.Vector3(8.9,6.6,10.6),new THREE.Vector3(6.2,4.4,7.2),new THREE.Vector3(1.8,3,5.3),new THREE.Vector3(-5.7,4.6,5.8),new THREE.Vector3(-8.1,6.9,-.4),new THREE.Vector3(-3.5,3.2,-7.2),new THREE.Vector3(3.6,2.7,-6),new THREE.Vector3(7.5,6.2,-1.8),new THREE.Vector3(5.2,7.2,7)],false,'catmullrom',.28);
+    let mouseX=0,mouseY=0,currentProgress=0;shell.addEventListener('pointermove',e=>{const r=shell.getBoundingClientRect();mouseX=(e.clientX-r.left)/r.width-.5;mouseY=(e.clientY-r.top)/r.height-.5});shell.addEventListener('pointerleave',()=>{mouseX=0;mouseY=0});
+    const resize=()=>{const r=shell.getBoundingClientRect();camera.aspect=Math.max(.3,r.width/Math.max(1,r.height));camera.updateProjectionMatrix();renderer.setSize(r.width,r.height,false)};new ResizeObserver(resize).observe(shell);resize();
+    const readProgress=()=>{if(reduced||innerWidth<=900)return .18;const rect=hero.getBoundingClientRect(),travel=Math.max(1,hero.offsetHeight-innerHeight);return clamp(-rect.top/travel)};const activateLabel=p=>{const idx=p<.24?0:p<.5?1:p<.76?2:3;stageLabels.forEach((el,i)=>el.classList.toggle('is-active',i===idx))};const clock=new THREE.Clock(),target=new THREE.Vector3();
+    function render(){const t=clock.getElapsedTime(),raw=readProgress();currentProgress+=(raw-currentProgress)*(reduced?.18:.065);const rp=clamp(currentProgress);activateLabel(rp);progressBar.style.width=`${rp*100}%`;const robotT=.025+smooth(clamp(rp/.93))*.90,p=path.getPointAt(robotT),tangent=path.getTangentAt(Math.min(.999,robotT+.001));robotRoot.position.set(p.x,.10+Math.sin(t*3.1)*.012,p.z);robotRoot.rotation.y=Math.atan2(tangent.x,tangent.z);sensorRing.scale.setScalar(1+Math.sin(t*2.6)*.09);sensorRing.material.opacity=.23+Math.sin(t*2.6)*.11;const c=camPath.getPointAt(clamp(rp*.98));camera.position.lerp(new THREE.Vector3(c.x+mouseX*.55,c.y-mouseY*.35,c.z+mouseX*.35),.075);target.lerp(new THREE.Vector3(p.x,p.y+1,p.z),.08);camera.lookAt(target);particles.rotation.y=t*.012;if(intro&&innerWidth>900){const fade=clamp((rp-.13)/.24);intro.style.opacity=String(1-fade*.72);intro.style.transform=`translateY(${-fade*18}px)`}renderer.render(scene,camera);requestAnimationFrame(render)}
+    loaderBar.style.width='100%';setTimeout(()=>loaderEl.classList.add('is-ready'),220);render();
   }
+  init3D().catch(err=>{console.error('3D scene failed to initialize',err);warning.textContent='3D renderer unavailable on this device';warning.style.display='block';loaderEl.classList.add('is-ready')});
 }
