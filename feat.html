@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Fridgi — LSTS F.E.A.T. Week project by Trần Nguyễn Khánh Trình: smart food storage, sensing, active filtration, mobile alerts, and business design.">
+  <title>Fridgi · LSTS F.E.A.T. Week | Trình</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="feat.css">
+</head>
+<body class="feat-page">
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <nav class="nav feat-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">TRÌNH<span>.</span></a>
+      <button class="mobile-toggle" aria-label="Open navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="vex.html">VEX</a>
+        <a href="service.html">Service</a>
+        <a class="active" href="index.html#projects">Projects</a>
+        <a href="index.html#awards">Awards</a>
+        <a class="nav-btn" href="index.html#contact">Say hi ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="feat-hero">
+      <div class="container feat-hero-grid">
+        <div class="feat-hero-copy reveal-up">
+          <span class="feat-kicker">LSTS F.E.A.T. WEEK · MAY 2026 — PRESENT</span>
+          <h1>FRIDGI</h1>
+          <h2>I treated fruit ripeness like a signal-processing problem.</h2>
+          <p>Fridgi is a smart food-storage system that tracks changes inside a container, alerts users when fruit reaches ideal ripeness, and can actively filter aging gases when consumption is delayed.</p>
+
+          <div class="feat-role-row">
+            <span>Software &amp; Hardware Developer</span>
+            <span>Business Development Strategist</span>
+          </div>
+
+          <div class="feat-actions">
+            <a class="feat-btn primary" href="https://fridgi-407334579894.asia-southeast1.run.app" target="_blank" rel="noreferrer">Open app prototype ↗</a>
+            <a class="feat-btn ghost" href="#system">Explore the system ↓</a>
+          </div>
+        </div>
+
+        <div class="feat-hero-art reveal-scale" aria-label="Stylized Fridgi smart container diagram">
+          <div class="hero-fruit f1">MANGO</div>
+          <div class="hero-fruit f2">BLUEBERRY</div>
+          <div class="hero-fruit f3">ORANGE</div>
+
+          <div class="fridgi-device">
+            <div class="device-lid">
+              <span class="device-logo">Fridgi✓</span>
+              <div class="lid-vent"></div>
+              <div class="lid-sensor"></div>
+            </div>
+            <div class="device-body">
+              <span class="fruit-ball b1"></span><span class="fruit-ball b2"></span><span class="fruit-ball b3"></span>
+              <span class="fruit-ball b4"></span><span class="fruit-ball b5"></span><span class="fruit-ball b6"></span>
+            </div>
+          </div>
+
+          <div class="phone-card">
+            <small>RIPENESS STATUS</small>
+            <strong>JUST RIPE</strong>
+            <div class="phone-graph"><i></i></div>
+            <span>VOC rate ↑ · humidity stable</span>
+          </div>
+
+          <div class="sensor-pill p1">GAS SENSOR</div>
+          <div class="sensor-pill p2">RH</div>
+          <div class="sensor-pill p3">ESP32</div>
+          <div class="sensor-pill p4">MICRO-FAN</div>
+          <div class="signal-line l1"></div><div class="signal-line l2"></div>
+        </div>
+      </div>
+
+      <div class="container feat-metric-strip reveal-up">
+        <div><strong>100,000 VND</strong><span>target mass-production BOM</span></div>
+        <div><strong>399K / 549K</strong><span>Standard / Premium pricing</span></div>
+        <div><strong>50–60%</strong><span>projected hardware margin</span></div>
+        <div><strong>90 days</strong><span>filter replacement cycle</span></div>
+      </div>
+    </section>
+
+    <section class="feat-section problem-section">
+      <div class="container feat-split">
+        <div class="feat-copy reveal-up">
+          <span class="feat-kicker">PROBLEM → PRODUCT / 01</span>
+          <h2>Fruit changes before the outside tells you enough.</h2>
+          <p>The project focused on a simple household problem: ripeness is difficult to judge continuously from appearance alone. Fridgi turns changes inside the container into a signal users can act on instead of relying only on memory or guesswork.</p>
+          <div class="feat-flow">
+            <span>SENSE</span><b>→</b><span>INTERPRET</span><b>→</b><span>ALERT</span><b>→</b><span>INTERVENE</span>
+          </div>
+        </div>
+
+        <div class="ripeness-panel reveal-scale" aria-label="Ripeness signal chart">
+          <div class="panel-top"><span>FRUIT SIGNAL</span><span>LIVE / SIMULATED</span></div>
+          <div class="chart-stage">
+            <div class="chart-grid"></div>
+            <svg viewBox="0 0 600 270" preserveAspectRatio="none" aria-hidden="true">
+              <path class="chart-path" d="M12 230 C90 224, 125 214, 170 204 S260 170, 300 130 S370 72, 425 54 S515 46, 585 28"/>
+              <path class="chart-area" d="M12 230 C90 224, 125 214, 170 204 S260 170, 300 130 S370 72, 425 54 S515 46, 585 28 L585 258 L12 258 Z"/>
+            </svg>
+            <div class="chart-marker"><b>PERFECT RIPENESS</b><span>notify user</span></div>
+          </div>
+          <div class="chart-foot"><span>UNRIPE</span><span>RISING SIGNAL</span><span>JUST RIPE</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-section system-section" id="system">
+      <div class="container">
+        <div class="feat-head reveal-up">
+          <span class="feat-kicker">SYSTEM / 02</span>
+          <h2>One container.<br>Three coordinated layers.</h2>
+          <p>The concept combines sensing, software interpretation, and active air treatment rather than treating storage as a passive plastic box.</p>
+        </div>
+
+        <div class="system-grid">
+          <article class="system-card software reveal-up">
+            <span class="system-no">01</span>
+            <small>SOFTWARE</small>
+            <h3>Track the rate of change.</h3>
+            <p>The interface uses the selected fruit type to interpret gas-change trends over time and sends a phone notification when the data reaches the target ripeness range.</p>
+            <div class="mini-screen"><span>Banana</span><b>JUST RIPE</b><i></i></div>
+          </article>
+          <article class="system-card hardware reveal-up">
+            <span class="system-no">02</span>
+            <small>HARDWARE</small>
+            <h3>Sense the environment.</h3>
+            <p>The lid integrates an ESP32, calibrated gas sensing, humidity measurement, and a micro-fan above a clear Tritan container body.</p>
+            <div class="hardware-map"><span>ESP32</span><span>GAS</span><span>RH</span><span>FAN</span></div>
+          </article>
+          <article class="system-card intervention reveal-up">
+            <span class="system-no">03</span>
+            <small>ACTIVE INTERVENTION</small>
+            <h3>React when eating is delayed.</h3>
+            <p>The design routes air through a potassium-permanganate filter pad to remove aging gases, with a target shelf-life extension of roughly five to seven days.</p>
+            <div class="airflow"><i></i><i></i><i></i><span>FILTER</span></div>
+          </article>
+        </div>
+
+        <div class="technical-blueprint reveal-up">
+          <div class="bp-title"><span>TECHNICAL BLUEPRINT</span><strong>SMART LID · SYSTEM MAP</strong></div>
+          <div class="bp-grid">
+            <div class="bp-node">ESP32<small>controller</small></div>
+            <div class="bp-arrow">→</div>
+            <div class="bp-node">GAS + RH<small>sensing</small></div>
+            <div class="bp-arrow">→</div>
+            <div class="bp-node">FILTER LOGIC<small>noise + volume</small></div>
+            <div class="bp-arrow">→</div>
+            <div class="bp-node">PHONE ALERT<small>ripeness state</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-section tech-section">
+      <div class="container feat-split reverse">
+        <div class="difference-board reveal-scale">
+          <div class="diff-title">DIFFERENCE</div>
+          <div class="diff-row">
+            <article><small>MANUAL CONTAINERS</small><strong>Plastic vents</strong><p>Require continuous user judgment.</p></article>
+            <b>VS</b>
+            <article class="fridgi-side"><small>FRIDGI</small><strong>Automatic loop</strong><p>Uses real-time environmental data.</p></article>
+          </div>
+          <div class="diff-row second">
+            <article><small>INDUSTRIAL ANALYZERS</small><strong>High-cost hardware</strong><p>Technically powerful, but far beyond a household price target.</p></article>
+            <b>VS</b>
+            <article class="fridgi-side"><small>FRIDGI</small><strong>Software leverage</strong><p>Affordable sensing + filtering for noise and fruit-volume variation.</p></article>
+          </div>
+        </div>
+
+        <div class="feat-copy reveal-up">
+          <span class="feat-kicker">ENGINEERING TRADE-OFF / 03</span>
+          <h2>Use software to make affordable sensors more useful.</h2>
+          <p>Instead of competing with industrial gas-analysis hardware on raw sensor cost, the concept relies on algorithmic filtering to account for environmental noise and changes in fruit volume.</p>
+          <div class="bom-callout">
+            <small>MASS-MANUFACTURING TARGET</small>
+            <strong>100,000 VND</strong>
+            <span>per-unit BOM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-section business-section">
+      <div class="container">
+        <div class="feat-head reveal-up">
+          <span class="feat-kicker">BUSINESS MODEL / 04</span>
+          <h2>The prototype had to make financial sense, too.</h2>
+          <p>Fridgi was designed as both a consumer smart-hardware product and a B2B supermarket system, combining upfront hardware sales with recurring filter and software revenue.</p>
+        </div>
+
+        <div class="business-grid">
+          <article class="business-card b2c reveal-up">
+            <small>B2C · SMART &amp; ECO-FRIENDLY HOMES</small>
+            <h3>Hardware + replacement filters</h3>
+            <div class="price-row"><strong>399K</strong><span>Standard</span></div>
+            <div class="price-row"><strong>549K</strong><span>Premium</span></div>
+            <div class="price-row"><strong>49K</strong><span>replacement pack</span></div>
+            <p>Filters are designed to be replaced after roughly three months, creating repeat revenue from the existing customer base.</p>
+          </article>
+
+          <article class="business-card b2b reveal-up">
+            <small>B2B · SUPERMARKETS &amp; GROCERY STORES</small>
+            <h3>Shelf hardware + SaaS</h3>
+            <div class="price-row"><strong>1.2M</strong><span>VND / store / month</span></div>
+            <p>The B2B concept combines sensor strips, larger filter modules, cloud freshness monitoring, and annual bulk-filter supply contracts.</p>
+          </article>
+
+          <article class="business-card future reveal-up">
+            <small>FUTURE EXPANSION</small>
+            <h3>Technology licensing</h3>
+            <p>The deck extends the model toward licensing fruit-data and software algorithms to refrigerator manufacturers for a royalty per unit.</p>
+          </article>
+        </div>
+
+        <div class="finance-strip reveal-up">
+          <div><small>BOM</small><strong>100K VND</strong></div>
+          <i>→</i>
+          <div><small>STANDARD</small><strong>399K VND</strong></div>
+          <i>→</i>
+          <div><small>PREMIUM</small><strong>549K VND</strong></div>
+          <i>→</i>
+          <div><small>PROJECTED MARGIN</small><strong>50–60%</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-section scale-section">
+      <div class="container">
+        <div class="feat-head reveal-up">
+          <span class="feat-kicker">GO-TO-MARKET / 05</span>
+          <h2>Start local. Prove the data. Then scale the system.</h2>
+          <p>The market plan moves from a controlled household/retail pilot to subscriptions, digital distribution, enterprise logistics, and eventually appliance integration.</p>
+        </div>
+
+        <div class="phase-track">
+          <article class="phase-card reveal-up"><b>01</b><small>LOCAL TESTING</small><h3>100-unit pilot</h3><p>Tech-focused families + a local organic grocery store to improve algorithm accuracy under real retail conditions.</p></article>
+          <article class="phase-card reveal-up"><b>02</b><small>SUBSCRIPTION PARTNERSHIP</small><h3>Regional supermarkets</h3><p>B2B kits on high-value fruit displays while selling B2C containers at checkout lanes.</p></article>
+          <article class="phase-card reveal-up"><b>03</b><small>DIGITAL &amp; ENTERPRISE</small><h3>Scale distribution</h3><p>Verified online storefronts and expansion into large cold-chain logistics warehouses.</p></article>
+          <article class="phase-card reveal-up"><b>04</b><small>APPLIANCE INTEGRATION</small><h3>License the technology</h3><p>Integrate gas tracking into next-generation refrigerators and predictive freshness systems.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-section swot-section">
+      <div class="container">
+        <div class="feat-head reveal-up">
+          <span class="feat-kicker">SWOT / 06</span>
+          <h2>What could make it work — and what could break it.</h2>
+          <p>The deck also forced the team to think beyond the prototype: recurring revenue, usability friction, market growth, and copycat risk all affect whether the product survives outside a classroom.</p>
+        </div>
+
+        <div class="swot-grid">
+          <article class="swot-card s reveal-up"><small>STRENGTH</small><h3>Hardware + recurring revenue</h3><p>Hardware margin, replacement filters, B2B subscriptions, and software that lowers physical production cost.</p></article>
+          <article class="swot-card w reveal-up"><small>WEAKNESS</small><h3>Manual fruit selection</h3><p>The current mobile experience requires users to choose the fruit type before tracking begins.</p></article>
+          <article class="swot-card o reveal-up"><small>OPPORTUNITY</small><h3>Smart-home + waste reduction</h3><p>The project targets demand for automation and technologies that reduce waste across households and retail.</p></article>
+          <article class="swot-card t reveal-up"><small>THREAT</small><h3>Copycat hardware</h3><p>The generic container is easy to imitate, so the deck positions the data-filtering logic as the more defensible layer.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-section outcome-section">
+      <div class="container outcome-card reveal-up">
+        <div>
+          <span class="feat-kicker light">ROLE + OUTCOME / 07</span>
+          <h2>I had to think like both an engineer and a product builder.</h2>
+        </div>
+        <div class="outcome-copy">
+          <p>My work spanned the technical blueprint and BOM, sensing and monitoring logic, active-filtration concept, pricing structure, and B2C/B2B business model.</p>
+          <div class="outcome-badges">
+            <span>Most Excellent Project · Grade 11</span>
+            <span>Presented to a visiting Taiwan delegation</span>
+            <span>F.E.A.T. Week · May 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feat-next">
+      <div class="container feat-next-card reveal-up">
+        <div><span>BACK TO SELECTED WORK</span><h2>Projects are where engineering meets product thinking.</h2></div>
+        <a href="index.html#projects">Return to homepage →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>Fridgi · LSTS F.E.A.T. Week</span></div></footer>
+  <script src="script.js"></script>
+</body>
+</html>
