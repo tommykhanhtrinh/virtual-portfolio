@@ -270,3 +270,8 @@ if ((location.pathname.endsWith('/vex-2024-2025.html') || location.pathname.ends
   `;
   document.head.appendChild(style);
 }
+
+// Home hero: load the custom Three.js VEX autonomous-path scene.
+if (document.body.classList.contains('home-page')) {
+  import('./home-3d.js').catch(error => console.warn('Home 3D scene failed to load.', error));
+}
