@@ -270,3 +270,26 @@ if ((location.pathname.endsWith('/vex-2024-2025.html') || location.pathname.ends
   `;
   document.head.appendChild(style);
 }
+
+// Home portrait: subtle floating motion and hover depth while keeping the original hero layout.
+if (document.body.classList.contains('home-page')) {
+  const style = document.createElement('style');
+  style.id = 'home-portrait-polish';
+  style.textContent = `
+    @keyframes heroPortraitFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+    .home-page .portrait-frame{
+      animation:heroPortraitFloat 7s ease-in-out infinite;
+      transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s ease;
+    }
+    .home-page .portrait-frame img{
+      transition:transform .8s cubic-bezier(.2,.8,.2,1);
+    }
+    .home-page .portrait-frame:hover{
+      transform:rotate(.5deg) translateY(-5px);
+      box-shadow:0 42px 100px rgba(23,28,23,.22);
+    }
+    .home-page .portrait-frame:hover img{transform:scale(1.065)}
+    @media(prefers-reduced-motion:reduce){.home-page .portrait-frame{animation:none!important}}
+  `;
+  document.head.appendChild(style);
+}
