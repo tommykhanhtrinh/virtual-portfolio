@@ -48,19 +48,109 @@
           </div>
         </div>
 
-        <div class="portrait-stage reveal-scale">
-          <div class="portrait-frame">
-            <img src="assets/portrait-trinh.png" alt="Trần Nguyễn Khánh Trình standing outdoors at Lawrence S. Ting School">
-            <div class="portrait-wash"></div>
+        <div class="portrait-stage blank-stage reveal-scale">
+          <div class="blank-stage-shell">
+            <span class="blank-stage-label">RIGHT PANEL / TEMPORARY</span>
+            <div class="blank-stage-note">
+              <p>This space is intentionally left open for future media.</p>
+              <a class="blank-stage-link" href="#digital-twin">Open the live robot model ↓</a>
+            </div>
           </div>
-          <div class="floating-chip chip-a">BUILD → TEST → REBUILD</div>
-          <div class="floating-chip chip-b">VEX · C++ · ONSHAPE</div>
-          <div class="floating-chip chip-c">SERVICE LEARNING ↗</div>
-          <div class="orbit-ring ring-one"></div>
-          <div class="orbit-ring ring-two"></div>
         </div>
       </div>
       <div class="scroll-cue">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
+
+    <section class="digital-twin-section" id="digital-twin">
+      <div class="container">
+        <div class="digital-twin-card reveal-up">
+          <div class="digital-twin-copy">
+            <div>
+              <span class="section-kicker">LIVE MODEL / 00</span>
+              <h2>Push Back · digital twin</h2>
+            </div>
+            <div class="digital-twin-copy-text">
+              <p>This is the real competition model, moved into its own dedicated slide right below the hero section. It gives the homepage a more technical feel while keeping the original right panel free for future content.</p>
+              <div class="digital-meta">
+                <span>Real GLB assembly</span>
+                <span>Interactive orbit</span>
+                <span>Scroll-friendly section</span>
+                <span>Future right slot reserved</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="digital-twin-grid">
+            <div class="twin-view">
+              <div class="field-particles" aria-hidden="true"></div>
+              <div class="field-line" aria-hidden="true">
+                <span class="line-node node-a"></span>
+                <span class="line-node node-b"></span>
+                <span class="line-node node-c"></span>
+              </div>
+              <div class="field-puck puck-red" aria-hidden="true"></div>
+              <div class="field-puck puck-blue" aria-hidden="true"></div>
+              <div class="field-puck puck-green" aria-hidden="true"></div>
+              <div class="hud-reticle" aria-hidden="true"></div>
+
+              <div class="twin-overlay twin-top-left twin-glass">
+                <small>VERTEX 509225</small>
+                <strong>Push Back · digital twin</strong>
+              </div>
+              <div class="twin-overlay twin-top-center twin-glass">
+                <span>ASSEMBLY</span>
+                <span>CHECK</span>
+                <span>ITERATE</span>
+              </div>
+              <div class="twin-overlay twin-top-right">01<br>MODEL</div>
+
+              <div class="twin-data-rail twin-glass">
+                <div class="data-pill"><small>AZIMUTH</small><strong id="viewerAzimuth">35°</strong></div>
+                <div class="data-pill"><small>ELEVATION</small><strong id="viewerElevation">72°</strong></div>
+                <div class="data-pill"><small>RADIUS</small><strong id="viewerDistance">4.4 m</strong></div>
+              </div>
+
+              <div class="twin-overlay twin-bottom-left twin-glass">
+                <small>STATE</small>
+                <strong id="viewerStatus">loading model…</strong>
+              </div>
+              <div class="twin-overlay twin-bottom-center twin-glass">
+                <small>BUILD MODE</small>
+                <strong>interactive orbit / inspection</strong>
+              </div>
+              <div class="twin-overlay twin-bottom-right">DRAG / ZOOM / ROTATE</div>
+              <div class="twin-axis">X · Y · Z</div>
+              <model-viewer
+                id="pushbackViewer"
+                src="assets/pushback-digital-twin.glb"
+                poster="assets/pushback-poster.png"
+                alt="Interactive 3D model of the VEX Push Back robot"
+                loading="eager"
+                camera-controls
+                auto-rotate
+                auto-rotate-delay="0"
+                rotation-per-second="14deg"
+                interaction-prompt="none"
+                shadow-intensity="1"
+                shadow-softness="0.9"
+                environment-image="neutral"
+                exposure="1.1"
+                camera-target="0m 0.22m 0m"
+                camera-orbit="28deg 68deg 3.6m"
+                min-camera-orbit="auto 45deg 2.1m"
+                max-camera-orbit="auto 86deg 8.5m"
+                field-of-view="24deg">
+              </model-viewer>
+            </div>
+
+            <div class="twin-side-blank">
+              <span class="blank-slot-kicker">RIGHT SLOT / TEMPORARY</span>
+              <h3>Reserved for future content.</h3>
+              <p>Later, this can hold a CAD snapshot, subsystem notes, competition photo, testing clip, or autonomous-path explanation. For now, it stays intentionally empty so the model has room to breathe.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="story-section" id="story">
@@ -180,6 +270,7 @@
     <div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>Robotics · Engineering · Service</span></div>
   </footer>
 
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

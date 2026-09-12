@@ -87,191 +87,89 @@ if ('IntersectionObserver' in window) {
   counters.forEach(c => countObserver.observe(c));
 }
 
-// Season 01 hero: keep it readable, energetic, and visually distinct from the shared site hero.
-if ((location.pathname.endsWith('/vex-2024-2025.html') || location.pathname.endsWith('vex-2024-2025.html')) && document.body.classList.contains('s1')) {
-  const heroCopy = document.querySelector('.hero-copy');
-  const heroTitle = heroCopy?.querySelector('h1');
-  const heroLead = heroCopy?.querySelector(':scope > p');
-  const proofRow = heroCopy?.querySelector('.hero-proof');
 
-  if (heroTitle) {
-    heroTitle.innerHTML = 'I came to build a robot.<span>I left thinking in systems.</span>';
-  }
-
-  if (heroLead) {
-    heroLead.textContent = 'High Stakes was my first full VEX cycle. Every jam, misalignment, and rushed rebuild pushed me beyond “make it work” toward a more deliberate loop: design, test, diagnose, rebuild.';
-  }
-
-  if (proofRow && !document.querySelector('.hero-mindset')) {
-    proofRow.insertAdjacentHTML('beforebegin', `
-      <div class="hero-mindset" aria-label="Engineering mindset progression">
-        <span>Mindset shift</span>
-        <strong>WORKING ONCE</strong><b>→</b>
-        <strong>WORKING REPEATEDLY</strong><b>→</b>
-        <strong>ENGINEERING FOR CHANGE</strong>
-      </div>
-    `);
-  }
-
-  const style = document.createElement('style');
-  style.id = 'season-one-hero-polish';
-  style.textContent = `
-    .s1 .hero-copy{
-      background:transparent!important;
-      color:var(--s1-ink)!important;
-      border-radius:0!important;
-      padding:0!important;
-      min-height:0!important;
-      display:block!important;
-      box-shadow:none!important;
-      overflow:visible!important;
-      position:relative!important;
-    }
-    .s1 .hero-copy:before{display:none!important}
-    .s1 .hero-copy .eyebrow{
-      color:#111827!important;
-      background:rgba(255,255,255,.72)!important;
-      border:1px solid rgba(8,11,18,.13)!important;
-      box-shadow:0 8px 24px rgba(8,11,18,.05);
-    }
-    .s1 .hero-copy h1{
-      color:#080b12!important;
-      max-width:760px!important;
-      margin:24px 0 24px!important;
-      text-wrap:balance;
-    }
-    .s1 .hero-copy h1 span{
-      display:block;
-      color:transparent!important;
-      background:linear-gradient(96deg,#5368ff 4%,#7b5cff 48%,#198c78 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      padding-bottom:.05em;
-    }
-    .s1 .hero-copy>p{
-      color:#4d5665!important;
-      font-size:clamp(17px,1.45vw,20px)!important;
-      line-height:1.58!important;
-      max-width:650px!important;
-      margin:0!important;
-      padding-left:18px!important;
-      border-left:3px solid #6475ff;
-    }
-    .s1 .hero-mindset{
-      margin-top:24px;
-      max-width:710px;
-      display:flex;
-      align-items:center;
-      gap:9px;
-      flex-wrap:wrap;
-      padding:13px 15px;
-      border-radius:18px;
-      background:rgba(255,255,255,.62);
-      border:1px solid rgba(8,11,18,.09);
-      box-shadow:0 12px 30px rgba(8,11,18,.05);
-      backdrop-filter:blur(10px);
-    }
-    .s1 .hero-mindset span{
-      padding:7px 10px;
-      border-radius:999px;
-      background:#080b12;
-      color:#fff;
-      font-size:9px;
-      font-weight:900;
-      letter-spacing:.09em;
-      text-transform:uppercase;
-    }
-    .s1 .hero-mindset strong{
-      color:#303947;
-      font-size:9px;
-      font-weight:900;
-      letter-spacing:.075em;
-      white-space:nowrap;
-    }
-    .s1 .hero-mindset b{color:#6475ff;font-size:13px}
-    .s1 .hero-proof{
-      display:grid!important;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px!important;
-      max-width:720px;
-      margin-top:20px!important;
-      align-items:stretch;
-    }
-    .s1 .hero-proof .proof{
-      position:relative;
-      min-height:138px;
-      padding:20px 18px 17px!important;
-      border:1px solid rgba(8,11,18,.09)!important;
-      border-radius:24px!important;
-      box-shadow:0 16px 35px rgba(8,11,18,.07)!important;
-      overflow:hidden;
-      transition:transform .28s ease,box-shadow .28s ease;
-      isolation:isolate;
-    }
-    .s1 .hero-proof .proof:nth-child(1){background:linear-gradient(145deg,#c7ff8d,#a7ff52)!important;transform:rotate(-1.2deg)}
-    .s1 .hero-proof .proof:nth-child(2){background:linear-gradient(145deg,#dbf8ff,#79e2ff)!important;transform:translateY(8px) rotate(.7deg)}
-    .s1 .hero-proof .proof:nth-child(3){background:linear-gradient(145deg,#e7eaff,#cbd2ff)!important;transform:rotate(-.6deg)}
-    .s1 .hero-proof .proof:hover{
-      transform:translateY(-6px) rotate(0deg)!important;
-      box-shadow:0 24px 48px rgba(8,11,18,.12)!important;
-    }
-    .s1 .hero-proof .proof:after{
-      position:absolute;
-      right:12px;
-      top:6px;
-      font:700 54px/1 "Space Grotesk",sans-serif;
-      letter-spacing:-.08em;
-      color:rgba(8,11,18,.07);
-      z-index:-1;
-    }
-    .s1 .hero-proof .proof:nth-child(1):after{content:'01'}
-    .s1 .hero-proof .proof:nth-child(2):after{content:'02'}
-    .s1 .hero-proof .proof:nth-child(3):after{content:'03'}
-    .s1 .hero-proof .proof:before{
-      display:block;
-      margin-bottom:18px;
-      color:#505968;
-      font-size:8px;
-      font-weight:900;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-    }
-    .s1 .hero-proof .proof:nth-child(1):before{content:'NATIONALS'}
-    .s1 .hero-proof .proof:nth-child(2):before{content:'SKILLS'}
-    .s1 .hero-proof .proof:nth-child(3):before{content:'QUALIFIER'}
-    .s1 .hero-proof .proof strong{
-      display:block!important;
-      color:#080b12!important;
-      font:700 clamp(29px,3vw,42px)/.95 "Space Grotesk",sans-serif!important;
-      letter-spacing:-.055em!important;
-      margin-bottom:10px;
-    }
-    .s1 .hero-proof .proof span{
-      display:block!important;
-      color:#374151!important;
-      font-size:9px!important;
-      line-height:1.4!important;
-      font-weight:900!important;
-      letter-spacing:.065em!important;
-      text-transform:uppercase!important;
-    }
-    @media(max-width:900px){
-      .s1 .hero-proof{grid-template-columns:1fr 1fr!important}
-      .s1 .hero-proof .proof:nth-child(3){grid-column:1/-1}
-    }
-    @media(max-width:640px){
-      .s1 .hero-copy h1{font-size:clamp(46px,15vw,68px)!important}
-      .s1 .hero-proof{grid-template-columns:1fr!important}
-      .s1 .hero-proof .proof:nth-child(2){transform:rotate(.7deg)!important}
-      .s1 .hero-proof .proof:nth-child(3){grid-column:auto}
-      .s1 .hero-mindset{gap:7px}
-      .s1 .hero-mindset strong{white-space:normal}
-    }
-  `;
-  document.head.appendChild(style);
+// Live model status
+const viewer = document.getElementById('pushbackViewer');
+const viewerStatus = document.getElementById('viewerStatus');
+if (viewer && viewerStatus) {
+  viewer.addEventListener('load', () => {
+    viewerStatus.textContent = 'model loaded / orbit ready';
+  });
+  viewer.addEventListener('error', () => {
+    viewerStatus.textContent = 'preview unavailable';
+  });
 }
 
-// Home hero: load the custom Three.js VEX autonomous-path scene.
-if (document.body.classList.contains('home-page')) {
-  import('./home-3d.js').catch(error => console.warn('Home 3D scene failed to load.', error));
+// Detailed digital twin HUD + particle field
+const particleHost = document.querySelector('.field-particles');
+if (particleHost && !particleHost.children.length) {
+  const dots = [
+    [8,12,6,14,-12,.2],[18,26,-10,18,-22,1.1],[31,14,14,-16,-10,.8],[46,24,8,10,-14,1.6],[58,18,-9,15,-18,2.1],[73,13,12,-10,-8,.4],[84,28,-8,12,-16,1.8],[92,14,10,8,-12,.6],
+    [12,44,10,-12,-16,.9],[23,53,-11,14,-20,1.4],[39,48,8,10,-12,.3],[54,57,-9,16,-18,1.7],[67,47,12,-10,-12,.7],[78,56,-8,13,-20,2.3],[89,50,10,10,-15,1.2],
+    [15,76,-10,12,-14,.5],[28,84,10,-8,-12,1.9],[42,73,-6,12,-18,.1],[57,82,8,8,-12,1.5],[71,76,-11,13,-16,.65],[85,86,12,-9,-12,2.05]
+  ];
+  dots.forEach(([l,t,dx,dy,dur,delay]) => {
+    const s = document.createElement('span');
+    s.style.left = `${l}%`;
+    s.style.top = `${t}%`;
+    s.style.setProperty('--dx', `${dx}px`);
+    s.style.setProperty('--dy', `${dy}px`);
+    s.style.setProperty('--dur', `${Math.abs(dur)}s`);
+    s.style.setProperty('--delay', `${delay}s`);
+    particleHost.appendChild(s);
+  });
+}
+
+const azEl = document.getElementById('viewerAzimuth');
+const elEl = document.getElementById('viewerElevation');
+const distEl = document.getElementById('viewerDistance');
+
+function readNumeric(value) {
+  const n = parseFloat(String(value));
+  return Number.isFinite(n) ? n : null;
+}
+function formatDeg(value) {
+  if (value == null) return '—';
+  return `${Math.round(value)}°`;
+}
+function formatMeters(value) {
+  if (value == null) return '—';
+  return `${value.toFixed(1)} m`;
+}
+function updateViewerHUD() {
+  if (!viewer || !viewer.getCameraOrbit) return;
+  try {
+    const orbit = viewer.getCameraOrbit();
+    const az = readNumeric(orbit.theta);
+    const polar = readNumeric(orbit.phi);
+    const radius = readNumeric(orbit.radius);
+    if (azEl) azEl.textContent = formatDeg(az);
+    if (elEl) elEl.textContent = formatDeg(polar);
+    if (distEl) distEl.textContent = formatMeters(radius);
+  } catch (err) {
+    // noop
+  }
+}
+
+if (viewer) {
+  viewer.addEventListener('load', () => {
+    updateViewerHUD();
+    if (viewerStatus) viewerStatus.textContent = 'model loaded / free orbit';
+  });
+  viewer.addEventListener('camera-change', () => {
+    updateViewerHUD();
+  });
+  viewer.addEventListener('pointerdown', () => {
+    if (viewerStatus) viewerStatus.textContent = 'manual orbit / inspecting';
+  });
+  viewer.addEventListener('pointerup', () => {
+    if (viewerStatus) viewerStatus.textContent = 'interactive orbit / ready';
+  });
+  viewer.addEventListener('mouseenter', () => {
+    if (viewerStatus) viewerStatus.textContent = 'hover / ready to inspect';
+  });
+  viewer.addEventListener('mouseleave', () => {
+    if (viewerStatus) viewerStatus.textContent = 'auto rotate / standby';
+  });
+  window.addEventListener('load', () => setTimeout(updateViewerHUD, 350));
 }
