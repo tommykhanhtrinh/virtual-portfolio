@@ -10,6 +10,35 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="feat.css">
+
+  <style id="feat-deck-evidence-styles">
+    .feat-hero-evidence{position:relative;display:grid;grid-template-columns:1fr .42fr;gap:14px;align-items:end;min-height:570px}
+    .deck-hero-proof,.deck-mini-shot,.deck-shot,.blueprint-real{margin:0;overflow:hidden;border-radius:30px;border:1px solid rgba(17,17,17,.12);background:#fff;box-shadow:0 26px 62px rgba(17,17,17,.11)}
+    .deck-hero-proof{align-self:stretch;display:grid;grid-template-rows:1fr auto;transform:rotate(-.7deg)}
+    .deck-hero-proof img{width:100%;height:100%;min-height:470px;object-fit:cover;display:block;background:#ebe9e1;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+    .deck-mini-shot{position:absolute;right:-10px;bottom:26px;width:45%;transform:rotate(3deg);z-index:3;box-shadow:0 28px 60px rgba(17,17,17,.18)}
+    .deck-mini-shot img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+    .deck-mini-shot figcaption{padding:10px 12px;font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}
+    .deck-hero-proof figcaption,.deck-shot figcaption{display:grid;gap:5px;padding:16px 18px;background:#fff;color:#111}
+    .deck-hero-proof figcaption span,.deck-shot figcaption span{font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#747b75}
+    .deck-hero-proof figcaption strong,.deck-shot figcaption strong{font:700 16px/1.25 "Space Grotesk",sans-serif;letter-spacing:-.025em}
+    .deck-hero-proof:hover img,.deck-shot:hover img{transform:scale(1.025)}
+    .deck-evidence-row,.deck-evidence-grid{margin-top:26px}
+    .deck-evidence-grid{display:grid;grid-template-columns:1fr;gap:16px}
+    .deck-shot{background:#f7f5ef}
+    .deck-shot img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+    .deck-shot.wide img{aspect-ratio:16/8.3}
+    .problem-section .deck-evidence-row{margin-top:44px}
+    .problem-section .deck-shot{max-width:1040px;margin-inline:auto}
+    .blueprint-real{margin-top:24px;padding:20px;background:#f7f6f2;color:#111;border-color:rgba(255,255,255,.18);box-shadow:0 24px 60px rgba(0,0,0,.24)}
+    .blueprint-real .bp-title{margin:0 0 15px}.blueprint-real .bp-title span{color:#717871}
+    .blueprint-real img{display:block;width:100%;max-height:760px;object-fit:contain;border-radius:19px;background:#fff;border:1px solid rgba(17,17,17,.1)}
+    .blueprint-real figcaption{padding:13px 4px 1px;color:#afb6b0;font-size:12px;line-height:1.55}
+    .business-section .deck-evidence-grid,.scale-section .deck-evidence-grid{margin-top:18px}
+    .feat-page figure img{user-select:none;-webkit-user-drag:none}
+    @media(max-width:1050px){.feat-hero-evidence{min-height:510px}.deck-hero-proof img{min-height:410px}.deck-mini-shot{width:38%;right:10px}}
+    @media(max-width:680px){.feat-hero-evidence{display:block;min-height:0}.deck-hero-proof{transform:none}.deck-hero-proof img{min-height:0;aspect-ratio:1/1;object-fit:cover}.deck-mini-shot{position:relative;right:auto;bottom:auto;width:64%;margin:-50px 12px 0 auto;transform:rotate(2deg)}.deck-hero-proof,.deck-mini-shot,.deck-shot,.blueprint-real{border-radius:22px}.blueprint-real{padding:12px}.deck-shot.wide img,.deck-shot img{aspect-ratio:1/1;object-fit:cover}.problem-section .deck-evidence-row{margin-top:28px}}
+  </style>
 </head>
 <body class="feat-page">
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -22,7 +51,8 @@
         <a href="index.html">Home</a>
         <a href="vex.html">VEX</a>
         <a href="service.html">Service</a>
-        <a class="active" href="index.html#projects">Projects</a>
+        <a class="active" href="feat.html">Fridgi</a>
+        <a href="index.html#projects">Projects</a>
         <a href="index.html#awards">Awards</a>
         <a class="nav-btn" href="index.html#contact">Say hi ↗</a>
       </div>
@@ -49,35 +79,15 @@
           </div>
         </div>
 
-        <div class="feat-hero-art reveal-scale" aria-label="Stylized Fridgi smart container diagram">
-          <div class="hero-fruit f1">MANGO</div>
-          <div class="hero-fruit f2">BLUEBERRY</div>
-          <div class="hero-fruit f3">ORANGE</div>
-
-          <div class="fridgi-device">
-            <div class="device-lid">
-              <span class="device-logo">Fridgi✓</span>
-              <div class="lid-vent"></div>
-              <div class="lid-sensor"></div>
-            </div>
-            <div class="device-body">
-              <span class="fruit-ball b1"></span><span class="fruit-ball b2"></span><span class="fruit-ball b3"></span>
-              <span class="fruit-ball b4"></span><span class="fruit-ball b5"></span><span class="fruit-ball b6"></span>
-            </div>
-          </div>
-
-          <div class="phone-card">
-            <small>RIPENESS STATUS</small>
-            <strong>JUST RIPE</strong>
-            <div class="phone-graph"><i></i></div>
-            <span>VOC rate ↑ · humidity stable</span>
-          </div>
-
-          <div class="sensor-pill p1">GAS SENSOR</div>
-          <div class="sensor-pill p2">RH</div>
-          <div class="sensor-pill p3">ESP32</div>
-          <div class="sensor-pill p4">MICRO-FAN</div>
-          <div class="signal-line l1"></div><div class="signal-line l2"></div>
+        <div class="feat-hero-evidence reveal-scale">
+          <figure class="deck-hero-proof lightboxable">
+            <img src="assets/fridgi/cover.jpg" alt="Fridgi F.E.A.T. Week presentation cover from the original project deck">
+            <figcaption><span>ORIGINAL DECK / 01</span><strong>The project started as a product story, not only a circuit.</strong></figcaption>
+          </figure>
+          <figure class="deck-mini-shot lightboxable">
+            <img src="assets/fridgi/product.jpg" alt="Fridgi product slide showing the smart container, mobile app, hardware and blueprint">
+            <figcaption>Product + software + hardware</figcaption>
+          </figure>
         </div>
       </div>
 
@@ -113,6 +123,12 @@
           <div class="chart-foot"><span>UNRIPE</span><span>RISING SIGNAL</span><span>JUST RIPE</span></div>
         </div>
       </div>
+      <div class="container deck-evidence-row reveal-up">
+        <figure class="deck-shot wide lightboxable">
+          <img src="assets/fridgi/product.jpg" alt="Original Fridgi product slide from the presentation deck">
+          <figcaption><span>PRESENTATION DECK / PRODUCT</span><strong>The original product slide ties the app interface, smart lid hardware, container and engineering drawing into one system.</strong></figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="feat-section system-section" id="system">
@@ -147,18 +163,11 @@
           </article>
         </div>
 
-        <div class="technical-blueprint reveal-up">
-          <div class="bp-title"><span>TECHNICAL BLUEPRINT</span><strong>SMART LID · SYSTEM MAP</strong></div>
-          <div class="bp-grid">
-            <div class="bp-node">ESP32<small>controller</small></div>
-            <div class="bp-arrow">→</div>
-            <div class="bp-node">GAS + RH<small>sensing</small></div>
-            <div class="bp-arrow">→</div>
-            <div class="bp-node">FILTER LOGIC<small>noise + volume</small></div>
-            <div class="bp-arrow">→</div>
-            <div class="bp-node">PHONE ALERT<small>ripeness state</small></div>
-          </div>
-        </div>
+        <figure class="blueprint-real reveal-up lightboxable">
+          <div class="bp-title"><span>TECHNICAL BLUEPRINT</span><strong>ORIGINAL DRAWING · SMART CONTAINER</strong></div>
+          <img src="assets/fridgi/blueprint.jpg" alt="Original Fridgi technical blueprint showing the smart container dimensions and hardware layout">
+          <figcaption>The actual blueprint used in the Fridgi project. Click to inspect the drawing at full size.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -223,6 +232,13 @@
           </article>
         </div>
 
+        <div class="deck-evidence-grid reveal-up">
+          <figure class="deck-shot lightboxable">
+            <img src="assets/fridgi/business-model.jpg" alt="Original Fridgi business model slide from the F.E.A.T. Week presentation">
+            <figcaption><span>PRESENTATION DECK / BUSINESS MODEL</span><strong>B2C hardware + filters and B2B shelf hardware + SaaS.</strong></figcaption>
+          </figure>
+        </div>
+
         <div class="finance-strip reveal-up">
           <div><small>BOM</small><strong>100K VND</strong></div>
           <i>→</i>
@@ -248,6 +264,12 @@
           <article class="phase-card reveal-up"><b>02</b><small>SUBSCRIPTION PARTNERSHIP</small><h3>Regional supermarkets</h3><p>B2B kits on high-value fruit displays while selling B2C containers at checkout lanes.</p></article>
           <article class="phase-card reveal-up"><b>03</b><small>DIGITAL &amp; ENTERPRISE</small><h3>Scale distribution</h3><p>Verified online storefronts and expansion into large cold-chain logistics warehouses.</p></article>
           <article class="phase-card reveal-up"><b>04</b><small>APPLIANCE INTEGRATION</small><h3>License the technology</h3><p>Integrate gas tracking into next-generation refrigerators and predictive freshness systems.</p></article>
+        </div>
+        <div class="deck-evidence-grid reveal-up">
+          <figure class="deck-shot wide lightboxable">
+            <img src="assets/fridgi/market-plan.jpg" alt="Original Fridgi market plan slide from the F.E.A.T. Week presentation">
+            <figcaption><span>PRESENTATION DECK / MARKET PLAN</span><strong>The four phases shown in the original pitch deck, from local testing to appliance integration and licensing.</strong></figcaption>
+          </figure>
         </div>
       </div>
     </section>
