@@ -3,56 +3,245 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="VEX Robotics 2026–2027 — Trình's current season as Team Captain, focused on engineering systems, localization, testing, and team iteration.">
+  <meta name="description" content="VEX Robotics 2026–2027 — Trình's third season: building a robot, a training system, and a team that can continue after senior members graduate.">
   <title>VEX 2026–2027 | Trình</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="vex.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="vex.css">
+  <link rel="stylesheet" href="vex-season03.css">
 </head>
-<body class="vex-shell">
+<body class="vex-shell season03-page">
   <div class="scroll-progress" aria-hidden="true"></div>
-  <nav class="nav vex-nav"><div class="container nav-inner"><a class="brand" href="index.html">TRÌNH<span>.</span></a><button class="mobile-toggle" aria-label="Open navigation">☰</button><div class="nav-links"><a href="index.html">Home</a><a class="active" href="vex.html">VEX</a><a href="service.html">Service</a><a href="index.html#projects">Projects</a><a href="index.html#awards">Awards</a><a class="nav-btn" href="index.html#contact">Say hi ↗</a></div></div></nav>
-  <div class="season-subnav"><div class="container"><a href="vex.html">← All seasons</a><a href="vex-2024-2025.html">2024–25</a><a href="vex-2025-2026.html">2025–26</a><a class="active" href="vex-2026-2027.html">2026–27</a></div></div>
+
+  <nav class="nav vex-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">TRÌNH<span>.</span></a>
+      <button class="mobile-toggle" aria-label="Open navigation">☰</button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a class="active" href="vex.html">VEX</a>
+        <a href="service.html">Service</a>
+        <a href="feat.html">Fridgi</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#awards">Awards</a>
+        <a class="nav-btn" href="index.html#contact">Say hi ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="season-subnav">
+    <div class="container">
+      <a href="vex.html">← All seasons</a>
+      <a href="vex-2024-2025.html">2024–25</a>
+      <a href="vex-2025-2026.html">2025–26</a>
+      <a class="active" href="vex-2026-2027.html">2026–27</a>
+    </div>
+  </div>
 
   <main>
-    <section class="season-hero"><div class="container season-hero-grid">
-      <div class="reveal-up"><span class="season-eyebrow">SEASON 03 · 2026—2027 · CURRENT SEASON</span><h1><span>Learning how to lead engineering</span>The system is bigger than the robot.</h1><p>This season is still being written. As Team Captain, I am working on both the technical system — mechanisms, drivetrain, localization, autonomous control — and the team system that decides what to test, what to rebuild, and why.</p></div>
-      <div class="season-hero-media reveal-scale"><div class="photo-slot"><span>LIVE HERO PHOTO SLOT</span><strong>Current robot + you</strong><small>Ideal: latest build-session or competition photo</small></div><div class="photo-slot"><span>LIVE DETAIL PHOTO SLOT</span><strong>Current mechanism / team</strong><small>This can be updated throughout the season</small></div></div>
-    </div></section>
+    <section class="s3-hero">
+      <div class="container s3-hero-grid">
+        <div class="s3-hero-copy reveal-up">
+          <span class="s3-kicker">SEASON 03 · 2026—2027 · CURRENT SEASON</span>
+          <h1>This season, I am not only building a robot.<br><em>I am building what comes after us.</em></h1>
+          <p>By Grade 12, I had learned how quickly a robotics team can lose experience: one graduating builder, one programmer, one driver, and suddenly years of knowledge disappear with them. So our third season began with a different engineering problem — how do we make the team itself repeatable?</p>
+          <div class="s3-hero-actions">
+            <a class="s3-btn primary" href="#continuity">Read the story ↓</a>
+            <a class="s3-btn ghost" href="#blueprint">See the blueprint</a>
+          </div>
+          <div class="s3-proof">
+            <span><strong>9–12</strong> grades recruited</span>
+            <span><strong>BOM</strong> before build</span>
+            <span><strong>BLUEPRINT</strong> before memory</span>
+          </div>
+        </div>
 
-    <section class="case-section"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">CURRENT FOCUS / 01</span><div><h2>Build the engineering system.</h2><p>Instead of treating each subsystem as separate, I want mechanical design, sensing, control, testing, strategy, documentation, and team communication to reinforce one another.</p></div></div>
-      <div class="metric-strip reveal-up"><div class="metric-chip"><strong>Captain</strong><span>Team role · 2026–2027</span></div><div class="metric-chip"><strong>6-motor</strong><span>Drivetrain direction</span></div><div class="metric-chip"><strong>Odom + IMU</strong><span>Localization focus</span></div><div class="metric-chip"><strong>Live</strong><span>Page updates as season evolves</span></div></div>
-    </div></section>
-
-    <section class="case-section dark"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">ENGINEERING QUESTIONS / 02</span><div><h2>What are we trying to prove?</h2><p>The page will evolve around questions, experiments, and decisions rather than only finished mechanisms.</p></div></div>
-      <div class="case-grid">
-        <article class="case-card reveal-up"><span class="case-no">01 · MECHANICAL</span><h3>Can the drivetrain stay consistent?</h3><p>Motor distribution, alignment, traction, weight balance, and mechanical reliability affect every autonomous result downstream.</p></article>
-        <article class="case-card reveal-up"><span class="case-no">02 · LOCALIZATION</span><h3>Where does the robot think it is?</h3><p>Odometry, IMU, rotation sensors, and future sensor fusion work are being treated as a localization system rather than isolated sensors.</p></article>
-        <article class="case-card reveal-up"><span class="case-no">03 · TESTING</span><h3>Can we measure repeatability?</h3><p>Timing, pressure behavior, path error, mechanism consistency, and competition conditions need repeatable tests before design decisions are made.</p></article>
-        <article class="case-card wide reveal-up"><span class="case-no">04 · TEAM PROCESS</span><h3>Can everyone explain why the robot changed?</h3><p>Robot history, version decisions, sensor choices, mechanism trade-offs, and competition lessons should not live in one person's head. The goal is shared engineering context across builders, programmers, strategists, and drivers.</p></article>
-        <article class="case-card reveal-up"><span class="case-no">05 · LEADERSHIP</span><h3>Delegate the system, not just tasks.</h3><p>My role is increasingly about setting clear ownership, review points, evidence, and decision criteria so the team can move without constant micromanagement.</p></article>
+        <figure class="s3-hero-image reveal-scale zoomable">
+          <img src="assets/vex/2026-2027/drivetrain-blueprint.png" alt="Technical blueprint of the 50922S drivetrain version 1">
+          <figcaption>Drivetrain Version 1 — the first design artifact meant to be read, questioned, and rebuilt by someone other than its original builder.</figcaption>
+        </figure>
       </div>
-    </div></section>
+    </section>
 
-    <section class="case-section"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">ROBOT VERSIONS / 03</span><div><h2>A living build log.</h2><p>These frames are deliberately empty. As the season progresses, we can replace them with actual V1, V2, and V3 photos and add exact redesign reasons below each one.</p></div></div>
-      <div class="evolution-grid">
-        <div class="evolution-item reveal-up"><div class="photo-slot"><span>PHOTO SLOT</span><strong>Robot V1</strong><small>First complete architecture</small></div><h3>Version 01</h3><p>Initial assumptions, mechanisms, and test targets.</p></div>
-        <div class="evolution-item reveal-up"><div class="photo-slot"><span>PHOTO SLOT</span><strong>Robot V2</strong><small>First major redesign</small></div><h3>Version 02</h3><p>What competition or testing forced us to rethink.</p></div>
-        <div class="evolution-item reveal-up"><div class="photo-slot"><span>PHOTO SLOT</span><strong>Robot V3</strong><small>Later-season version</small></div><h3>Version 03</h3><p>Reserved for the next engineering chapter.</p></div>
+    <section class="s3-section intro" id="continuity">
+      <div class="container">
+        <div class="s3-head reveal-up">
+          <span class="s3-kicker">THE REAL PROBLEM / 01</span>
+          <div>
+            <h2>A competition season lasts months.<br>A team should last years.</h2>
+            <p>Previous seasons taught me how to rebuild robots after matches. This season forced me to think about a harder kind of rebuild: what happens when the people with the most experience graduate?</p>
+          </div>
+        </div>
+
+        <div class="s3-story-grid">
+          <div class="s3-copy reveal-up">
+            <p class="lead">A strong robot can still belong to a fragile team.</p>
+            <p>If only one member understands the drivetrain, one person knows the codebase, and one senior remembers why a mechanism changed, the system works only while those people are present.</p>
+            <p>So instead of treating recruitment as “finding extra hands,” we opened the season to students from Grades 9 through 12. The goal was not simply to fill roles for one tournament. It was to give younger members enough time to watch, build, fail, ask questions, and eventually become the people who can teach the next group.</p>
+          </div>
+          <figure class="s3-photo vertical zoomable reveal-scale">
+            <img src="assets/vex/2026-2027/early-frame-home.png" alt="Early tall robot frame being assembled at home">
+            <figcaption>An early frame is unfinished by definition. That made it the right place to teach: every choice was still visible.</figcaption>
+          </figure>
+        </div>
       </div>
-    </div></section>
+    </section>
 
-    <section class="case-section"><div class="container">
-      <div class="case-head reveal-up"><span class="vex-kicker">EXPERIMENT LOG / 04</span><div><h2>Give the tests a visual home.</h2><p>These slots can hold graphs, screenshots, field photos, mechanism videos, and short test summaries as the season develops.</p></div></div>
-      <div class="gallery-grid"><div class="photo-slot large"><span>TEST SLOT 01</span><strong>Drivetrain / path testing</strong><small>Photo, graph, or field screenshot</small></div><div class="photo-slot"><span>TEST SLOT 02</span><strong>Localization</strong><small>Odom / IMU / sensor setup</small></div><div class="photo-slot"><span>TEST SLOT 03</span><strong>Mechanism timing</strong><small>Repeatability evidence</small></div><div class="photo-slot"><span>TEST SLOT 04</span><strong>CAD revision</strong></div><div class="photo-slot large"><span>TEST SLOT 05</span><strong>Team review / competition iteration</strong></div></div>
-    </div></section>
+    <section class="s3-section dark">
+      <div class="container">
+        <div class="s3-head reveal-up">
+          <span class="s3-kicker light">RECRUITMENT AS TRAINING / 02</span>
+          <div>
+            <h2>Do not recruit people to watch experts work.</h2>
+            <p>New members only become future team leaders if they are allowed to own real engineering decisions while experienced members are still there to guide them.</p>
+          </div>
+        </div>
 
-    <section class="case-section"><div class="container"><div class="reflection-card reveal-up"><span class="vex-kicker" style="color:#d8ffbb">LIVE REFLECTION / 05</span><h2>This page should change when the robot changes.</h2><p>Unlike the first two seasons, this is not a finished retrospective. It is a live engineering record. As new versions, competitions, failures, and decisions happen, we can update the page so the portfolio shows the process in real time rather than reconstructing it months later.</p></div></div></section>
-    <section class="season-pagination"><div class="container"><a href="vex-2025-2026.html">← Previous · 2025–2026</a><a href="vex.html">Back to all seasons →</a></div></section>
+        <div class="training-track">
+          <article class="training-step reveal-up"><b>01</b><small>OBSERVE</small><h3>See the whole robot first.</h3><p>Before splitting into roles, members learn what every subsystem is trying to achieve and how one design choice affects another.</p></article>
+          <article class="training-step reveal-up"><b>02</b><small>BUILD</small><h3>Touch the hardware early.</h3><p>Fasteners, shafts, gears, spacing, wheel alignment, motors, and wiring stop being abstract once a student has to assemble them correctly.</p></article>
+          <article class="training-step reveal-up"><b>03</b><small>EXPLAIN</small><h3>Say why it is built that way.</h3><p>A mechanism is not “understood” if a student can only copy it. They need to explain the trade-off, failure mode, and reason for the current version.</p></article>
+          <article class="training-step reveal-up"><b>04</b><small>OWN</small><h3>Become responsible for the next revision.</h3><p>The handoff is complete when a younger member can decide what to test next without waiting for a senior to prescribe every step.</p></article>
+        </div>
+
+        <div class="s3-photo-pair">
+          <figure class="zoomable reveal-up">
+            <img src="assets/vex/2026-2027/early-frame-side.jpg" alt="Side view of the early 2026–2027 VEX robot frame">
+            <figcaption>The side structure made every brace, gear train, and support visible enough to discuss as a team.</figcaption>
+          </figure>
+          <figure class="zoomable reveal-up">
+            <img src="assets/vex/2026-2027/early-frame-front.jpg" alt="Front view of the early 2026–2027 VEX robot frame">
+            <figcaption>Same robot, another angle: training meant learning to read a structure instead of memorizing one view.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="s3-section blueprint-section" id="blueprint">
+      <div class="container">
+        <div class="s3-head reveal-up">
+          <span class="s3-kicker">FROM “BUILD BY FEEL” TO DOCUMENTED ENGINEERING / 03</span>
+          <div>
+            <h2>If a design only exists in someone’s head, it cannot be handed down.</h2>
+            <p>This season, I wanted our build process to produce more than a robot. It had to produce enough information for another member to reproduce, inspect, and improve the robot later.</p>
+          </div>
+        </div>
+
+        <div class="artifact-grid">
+          <article class="artifact-card reveal-up">
+            <span>01 / BILL OF MATERIALS</span>
+            <h3>Know what the robot needs before the build starts.</h3>
+            <p>The BOM became a planning tool: parts, quantities, dependencies, missing stock, and replacement needs could be checked before assembly. It reduced the old pattern of discovering halfway through a build that a critical component was unavailable.</p>
+            <div class="artifact-tags"><i>PART</i><i>QTY</i><i>STOCK</i><i>OWNER</i><i>STATUS</i></div>
+          </article>
+
+          <article class="artifact-card accent reveal-up">
+            <span>02 / TECHNICAL BLUEPRINT</span>
+            <h3>Turn geometry into something another person can verify.</h3>
+            <p>Dimensions, clearances, orientation, and subsystem boundaries should not depend on memory. A technical drawing forces us to make assumptions explicit — and gives younger builders a language for checking whether reality still matches the design.</p>
+            <div class="artifact-callout">DESIGN → DIMENSION → BUILD → VERIFY</div>
+          </article>
+        </div>
+
+        <figure class="blueprint-figure zoomable reveal-scale">
+          <img src="assets/vex/2026-2027/drivetrain-blueprint.png" alt="50922S drivetrain version 1 technical drawing with top, bottom, front, right, and isometric views">
+          <figcaption>50922S Drivetrain Version 1 · Top / Bottom / Front / Right / Isometric · a design document meant for the next builder, not only the current one.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="s3-section mechanics">
+      <div class="container">
+        <div class="s3-head reveal-up">
+          <span class="s3-kicker">TEACH THROUGH THE ROBOT / 04</span>
+          <div>
+            <h2>The robot became a classroom with wheels.</h2>
+            <p>Every subsystem gave us a different kind of lesson: structure, power transmission, intake geometry, compression, serviceability, and how quickly a “small” change can propagate through the rest of the machine.</p>
+          </div>
+        </div>
+
+        <div class="mechanics-gallery">
+          <figure class="zoomable reveal-up big">
+            <img src="assets/vex/2026-2027/mechanism-top.JPG" alt="Top-down view of the developing VEX robot mechanism">
+            <figcaption>Top view — mechanisms are easier to teach when power paths, motor placement, and access points are visible.</figcaption>
+          </figure>
+          <figure class="zoomable reveal-up">
+            <img src="assets/vex/2026-2027/goal-interface.JPG" alt="Close view of the robot interacting with a yellow field goal">
+            <figcaption>Interface testing — geometry only becomes real when the robot touches the game object.</figcaption>
+          </figure>
+        </div>
+
+        <div class="lesson-strip reveal-up">
+          <div><strong>BUILD</strong><span>assemble the idea</span></div><i>→</i>
+          <div><strong>TEST</strong><span>force it to reveal weaknesses</span></div><i>→</i>
+          <div><strong>DOCUMENT</strong><span>capture what changed and why</span></div><i>→</i>
+          <div><strong>TEACH</strong><span>make the knowledge transferable</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s3-section legacy">
+      <div class="container legacy-grid">
+        <div class="legacy-copy reveal-up">
+          <span class="s3-kicker light">SUCCESSION BY DESIGN / 05</span>
+          <h2>The season I care about most may be the one I never compete in.</h2>
+          <p>That is the strange part of building for continuity. If we do it well, some of the results will appear after the current seniors are gone.</p>
+          <p>A Grade 9 member who learns how to read a blueprint now may become the person who teaches CAD later. A Grade 10 builder who learns to maintain a BOM may prevent an entire future rebuild from stalling. A Grade 11 programmer who understands the robot’s history may make a better architecture decision next season because they know what failed before.</p>
+          <p>I used to think leadership meant being the person with the answer. This season, I am trying to build something more durable: a team that remembers, teaches, and improves without needing the same people forever.</p>
+          <blockquote>“The final robot is temporary. The engineering culture we leave behind is the part that can keep competing.”</blockquote>
+        </div>
+
+        <div class="legacy-panel reveal-scale">
+          <span>SEASON 03</span>
+          <strong>BUILD A ROBOT.</strong>
+          <strong>BUILD A SYSTEM.</strong>
+          <strong class="highlight">BUILD THE NEXT TEAM.</strong>
+          <small>2026–2027 · current season</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="season-pagination">
+      <div class="container">
+        <a href="vex-2025-2026.html">← Previous · 2025–2026</a>
+        <a href="vex.html">Back to all seasons →</a>
+      </div>
+    </section>
   </main>
-  <footer class="footer vex-footer"><div class="container footer-box"><span>© 2026 Trần Nguyễn Khánh Trình</span><span>Season 03 · Current season</span></div></footer>
+
+  <footer class="footer vex-footer">
+    <div class="container footer-box">
+      <span>© 2026 Trần Nguyễn Khánh Trình</span>
+      <span>Season 03 · Build the next team</span>
+    </div>
+  </footer>
+
   <script src="script.js"></script>
-</body></html>
+  <script>
+    (() => {
+      const figures = [...document.querySelectorAll('.zoomable')];
+      if (!figures.length) return;
+      const modal = document.createElement('div');
+      modal.className = 's3-lightbox';
+      modal.innerHTML = '<button aria-label="Close image">×</button><div><img alt=""><p></p></div>';
+      document.body.appendChild(modal);
+      const img = modal.querySelector('img');
+      const cap = modal.querySelector('p');
+      const close = () => { modal.classList.remove('open'); document.documentElement.style.overflow = ''; };
+      figures.forEach(fig => fig.addEventListener('click', () => {
+        const source = fig.querySelector('img');
+        img.src = source.currentSrc || source.src;
+        img.alt = source.alt || '';
+        cap.textContent = fig.querySelector('figcaption')?.textContent || '';
+        modal.classList.add('open');
+        document.documentElement.style.overflow = 'hidden';
+      }));
+      modal.querySelector('button').addEventListener('click', close);
+      modal.addEventListener('click', e => { if (e.target === modal) close(); });
+      window.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+</body>
+</html>
