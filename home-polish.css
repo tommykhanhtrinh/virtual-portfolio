@@ -1,0 +1,186 @@
+/* Homepage polish — milestone fixes, Now/Next constellation, and richer card motion */
+
+/* ---------- Milestone cards ---------- */
+.home-page .award-cards .award-number:nth-child(4){
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 88% 14%,rgba(156,255,87,.16),transparent 26%),
+    linear-gradient(145deg,#171d28,#121823);
+}
+.home-page .award-cards .award-number:nth-child(4)::after{
+  content:"SYSTEMS THINKING";
+  position:absolute;
+  right:18px;
+  top:20px;
+  font:800 9px/1 "Space Grotesk",sans-serif;
+  letter-spacing:.13em;
+  color:rgba(255,255,255,.23);
+}
+.home-page .award-cards .award-number:nth-child(4) span{
+  max-width:360px;
+  line-height:1.55;
+  font-size:11px;
+}
+
+/* ---------- Now / Next: fix overlap + add depth ---------- */
+.home-page .next-grid{
+  grid-template-columns:minmax(0,1.1fr) minmax(430px,.9fr);
+  gap:70px;
+  align-items:center;
+}
+.home-page .next-orbit{
+  width:min(100%,520px)!important;
+  aspect-ratio:1/1;
+  min-height:0!important;
+  justify-self:end;
+  position:relative!important;
+  display:block!important;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center,rgba(156,255,87,.13) 0 16%,transparent 17%),
+    radial-gradient(circle at center,transparent 0 29%,rgba(10,15,24,.09) 29.4% 29.8%,transparent 30.2%),
+    radial-gradient(circle at center,transparent 0 47%,rgba(10,15,24,.08) 47.4% 47.8%,transparent 48.2%),
+    radial-gradient(circle at center,transparent 0 66%,rgba(10,15,24,.07) 66.4% 66.8%,transparent 67.2%);
+  isolation:isolate;
+  overflow:visible;
+}
+.home-page .next-orbit::before{
+  content:"PERCEPTION → DECISION → MOTION";
+  position:absolute;
+  left:50%;
+  top:7%;
+  transform:translateX(-50%);
+  padding:9px 13px;
+  border:1px solid rgba(10,15,24,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.64);
+  backdrop-filter:blur(10px);
+  font:800 9px/1 "Space Grotesk",sans-serif;
+  letter-spacing:.12em;
+  white-space:nowrap;
+  color:#59616d;
+}
+.home-page .next-orbit::after{
+  content:"";
+  position:absolute;
+  inset:14%;
+  border:1px dashed rgba(135,92,255,.25);
+  border-radius:50%;
+  animation:nextOrbitSpin 18s linear infinite;
+  pointer-events:none;
+}
+.home-page .next-orbit .orbit-label{
+  position:absolute!important;
+  margin:0!important;
+  transform:none!important;
+  min-width:112px;
+  height:48px;
+  padding:0 16px;
+  border-radius:999px;
+  display:grid!important;
+  place-items:center;
+  font:800 13px/1 "Space Grotesk",sans-serif;
+  letter-spacing:.045em;
+  box-shadow:0 16px 34px rgba(10,15,24,.12);
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.home-page .next-orbit .orbit-label:hover{transform:translateY(-4px) scale(1.04)!important;box-shadow:0 22px 42px rgba(10,15,24,.16)}
+.home-page .next-orbit .center{
+  left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
+  transform:translate(-50%,-50%)!important;
+  z-index:5;
+  min-width:160px;
+  height:58px;
+  background:#9cff57!important;
+  color:#08101d!important;
+  font-size:16px!important;
+  animation:nextCenterPulse 3.8s ease-in-out infinite;
+}
+.home-page .next-orbit .ol1{left:51%!important;top:18%!important;background:#0a0f18!important;color:#fff!important;animation:floatOrbitA 5.4s ease-in-out infinite}
+.home-page .next-orbit .ol2{left:13%!important;top:47%!important;background:#875cff!important;color:#fff!important;animation:floatOrbitB 6s ease-in-out infinite}
+.home-page .next-orbit .ol3{right:7%!important;top:52%!important;left:auto!important;background:#0a0f18!important;color:#fff!important;animation:floatOrbitC 5.8s ease-in-out infinite}
+.home-page .next-orbit .ol4{left:45%!important;bottom:11%!important;top:auto!important;background:#61d8ff!important;color:#08101d!important;animation:floatOrbitD 6.4s ease-in-out infinite}
+
+/* little engineering nodes */
+.home-page .next-section{position:relative;overflow:hidden}
+.home-page .next-section::before,
+.home-page .next-section::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.home-page .next-section::before{width:260px;height:260px;right:-110px;top:40px;background:radial-gradient(circle,rgba(97,216,255,.16),transparent 70%)}
+.home-page .next-section::after{width:220px;height:220px;left:-100px;bottom:-80px;background:radial-gradient(circle,rgba(135,92,255,.12),transparent 70%)}
+
+/* ---------- Selected Work: livelier motion ---------- */
+.home-page .work-card{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.home-page .work-card::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  z-index:-1;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.22) 49%,transparent 56%);
+  transform:translateX(-65%) rotate(7deg);
+  transition:transform .9s cubic-bezier(.2,.75,.2,1);
+  pointer-events:none;
+}
+.home-page .work-card:hover::before{transform:translateX(65%) rotate(7deg)}
+.home-page .work-card .arrow-circle{transition:transform .35s ease,background .35s ease}
+.home-page .work-card:hover .arrow-circle{transform:rotate(45deg) scale(1.08)}
+.home-page .work-card .work-copy h3{transition:transform .3s ease}
+.home-page .work-card:hover .work-copy h3{transform:translateX(5px)}
+
+/* VEX card */
+.home-page .work-vex .robot-core{animation:v5CoreFloat 4.2s ease-in-out infinite;transform-origin:center}
+.home-page .work-vex .robot-node{animation:nodePulse 2.6s ease-in-out infinite}
+.home-page .work-vex .n2{animation-delay:.7s}.home-page .work-vex .n3{animation-delay:1.35s}
+.home-page .work-vex .grid-lines{animation:gridBreath 4.6s ease-in-out infinite}
+
+/* Service card */
+.home-page .service-visual span{display:block;animation:wordDrift 5s ease-in-out infinite}
+.home-page .service-visual span:nth-child(2){animation-delay:.65s}.home-page .service-visual span:nth-child(3){animation-delay:1.3s}
+
+/* Fridgi card */
+.home-page .work-project .device-body{animation:deviceFloat 4.1s ease-in-out infinite}
+.home-page .work-project .sensor{animation:sensorPing 3.2s ease-in-out infinite}
+.home-page .work-project .sensor-two{animation-delay:1s}
+.home-page .work-project .signal-wave{animation:signalBlink 1.7s ease-in-out infinite}
+
+/* Robotics Club card */
+.home-page .leadership-stack span{animation:ribbonFloat 5.2s ease-in-out infinite;transform-origin:center}
+.home-page .leadership-stack span:nth-child(2){animation-delay:.45s}.home-page .leadership-stack span:nth-child(3){animation-delay:.9s}.home-page .leadership-stack span:nth-child(4){animation-delay:1.35s}
+
+@keyframes nextOrbitSpin{to{transform:rotate(360deg)}}
+@keyframes nextCenterPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.06)}}
+@keyframes floatOrbitA{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(10px,-9px) rotate(2deg)}}
+@keyframes floatOrbitB{0%,100%{transform:translate(0,0) rotate(3deg)}50%{transform:translate(-8px,10px) rotate(-2deg)}}
+@keyframes floatOrbitC{0%,100%{transform:translate(0,0) rotate(2deg)}50%{transform:translate(8px,-8px) rotate(-3deg)}}
+@keyframes floatOrbitD{0%,100%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(-7px,9px) rotate(3deg)}}
+@keyframes v5CoreFloat{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-10px) rotate(-2deg)}}
+@keyframes nodePulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.25);filter:brightness(1.22)}}
+@keyframes gridBreath{0%,100%{opacity:.72}50%{opacity:1}}
+@keyframes wordDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+@keyframes deviceFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes sensorPing{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(10,15,24,0)}50%{transform:scale(1.06);box-shadow:0 0 0 11px rgba(10,15,24,.05)}}
+@keyframes signalBlink{0%,100%{opacity:.45;transform:translateX(0)}50%{opacity:1;transform:translateX(5px)}}
+@keyframes ribbonFloat{0%,100%{translate:0 0}50%{translate:4px -5px}}
+
+@media(max-width:980px){
+  .home-page .next-grid{grid-template-columns:1fr;gap:34px}
+  .home-page .next-orbit{justify-self:center;width:min(100%,470px)!important}
+}
+@media(max-width:620px){
+  .home-page .next-orbit{width:min(94vw,380px)!important}
+  .home-page .next-orbit .orbit-label{min-width:92px;height:42px;padding:0 12px;font-size:11px}
+  .home-page .next-orbit .center{min-width:132px;height:52px;font-size:14px!important}
+  .home-page .next-orbit::before{font-size:8px;top:3%}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-page .next-orbit::after,.home-page .next-orbit .orbit-label,.home-page .work-vex .robot-core,.home-page .work-vex .robot-node,.home-page .work-vex .grid-lines,.home-page .service-visual span,.home-page .work-project .device-body,.home-page .work-project .sensor,.home-page .work-project .signal-wave,.home-page .leadership-stack span{animation:none!important}
+}
