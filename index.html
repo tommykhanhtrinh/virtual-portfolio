@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="home-polish.css">
+  <link rel="stylesheet" href="robot-showcase.css">
 </head>
 <body class="home-page">
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -162,7 +163,27 @@
           <h2>I’m still building.</h2>
           <p>Right now, I’m exploring robotics through competition, prototyping, coding, and community work. Next, I want to go deeper into intelligent robotic systems that can perceive, move, and work alongside people.</p>
         </div>
-        <div class="next-orbit reveal-scale" aria-hidden="true"><div class="orbit-label center">ROBOTICS</div><div class="orbit-label ol1">AI / CV</div><div class="orbit-label ol2">CONTROL</div><div class="orbit-label ol3">DESIGN</div><div class="orbit-label ol4">IMPACT</div></div>
+
+        <div class="next-robot-stage reveal-scale" data-robot-showcase data-model="assets/robot-web-lite.glb" role="img" aria-label="Interactive 3D model of my VEX robot">
+          <div class="robot-ring ring-a" aria-hidden="true"></div>
+          <div class="robot-ring ring-b" aria-hidden="true"></div>
+          <div class="robot-ring ring-c" aria-hidden="true"></div>
+          <canvas class="next-robot-canvas" aria-hidden="true"></canvas>
+
+          <div class="robot-fallback" aria-hidden="true">ROBOTICS</div>
+          <div class="robot-hud-title" aria-hidden="true">PERCEPTION → DECISION → MOTION</div>
+          <span class="robot-tag ai" aria-hidden="true">AI / CV</span>
+          <span class="robot-tag control" aria-hidden="true">CONTROL</span>
+          <span class="robot-tag design" aria-hidden="true">DESIGN</span>
+          <span class="robot-tag impact" aria-hidden="true">IMPACT</span>
+
+          <div class="robot-model-stamp" aria-hidden="true">VEX / PUSH BACK / CAD</div>
+          <div class="robot-loader" aria-hidden="true">
+            <span data-robot-loader-text>ROBOT MODEL / STANDBY</span>
+            <div class="robot-loader-track"><i data-robot-loader-bar></i></div>
+          </div>
+          <div class="robot-interaction-hint" aria-hidden="true">DRAG TO ROTATE · SCROLL TO MOVE</div>
+        </div>
       </div>
     </section>
 
@@ -183,5 +204,14 @@
   </footer>
 
   <script src="script.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="robot-showcase.js"></script>
 </body>
 </html>
