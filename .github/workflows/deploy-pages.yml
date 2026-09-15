@@ -1,0 +1,55 @@
+name: Deploy GitHub Pages with full-res VEX model
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare site
+        run: |
+          mkdir -p _site
+          rsync -a --exclude '.git' --exclude '.github' --exclude '_site' ./ _site/
+          mkdir -p _site/assets
+
+      - name: Download full-resolution VEX release asset
+        run: |
+          curl -L --fail --retry 5 --retry-delay 5 \
+            -o _site/assets/vex-card-robot-full.glb \
+            https://github.com/tommykhanhtrinh/virtual-portfolio/releases/download/vex-card-cad-v1/vex-card-robot-full.glb
+          test "$(stat -c%s _site/assets/vex-card-robot-full.glb)" = "493754592"
+          echo "Full-resolution VEX model downloaded successfully."
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
