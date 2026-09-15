@@ -46,7 +46,7 @@ jobs:
           npm install -g gltfpack@latest
           gltfpack -v
 
-      - name: Build browser-optimized current robot
+      - name: Build browser-compatible current robot
         shell: bash
         env:
           NODE_OPTIONS: --max-old-space-size=6144
@@ -54,50 +54,70 @@ jobs:
           set -euo pipefail
           OUT="_site/assets/robot-current-optimized.glb"
           TMP="$RUNNER_TEMP/robot-current-candidate.glb"
-          TARGET=95000000
+          TARGET=92000000
           MAX=99000000
 
-          echo "Pass 1: quantization + meshoptimizer compression, preserving full mesh topology."
-          gltfpack -i "$SOURCE" -o "$TMP" -cc -kn
+          echo "Pass 1: optimize + quantize without meshopt compression extension."
+          gltfpack -i "$SOURCE" -o "$TMP" -kn
           SIZE=$(stat -c%s "$TMP")
           echo "Pass 1 size: $SIZE bytes"
 
           if [ "$SIZE" -le "$MAX" ]; then
             cp "$TMP" "$OUT"
-            echo "Full geometry fits below the Pages-safe target; no triangle simplification used."
+            RATIO=1.0
+            echo "Full geometry fits below 100 MB without compressed-buffer extensions."
           else
             RATIO=$(python - <<PY
           size=$SIZE
           target=$TARGET
-          r=max(0.12,min(0.92,(target/size)*0.88))
+          r=max(0.10,min(0.95,(target/size)*0.92))
           print(f"{r:.4f}")
           PY
             )
-            echo "Pass 2: permissive simplification ratio $RATIO"
-            gltfpack -i "$SOURCE" -o "$OUT" -cc -kn -si "$RATIO" -sp
-            SIZE=$(stat -c%s "$OUT")
-            echo "Pass 2 size: $SIZE bytes"
 
-            if [ "$SIZE" -gt "$MAX" ]; then
-              RATIO2=$(python - <<PY
+            for PASS in 2 3 4 5; do
+              echo "Pass $PASS: standard GLB, permissive simplification ratio $RATIO"
+              gltfpack -i "$SOURCE" -o "$OUT" -kn -si "$RATIO" -sp
+              SIZE=$(stat -c%s "$OUT")
+              echo "Pass $PASS size: $SIZE bytes"
+              if [ "$SIZE" -le "$MAX" ]; then
+                break
+              fi
+              RATIO=$(python - <<PY
           r=float("$RATIO")
           size=$SIZE
           target=$TARGET
-          r2=max(0.08,min(r*0.88,r*(target/size)*0.90))
+          r2=max(0.06,min(r*0.90,r*(target/size)*0.92))
           print(f"{r2:.4f}")
           PY
               )
-              echo "Pass 3: ratio $RATIO2"
-              gltfpack -i "$SOURCE" -o "$OUT" -cc -kn -si "$RATIO2" -sp
-              SIZE=$(stat -c%s "$OUT")
-              echo "Pass 3 size: $SIZE bytes"
-            fi
+            done
           fi
 
           FINAL_SIZE=$(stat -c%s "$OUT")
           test "$FINAL_SIZE" -lt 100000000
           MAGIC=$(head -c 4 "$OUT")
           test "$MAGIC" = "glTF"
+
+          # Confirm the deployed GLB does NOT require EXT_meshopt_compression.
+          python - <<'PY'
+          import json, struct
+          from pathlib import Path
+          p = Path('_site/assets/robot-current-optimized.glb')
+          data = p.read_bytes()
+          if data[:4] != b'glTF':
+              raise SystemExit('Invalid GLB magic')
+          json_len, json_type = struct.unpack_from('<II', data, 12)
+          if json_type != 0x4E4F534A:
+              raise SystemExit('First GLB chunk is not JSON')
+          doc = json.loads(data[20:20+json_len].decode('utf-8').rstrip('\x00 '))
+          used = doc.get('extensionsUsed', [])
+          required = doc.get('extensionsRequired', [])
+          print('extensionsUsed:', used)
+          print('extensionsRequired:', required)
+          if 'EXT_meshopt_compression' in used or 'EXT_meshopt_compression' in required:
+              raise SystemExit('Unexpected EXT_meshopt_compression in browser-safe GLB')
+          PY
 
           SHA=$(sha256sum "$OUT" | awk '{print $1}')
           python - <<PY
@@ -108,7 +128,9 @@ jobs:
               "optimizedBytes": $FINAL_SIZE,
               "optimizedMiB": round($FINAL_SIZE / 1024 / 1024, 2),
               "sha256": "$SHA",
-              "compression": "gltfpack meshopt + quantization; adaptive simplification only when required",
+              "simplificationRatio": "$RATIO",
+              "format": "standard GLB; no EXT_meshopt_compression",
+              "optimization": "gltfpack quantization + geometry optimization; adaptive simplification only as needed for <100 MB",
           }
           Path('_site/assets/robot-current-optimized.json').write_text(json.dumps(meta, indent=2))
           print(json.dumps(meta, indent=2))
@@ -155,4 +177,4 @@ jobs:
 
           curl -L --fail --silent --show-error --range 0-3 "$MODEL" -o /tmp/glb-magic
           test "$(cat /tmp/glb-magic)" = "glTF"
-          echo "Optimized latest VEX model is live: $SIZE bytes."
+          echo "Browser-compatible latest VEX model is live: $SIZE bytes."
