@@ -8,7 +8,8 @@ if (stage) {
   const loaderText = stage.querySelector('[data-vex-card-loader-text]');
   const loaderMeta = stage.querySelector('[data-vex-card-loader-meta]');
   const loaderBar = stage.querySelector('[data-vex-card-loader-bar]');
-  const modelUrl = stage.dataset.model || 'assets/vex-card-robot-full.glb';
+  const logicalModelUrl = stage.dataset.model || 'assets/vex-card-robot-full.glb';
+  const manifestUrl = `${logicalModelUrl}.manifest.json`;
   const card = stage.closest('.work-vex');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer:fine)').matches;
@@ -117,6 +118,7 @@ if (stage) {
 
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const damp = (current, target, lambda, dt) => THREE.MathUtils.damp(current, target, lambda, dt);
+  const toMiB = (bytes) => bytes / 1024 / 1024;
 
   function setLoader(label, progress = null, meta = '') {
     if (loaderText) loaderText.textContent = label;
@@ -124,6 +126,12 @@ if (stage) {
     if (loaderBar && progress !== null) {
       loaderBar.style.transform = `scaleX(${clamp(progress, 0, 1)})`;
     }
+  }
+
+  function failModel(label, meta, error) {
+    console.warn(label, error);
+    stage.classList.add('model-error');
+    setLoader('FULL-RES CAD / OFFLINE', 0, meta);
   }
 
   function tuneMaterial(material) {
@@ -183,36 +191,119 @@ if (stage) {
     startLoop();
   }
 
-  function progress(xhr) {
-    const loadedMB = xhr.loaded / 1024 / 1024;
-    if (xhr.total) {
-      const pct = clamp(xhr.loaded / xhr.total, 0, 1);
-      setLoader(
-        `FULL-RES CAD / ${Math.round(pct * 100)}%`,
-        pct,
-        `${loadedMB.toFixed(0)} / ${(xhr.total / 1024 / 1024).toFixed(0)} MB`,
-      );
-    } else {
-      setLoader('FULL-RES CAD / LOADING', null, `${loadedMB.toFixed(0)} MB`);
+  async function fetchManifest() {
+    const response = await fetch(manifestUrl, { cache: 'no-cache' });
+    if (!response.ok) {
+      throw new Error(`Manifest HTTP ${response.status}`);
     }
+
+    const manifest = await response.json();
+    if (
+      manifest?.format !== 'glb-chunks' ||
+      !Number.isFinite(manifest.totalBytes) ||
+      !Array.isArray(manifest.chunks) ||
+      manifest.chunks.length === 0
+    ) {
+      throw new Error('Invalid chunk manifest');
+    }
+    return manifest;
   }
 
-  function loadRobot() {
+  async function fetchFullResolutionBuffer(manifest) {
+    let assembled;
+    try {
+      assembled = new Uint8Array(manifest.totalBytes);
+    } catch (error) {
+      error.code = 'MEMORY_ALLOCATION';
+      throw error;
+    }
+
+    const manifestBase = new URL(manifestUrl, window.location.href);
+    let offset = 0;
+
+    for (let index = 0; index < manifest.chunks.length; index += 1) {
+      const chunk = manifest.chunks[index];
+      const chunkUrl = new URL(chunk.url, manifestBase);
+      const response = await fetch(chunkUrl, { cache: 'force-cache' });
+      if (!response.ok) {
+        const error = new Error(`Chunk ${index + 1} HTTP ${response.status}`);
+        error.code = 'CHUNK_HTTP';
+        error.chunkIndex = index;
+        throw error;
+      }
+
+      const buffer = await response.arrayBuffer();
+      if (Number.isFinite(chunk.size) && buffer.byteLength !== chunk.size) {
+        const error = new Error(`Chunk ${index + 1} size mismatch`);
+        error.code = 'CHUNK_SIZE';
+        error.chunkIndex = index;
+        throw error;
+      }
+
+      if (offset + buffer.byteLength > assembled.byteLength) {
+        throw new Error('Chunk data exceeds declared model size');
+      }
+
+      assembled.set(new Uint8Array(buffer), offset);
+      offset += buffer.byteLength;
+
+      const progress = offset / manifest.totalBytes;
+      setLoader(
+        `FULL-RES CAD / ${Math.round(progress * 100)}%`,
+        progress,
+        `${toMiB(offset).toFixed(0)} / ${toMiB(manifest.totalBytes).toFixed(0)} MB`,
+      );
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+    }
+
+    if (offset !== manifest.totalBytes) {
+      throw new Error(`Assembled ${offset} bytes; expected ${manifest.totalBytes}`);
+    }
+
+    return assembled.buffer;
+  }
+
+  async function loadRobot() {
     if (loadStarted) return;
     loadStarted = true;
-    setLoader('FULL-RES CAD / CONNECTING', 0, 'SAME-ORIGIN ASSET');
+    stage.classList.remove('model-error');
+    setLoader('FULL-RES CAD / CONNECTING', 0, 'CHUNKED SAME-ORIGIN ASSET');
 
-    const loader = new GLTFLoader();
-    loader.load(
-      modelUrl,
-      acceptModel,
-      progress,
-      (error) => {
-        console.warn('Full-resolution VEX model could not be loaded:', error);
-        stage.classList.add('model-error');
-        setLoader('FULL-RES CAD / OFFLINE', 0, 'PAGES ASSET MISSING');
-      },
-    );
+    try {
+      const manifest = await fetchManifest();
+      setLoader(
+        'FULL-RES CAD / 0%',
+        0,
+        `${manifest.chunkCount || manifest.chunks.length} CHUNKS · ${toMiB(manifest.totalBytes).toFixed(0)} MB`,
+      );
+
+      const arrayBuffer = await fetchFullResolutionBuffer(manifest);
+      setLoader('FULL-RES CAD / PARSING', 1, `${toMiB(arrayBuffer.byteLength).toFixed(0)} MB · THREE.JS`);
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      const loader = new GLTFLoader();
+      const basePath = new URL('.', new URL(manifestUrl, window.location.href)).href;
+      loader.parse(
+        arrayBuffer,
+        basePath,
+        acceptModel,
+        (error) => failModel('Full-resolution VEX GLB parse failed:', 'GLB PARSE ERROR', error),
+      );
+    } catch (error) {
+      if (error?.code === 'MEMORY_ALLOCATION' || error instanceof RangeError) {
+        failModel('Browser could not allocate the full-resolution model buffer:', 'BROWSER MEMORY LIMIT', error);
+      } else if (error?.code === 'CHUNK_HTTP') {
+        failModel('A VEX CAD chunk could not be fetched:', `CHUNK ${error.chunkIndex + 1} MISSING`, error);
+      } else if (error?.code === 'CHUNK_SIZE') {
+        failModel('A VEX CAD chunk had the wrong byte size:', `CHUNK ${error.chunkIndex + 1} CORRUPT`, error);
+      } else if (/Manifest HTTP/.test(error?.message || '')) {
+        failModel('The VEX CAD manifest could not be fetched:', 'CHUNK MANIFEST MISSING', error);
+      } else {
+        failModel('Full-resolution VEX model could not be assembled:', 'CHUNK LOAD ERROR', error);
+      }
+    }
   }
 
   function resize() {
