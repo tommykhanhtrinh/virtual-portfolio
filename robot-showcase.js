@@ -13,7 +13,7 @@ if (stage) {
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(28, 1, 0.01, 100);
-  camera.position.set(0.16, 0.32, 4.7);
+  camera.position.set(0.12, 0.28, 4.68);
 
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -22,54 +22,86 @@ if (stage) {
     powerPreference: 'high-performance',
   });
   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.65));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMappingExposure = 1.1;
 
   const robotRig = new THREE.Group();
   const orientationRig = new THREE.Group();
   robotRig.add(orientationRig);
   scene.add(robotRig);
 
-  // Lighting is intentionally studio-like so the CAD model keeps its engineering-detail look.
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x6d67a6, 2.35));
+  // Studio lighting: enough contrast to read small CAD details without making the model look glossy.
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x68638f, 2.25));
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 4.2);
-  keyLight.position.set(4.5, 5.5, 6.5);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 4.1);
+  keyLight.position.set(4.5, 5.4, 6.2);
   scene.add(keyLight);
 
-  const coolRim = new THREE.PointLight(0x61d8ff, 18, 10, 2);
-  coolRim.position.set(-3.2, 1.7, -2.6);
+  const coolRim = new THREE.PointLight(0x61d8ff, 17, 10, 2);
+  coolRim.position.set(-3.1, 1.8, -2.4);
   scene.add(coolRim);
 
   const greenFill = new THREE.PointLight(0x9cff57, 12, 9, 2);
-  greenFill.position.set(3.2, -1.8, 1.1);
+  greenFill.position.set(3.1, -1.6, 1.2);
   scene.add(greenFill);
 
-  const purpleFill = new THREE.PointLight(0x875cff, 9, 9, 2);
-  purpleFill.position.set(-2.4, -1.2, 2.2);
+  const purpleFill = new THREE.PointLight(0x875cff, 8, 9, 2);
+  purpleFill.position.set(-2.4, -1.1, 2.1);
   scene.add(purpleFill);
 
-  // Soft fake ground shadow. It is much cheaper than real-time shadow maps for a CAD-heavy robot.
+  // Cheap fake shadow. Real shadow maps are expensive for a CAD assembly with many objects.
   const shadowCanvas = document.createElement('canvas');
   shadowCanvas.width = 256;
   shadowCanvas.height = 256;
   const shadowCtx = shadowCanvas.getContext('2d');
   const shadowGradient = shadowCtx.createRadialGradient(128, 128, 8, 128, 128, 118);
-  shadowGradient.addColorStop(0, 'rgba(10,15,24,.30)');
-  shadowGradient.addColorStop(.45, 'rgba(10,15,24,.13)');
+  shadowGradient.addColorStop(0, 'rgba(10,15,24,.29)');
+  shadowGradient.addColorStop(.46, 'rgba(10,15,24,.12)');
   shadowGradient.addColorStop(1, 'rgba(10,15,24,0)');
   shadowCtx.fillStyle = shadowGradient;
   shadowCtx.fillRect(0, 0, 256, 256);
   const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
   const shadow = new THREE.Mesh(
-    new THREE.PlaneGeometry(3.3, 1.8),
+    new THREE.PlaneGeometry(3.25, 1.72),
     new THREE.MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false }),
   );
   shadow.rotation.x = -Math.PI / 2;
   shadow.position.set(0, -1.03, 0.08);
   scene.add(shadow);
+
+  // Alex Dickhans' site drives a robot along a CubicBezierCurve3 and orients it from the curve tangent.
+  // This is the same Three.js idea, scaled down to stay inside this portfolio section.
+  const robotPath = new THREE.CubicBezierCurve3(
+    new THREE.Vector3(-0.28, -0.045, 0.08),
+    new THREE.Vector3(-0.14, 0.12, -0.11),
+    new THREE.Vector3(0.14, 0.10, 0.11),
+    new THREE.Vector3(0.28, -0.035, -0.06),
+  );
+  const pathPoints = robotPath.getPoints(70);
+  const pathGeometry = new THREE.BufferGeometry().setFromPoints(pathPoints);
+  const pathMaterial = new THREE.LineBasicMaterial({
+    color: 0x875cff,
+    transparent: true,
+    opacity: 0.16,
+    depthWrite: false,
+  });
+  const pathLine = new THREE.Line(pathGeometry, pathMaterial);
+  pathLine.position.z = -0.48;
+  pathLine.scale.set(2.5, 2.5, 2.5);
+  scene.add(pathLine);
+
+  const grid = new THREE.GridHelper(3.65, 16, 0x875cff, 0x0a0f18);
+  grid.position.set(0, -1.02, -0.36);
+  grid.scale.z = 0.78;
+  const gridMaterials = Array.isArray(grid.material) ? grid.material : [grid.material];
+  gridMaterials.forEach((material, index) => {
+    material.transparent = true;
+    material.opacity = index === 0 ? 0.10 : 0.045;
+    material.depthWrite = false;
+  });
+  scene.add(grid);
 
   let robot = null;
   let modelLoaded = false;
@@ -77,8 +109,8 @@ if (stage) {
   let loadStarted = false;
   let raf = 0;
   let lastTime = performance.now();
-  let scrollTarget = .5;
-  let scrollValue = .5;
+  let scrollTarget = 0.5;
+  let scrollValue = 0.5;
   let pointerTargetX = 0;
   let pointerTargetY = 0;
   let pointerX = 0;
@@ -90,6 +122,9 @@ if (stage) {
   let dragStartX = 0;
   let dragStartYaw = 0;
   let resumeAutoAt = 0;
+  const spinningParts = [];
+  const zAxis = new THREE.Vector3(0, 0, 1);
+  const spinQuaternion = new THREE.Quaternion();
 
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -101,23 +136,44 @@ if (stage) {
 
   function tuneMaterial(material) {
     if (!material || !material.isMeshStandardMaterial) return;
-    material = material;
     const c = material.color;
     const max = Math.max(c.r, c.g, c.b);
     const min = Math.min(c.r, c.g, c.b);
     const saturation = max > 0 ? (max - min) / max : 0;
     const luminance = (c.r + c.g + c.b) / 3;
 
-    // Neutral Onshape parts read more like aluminum/steel with a moderate metallic response.
-    if (saturation < .15 && luminance > .12) {
-      material.metalness = Math.max(material.metalness || 0, .36);
-      material.roughness = .46;
+    if (saturation < 0.15 && luminance > 0.12) {
+      material.metalness = Math.max(material.metalness || 0, 0.34);
+      material.roughness = 0.48;
     } else {
-      material.metalness = Math.min(material.metalness || 0, .12);
-      material.roughness = .58;
+      material.metalness = Math.min(material.metalness || 0, 0.11);
+      material.roughness = 0.58;
     }
-    material.envMapIntensity = .8;
+
+    // The web model is aggressively simplified from the 472 MB Onshape export.
+    // Flat shading lets that light mesh keep crisp mechanical edges without shipping a huge normal buffer.
+    material.flatShading = true;
+    material.envMapIntensity = 0.8;
     material.needsUpdate = true;
+  }
+
+  function collectMechanicalMotion(root) {
+    spinningParts.length = 0;
+    root.traverse((obj) => {
+      const name = obj.name || '';
+      if (!/wheel|gear/i.test(name)) return;
+      if (!obj.children.length && !obj.isMesh) return;
+
+      const isFlex = /flex wheel/i.test(name);
+      const isGear = /gear/i.test(name);
+      spinningParts.push({
+        object: obj,
+        baseQuaternion: obj.quaternion.clone(),
+        speed: isGear ? 1.25 : isFlex ? 2.9 : 2.15,
+        direction: spinningParts.length % 2 ? -1 : 1,
+        phase: (spinningParts.length % 7) * 0.18,
+      });
+    });
   }
 
   function loadRobot() {
@@ -138,24 +194,19 @@ if (stage) {
           else tuneMaterial(obj.material);
         });
 
-        // The model comes from Onshape (Z-up). Rotate it into Three.js' Y-up world.
+        collectMechanicalMotion(robot);
+
+        // Onshape exports this assembly Z-up. Convert to Three.js' Y-up world.
         orientationRig.rotation.x = -Math.PI / 2;
         orientationRig.add(robot);
 
-        // Center the complete assembly around the animation pivot and fit it consistently.
+        // Center the entire assembly at the animation pivot and fit it consistently in the circle.
         const box = new THREE.Box3().setFromObject(robot);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
         robot.position.sub(center);
         const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-        const modelScale = 2.42 / maxDimension;
-        robot.scale.setScalar(modelScale);
-
-        // Re-center after scale so the visual pivot feels stable while spinning.
-        const fittedBox = new THREE.Box3().setFromObject(orientationRig);
-        const fittedCenter = fittedBox.getCenter(new THREE.Vector3());
-        robotRig.position.sub(fittedCenter);
-        robotRig.position.y += .06;
+        robot.scale.setScalar(2.38 / maxDimension);
 
         modelLoaded = true;
         stage.classList.add('robot-ready');
@@ -191,7 +242,7 @@ if (stage) {
   function updateScrollProgress() {
     const rect = stage.getBoundingClientRect();
     const viewport = window.innerHeight || 1;
-    // 0 when entering from below, 1 when leaving through the top.
+    // 0 entering from below → 1 leaving through the top, mirroring the scroll-driven camera idea in the reference site.
     scrollTarget = clamp((viewport - rect.top) / (viewport + rect.height), 0, 1);
   }
 
@@ -202,7 +253,7 @@ if (stage) {
 
     if (dragging) {
       const dx = event.clientX - dragStartX;
-      const nextYaw = dragStartYaw + dx * .0085;
+      const nextYaw = dragStartYaw + dx * 0.0085;
       manualVelocity = nextYaw - manualYaw;
       manualYaw = nextYaw;
       resumeAutoAt = performance.now() + 1250;
@@ -236,43 +287,61 @@ if (stage) {
     raf = 0;
     if (!inView && modelLoaded) return;
 
-    const dt = Math.min((now - lastTime) / 1000, .04);
+    const dt = Math.min((now - lastTime) / 1000, 0.04);
     lastTime = now;
-    scrollValue += (scrollTarget - scrollValue) * (1 - Math.pow(.0008, dt));
-    pointerX += (pointerTargetX - pointerX) * (1 - Math.pow(.001, dt));
-    pointerY += (pointerTargetY - pointerY) * (1 - Math.pow(.001, dt));
+    scrollValue += (scrollTarget - scrollValue) * (1 - Math.pow(0.0008, dt));
+    pointerX += (pointerTargetX - pointerX) * (1 - Math.pow(0.001, dt));
+    pointerY += (pointerTargetY - pointerY) * (1 - Math.pow(0.001, dt));
 
     if (modelLoaded) {
-      if (!reducedMotion && !dragging && now > resumeAutoAt) {
-        autoYaw += dt * .34;
-      }
+      if (!reducedMotion && !dragging && now > resumeAutoAt) autoYaw += dt * 0.29;
       if (!dragging) {
         manualYaw += manualVelocity;
-        manualVelocity *= Math.pow(.06, dt);
+        manualVelocity *= Math.pow(0.06, dt);
       }
 
-      // Alex Dickhans-style idea: scroll changes the camera/view while the robot keeps rotating.
-      // Here it is scoped to this section so the rest of the portfolio remains normal HTML.
-      const scrollArc = (scrollValue - .5);
-      const bob = reducedMotion ? 0 : Math.sin(now * .00115) * .055;
-      const breathe = reducedMotion ? 0 : Math.sin(now * .00062) * .018;
+      // Exact motion concept from the reference: cosine-eased travel on a CubicBezierCurve3.
+      const pathT = reducedMotion
+        ? 0.5
+        : 1 - (Math.cos(((now / 3600) % 2) * Math.PI) + 1) / 2;
+      const pathPosition = robotPath.getPoint(pathT);
+      const pathTangent = robotPath.getTangent(pathT);
+      const scrollArc = scrollValue - 0.5;
+      const bob = reducedMotion ? 0 : Math.sin(now * 0.00135) * 0.045;
+      const breathe = reducedMotion ? 0 : Math.sin(now * 0.00062) * 0.012;
+      const tangentYaw = Math.atan2(pathTangent.x, Math.max(0.04, Math.abs(pathTangent.z))) * 0.12;
 
-      robotRig.rotation.y = autoYaw + manualYaw + scrollArc * 1.05 + pointerX * .18;
-      robotRig.rotation.z = pointerX * -.055 + Math.sin(now * .00082) * .012;
-      robotRig.position.x = lerp(.10, -.10, scrollValue) + pointerX * .045;
-      robotRig.position.y = .04 + bob - pointerY * .045;
+      robotRig.position.x = pathPosition.x + pointerX * 0.045 + scrollArc * -0.08;
+      robotRig.position.y = pathPosition.y + bob - pointerY * 0.04;
+      robotRig.position.z = pathPosition.z * 0.7;
+      robotRig.rotation.y = autoYaw + manualYaw + tangentYaw + scrollArc * 0.92 + pointerX * 0.16;
+      robotRig.rotation.z = pointerX * -0.055 + Math.sin(now * 0.00082) * 0.011;
+      robotRig.rotation.x = scrollArc * -0.06 + pointerY * 0.025;
       robotRig.scale.setScalar(1 + breathe);
 
-      const cameraTargetX = pointerX * .18 + scrollArc * .08;
-      const cameraTargetY = .31 - scrollArc * .34 - pointerY * .09;
-      const cameraTargetZ = 4.65 - Math.sin(scrollValue * Math.PI) * .18;
-      camera.position.x += (cameraTargetX - camera.position.x) * .055;
-      camera.position.y += (cameraTargetY - camera.position.y) * .055;
-      camera.position.z += (cameraTargetZ - camera.position.z) * .055;
-      camera.lookAt(0, -.04, 0);
+      // Wheels and gears turn while the chassis travels. Node names come directly from the Onshape assembly.
+      if (!reducedMotion) {
+        spinningParts.forEach((part) => {
+          const angle = now * 0.001 * part.speed * part.direction + part.phase;
+          spinQuaternion.setFromAxisAngle(zAxis, angle);
+          part.object.quaternion.copy(part.baseQuaternion).multiply(spinQuaternion);
+        });
+      }
 
-      shadow.scale.x = 1 + Math.sin(now * .00115) * .025;
-      shadow.material.opacity = .82 - Math.abs(bob) * .8;
+      // Scroll moves the camera through a small arc, just like the full-page Three.js camera in Alex's implementation.
+      const cameraTargetX = pointerX * 0.17 + scrollArc * 0.16;
+      const cameraTargetY = lerp(0.48, 0.08, scrollValue) - pointerY * 0.08;
+      const cameraTargetZ = 4.72 - Math.sin(scrollValue * Math.PI) * 0.22;
+      camera.position.x += (cameraTargetX - camera.position.x) * 0.055;
+      camera.position.y += (cameraTargetY - camera.position.y) * 0.055;
+      camera.position.z += (cameraTargetZ - camera.position.z) * 0.055;
+      camera.lookAt(0, -0.045, 0);
+
+      pathLine.rotation.z = Math.sin(now * 0.00028) * 0.035;
+      pathMaterial.opacity = 0.12 + Math.sin(now * 0.0011) * 0.035;
+      grid.rotation.y = scrollArc * 0.12;
+      shadow.scale.x = 1 + Math.sin(now * 0.00135) * 0.025;
+      shadow.material.opacity = 0.82 - Math.abs(bob) * 0.8;
     }
 
     renderer.render(scene, camera);
