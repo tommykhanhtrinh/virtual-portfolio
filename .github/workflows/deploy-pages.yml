@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages with full-res VEX model
+name: Deploy GitHub Pages with optimized current VEX model
 
 on:
   push:
@@ -25,9 +25,9 @@ jobs:
         run: |
           mkdir -p _site
           rsync -a --exclude '.git' --exclude '.github' --exclude '_site' ./ _site/
-          mkdir -p _site/assets/vex-card-cad
+          mkdir -p _site/assets
 
-      - name: Download and split full-resolution VEX CAD
+      - name: Download latest full-resolution VEX CAD
         shell: bash
         run: |
           set -euo pipefail
@@ -35,44 +35,84 @@ jobs:
           curl -L --fail --retry 5 --retry-delay 5 \
             -o "$SOURCE" \
             https://github.com/tommykhanhtrinh/virtual-portfolio/releases/download/vex-card-cad-v1/vex-card-robot-full.glb
-
           test "$(stat -c%s "$SOURCE")" = "493754592"
-          SOURCE_SHA="$(sha256sum "$SOURCE" | awk '{print $1}')"
-          echo "Source SHA256: $SOURCE_SHA"
+          echo "SOURCE=$SOURCE" >> "$GITHUB_ENV"
+          echo "Original CAD: $(du -h "$SOURCE" | cut -f1)"
 
-          split -b 32M -d -a 3 "$SOURCE" _site/assets/vex-card-cad/chunk-
+      - name: Install gltfpack
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install -g gltfpack@latest
+          gltfpack -h >/dev/null
 
-          python - <<'PY'
-          from pathlib import Path
-          import json
+      - name: Build browser-optimized current robot
+        shell: bash
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+        run: |
+          set -euo pipefail
+          OUT="_site/assets/robot-current-optimized.glb"
+          TMP="$RUNNER_TEMP/robot-current-candidate.glb"
+          TARGET=95000000
+          MAX=99000000
 
-          root = Path('_site/assets/vex-card-cad')
-          files = sorted(root.glob('chunk-*'))
-          total = sum(p.stat().st_size for p in files)
-          expected = 493_754_592
-          if total != expected:
-              raise SystemExit(f'Chunk total {total} != expected {expected}')
+          echo "Pass 1: quantization + meshoptimizer compression, preserving full mesh topology."
+          gltfpack -i "$SOURCE" -o "$TMP" -cc -kn
+          SIZE=$(stat -c%s "$TMP")
+          echo "Pass 1 size: $SIZE bytes"
 
-          manifest = {
-              'version': 1,
-              'format': 'glb-chunks',
-              'totalBytes': total,
-              'chunkCount': len(files),
-              'chunks': [
-                  {'url': f'vex-card-cad/{p.name}', 'size': p.stat().st_size}
-                  for p in files
-              ],
-          }
-          Path('_site/assets/vex-card-robot-full.glb.manifest.json').write_text(
-              json.dumps(manifest, separators=(',', ':')),
-              encoding='utf-8',
-          )
-          print(f'Created {len(files)} chunks totaling {total} bytes')
+          if [ "$SIZE" -le "$MAX" ]; then
+            cp "$TMP" "$OUT"
+            echo "Full geometry fits below the Pages-safe target; no triangle simplification used."
+          else
+            RATIO=$(python - <<PY
+          size=$SIZE
+          target=$TARGET
+          r=max(0.12,min(0.92,(target/size)*0.88))
+          print(f"{r:.4f}")
           PY
+            )
+            echo "Pass 2: permissive simplification ratio $RATIO"
+            gltfpack -i "$SOURCE" -o "$OUT" -cc -kn -si "$RATIO" -sp
+            SIZE=$(stat -c%s "$OUT")
+            echo "Pass 2 size: $SIZE bytes"
 
-          CHUNK_SHA="$(cat _site/assets/vex-card-cad/chunk-* | sha256sum | awk '{print $1}')"
-          test "$CHUNK_SHA" = "$SOURCE_SHA"
-          echo "Chunked copy is byte-for-byte identical to the 493754592-byte source."
+            if [ "$SIZE" -gt "$MAX" ]; then
+              RATIO2=$(python - <<PY
+          r=float("$RATIO")
+          size=$SIZE
+          target=$TARGET
+          r2=max(0.08,min(r*0.88,r*(target/size)*0.90))
+          print(f"{r2:.4f}")
+          PY
+              )
+              echo "Pass 3: ratio $RATIO2"
+              gltfpack -i "$SOURCE" -o "$OUT" -cc -kn -si "$RATIO2" -sp
+              SIZE=$(stat -c%s "$OUT")
+              echo "Pass 3 size: $SIZE bytes"
+            fi
+          fi
+
+          FINAL_SIZE=$(stat -c%s "$OUT")
+          test "$FINAL_SIZE" -lt 100000000
+          MAGIC=$(head -c 4 "$OUT")
+          test "$MAGIC" = "glTF"
+
+          SHA=$(sha256sum "$OUT" | awk '{print $1}')
+          python - <<PY
+          import json
+          from pathlib import Path
+          meta = {
+              "sourceBytes": 493754592,
+              "optimizedBytes": $FINAL_SIZE,
+              "optimizedMiB": round($FINAL_SIZE / 1024 / 1024, 2),
+              "sha256": "$SHA",
+              "compression": "gltfpack meshopt + quantization; adaptive simplification only when required",
+          }
+          Path('_site/assets/robot-current-optimized.json').write_text(json.dumps(meta, indent=2))
+          print(json.dumps(meta, indent=2))
+          PY
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -93,33 +133,26 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify chunked CAD is publicly served
+      - name: Verify optimized robot is publicly served
         shell: bash
         run: |
           set -euo pipefail
           BASE="${{ steps.deployment.outputs.page_url }}"
-          MANIFEST="${BASE}assets/vex-card-robot-full.glb.manifest.json"
+          MODEL="${BASE}assets/robot-current-optimized.glb"
+          META="${BASE}assets/robot-current-optimized.json"
 
-          for attempt in 1 2 3 4 5 6; do
-            if curl -L --fail --silent --show-error "$MANIFEST" -o /tmp/manifest.json; then
+          for attempt in 1 2 3 4 5 6 7 8; do
+            if curl -L --fail --silent --show-error "$META" -o /tmp/robot-meta.json; then
               break
             fi
-            echo "Waiting for Pages CDN propagation ($attempt/6)..."
+            echo "Waiting for Pages CDN propagation ($attempt/8)..."
             sleep 10
           done
 
-          python - <<'PY'
-          import json
-          m = json.load(open('/tmp/manifest.json'))
-          assert m['totalBytes'] == 493754592
-          assert m['chunkCount'] == len(m['chunks'])
-          print('Manifest OK:', m['chunkCount'], 'chunks')
-          print('First:', m['chunks'][0]['url'])
-          print('Last:', m['chunks'][-1]['url'])
-          PY
+          cat /tmp/robot-meta.json
+          SIZE=$(python -c "import json;print(json.load(open('/tmp/robot-meta.json'))['optimizedBytes'])")
+          test "$SIZE" -lt 100000000
 
-          FIRST="$(python -c "import json;print(json.load(open('/tmp/manifest.json'))['chunks'][0]['url'])")"
-          LAST="$(python -c "import json;print(json.load(open('/tmp/manifest.json'))['chunks'][-1]['url'])")"
-          curl -L --fail --silent --show-error --head "${BASE}assets/${FIRST}" >/dev/null
-          curl -L --fail --silent --show-error --head "${BASE}assets/${LAST}" >/dev/null
-          echo "Public chunk endpoints are reachable."
+          curl -L --fail --silent --show-error --range 0-3 "$MODEL" -o /tmp/glb-magic
+          test "$(cat /tmp/glb-magic)" = "glTF"
+          echo "Optimized latest VEX model is live: $SIZE bytes."
