@@ -8,7 +8,8 @@ if (stage) {
   const loaderText = stage.querySelector('[data-vex-card-loader-text]');
   const loaderMeta = stage.querySelector('[data-vex-card-loader-meta]');
   const loaderBar = stage.querySelector('[data-vex-card-loader-bar]');
-  const modelUrl = stage.dataset.model;
+  const browserModelUrl = stage.dataset.model;
+  const apiModelUrl = 'https://api.github.com/repos/tommykhanhtrinh/virtual-portfolio/releases/assets/566073727';
   const card = stage.closest('.work-vex');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer:fine)').matches;
@@ -35,49 +36,38 @@ if (stage) {
   scene.add(robotRig);
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x111c2a, 2.4));
-
   const key = new THREE.DirectionalLight(0xffffff, 4.6);
   key.position.set(4.8, 5.6, 6.5);
   scene.add(key);
-
   const cyanRim = new THREE.PointLight(0x61d8ff, 14, 9, 2);
   cyanRim.position.set(-3.6, 1.3, -2.3);
   scene.add(cyanRim);
-
   const greenFill = new THREE.PointLight(0x9cff57, 11, 8, 2);
   greenFill.position.set(3.1, -1.2, 1.7);
   scene.add(greenFill);
-
   const violetFill = new THREE.PointLight(0x875cff, 8, 8, 2);
   violetFill.position.set(-2.2, -1.25, 2.3);
   scene.add(violetFill);
 
-  // Engineering-floor grid, matching the visual language of the old V5 diagram.
   const grid = new THREE.GridHelper(8, 16, 0x425367, 0x1c2a39);
   grid.position.y = -1.06;
   grid.material.transparent = true;
   grid.material.opacity = 0.38;
   scene.add(grid);
 
-  // Alex-Dickhans-style motion principle: the robot follows a 3D Bezier path and turns with its tangent.
   const driveCurve = new THREE.CubicBezierCurve3(
     new THREE.Vector3(-0.92, -0.03, 0.18),
     new THREE.Vector3(-0.42, 0.10, -0.16),
     new THREE.Vector3(0.36, -0.08, 0.12),
     new THREE.Vector3(0.92, 0.02, -0.10),
   );
-
-  const curveGeometry = new THREE.BufferGeometry().setFromPoints(driveCurve.getPoints(80));
-  const curveMaterial = new THREE.LineBasicMaterial({
-    color: 0x9cff57,
-    transparent: true,
-    opacity: 0.42,
-  });
-  const curveLine = new THREE.Line(curveGeometry, curveMaterial);
+  const curveLine = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(driveCurve.getPoints(80)),
+    new THREE.LineBasicMaterial({ color: 0x9cff57, transparent: true, opacity: 0.42 }),
+  );
   curveLine.position.y = -1.015;
   scene.add(curveLine);
 
-  // Cheap but convincing ground shadow; avoids heavy real-time shadow maps for the untouched CAD mesh.
   const shadowCanvas = document.createElement('canvas');
   shadowCanvas.width = 256;
   shadowCanvas.height = 128;
@@ -88,10 +78,13 @@ if (stage) {
   grad.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 256, 128);
-  const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
   const shadow = new THREE.Mesh(
     new THREE.PlaneGeometry(2.7, 1.3),
-    new THREE.MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false }),
+    new THREE.MeshBasicMaterial({
+      map: new THREE.CanvasTexture(shadowCanvas),
+      transparent: true,
+      depthWrite: false,
+    }),
   );
   shadow.rotation.x = -Math.PI / 2;
   shadow.position.y = -1.04;
@@ -100,6 +93,7 @@ if (stage) {
   let robot = null;
   let loaded = false;
   let loadStarted = false;
+  let retryStarted = false;
   let inView = false;
   let raf = 0;
   let last = performance.now();
@@ -123,92 +117,109 @@ if (stage) {
   function setLoader(label, progress = null, meta = '') {
     if (loaderText) loaderText.textContent = label;
     if (loaderMeta) loaderMeta.textContent = meta;
-    if (loaderBar && progress !== null) {
-      loaderBar.style.transform = `scaleX(${clamp(progress, 0, 1)})`;
-    }
+    if (loaderBar && progress !== null) loaderBar.style.transform = `scaleX(${clamp(progress, 0, 1)})`;
   }
 
   function tuneMaterial(material) {
     if (!material) return;
     if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
-    if (material.isMeshStandardMaterial || material.isMeshPhysicalMaterial) {
-      const color = material.color;
-      const max = Math.max(color.r, color.g, color.b);
-      const min = Math.min(color.r, color.g, color.b);
-      const saturation = max > 0 ? (max - min) / max : 0;
-      const luminance = (color.r + color.g + color.b) / 3;
-
-      if (saturation < .14 && luminance > .10) {
-        material.metalness = Math.max(material.metalness || 0, .34);
-        material.roughness = Math.max(.38, Math.min(material.roughness ?? .5, .52));
-      } else {
-        material.metalness = Math.min(material.metalness || 0, .14);
-        material.roughness = Math.max(.48, material.roughness ?? .55);
-      }
-      material.envMapIntensity = .8;
-      material.needsUpdate = true;
+    if (!material.isMeshStandardMaterial && !material.isMeshPhysicalMaterial) return;
+    const c = material.color;
+    const max = Math.max(c.r, c.g, c.b);
+    const min = Math.min(c.r, c.g, c.b);
+    const saturation = max > 0 ? (max - min) / max : 0;
+    const luminance = (c.r + c.g + c.b) / 3;
+    if (saturation < .14 && luminance > .10) {
+      material.metalness = Math.max(material.metalness || 0, .34);
+      material.roughness = Math.max(.38, Math.min(material.roughness ?? .5, .52));
+    } else {
+      material.metalness = Math.min(material.metalness || 0, .14);
+      material.roughness = Math.max(.48, material.roughness ?? .55);
     }
+    material.envMapIntensity = .8;
+    material.needsUpdate = true;
   }
 
   function fitRobot() {
-    if (!robot) return;
-
-    // Onshape exports are commonly Z-up. Keep the original full-resolution mesh untouched and only orient the parent rig.
     orientationRig.rotation.x = -Math.PI / 2;
-
     const box = new THREE.Box3().setFromObject(robot);
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
     robot.position.sub(center);
-
-    const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-    robot.scale.setScalar(2.25 / maxDimension);
-
-    // Re-center after orientation + scale so rotation stays visually stable.
+    robot.scale.setScalar(2.25 / (Math.max(size.x, size.y, size.z) || 1));
     const fitted = new THREE.Box3().setFromObject(orientationRig);
     const fittedCenter = fitted.getCenter(new THREE.Vector3());
     robotRig.position.set(-fittedCenter.x, -fittedCenter.y - .02, -fittedCenter.z);
   }
 
-  function loadRobot() {
-    if (loadStarted || !modelUrl) return;
-    loadStarted = true;
-    setLoader('FULL-RES CAD / CONNECTING', 0, '0 MB');
+  function acceptModel(gltf) {
+    robot = gltf.scene;
+    robot.traverse((obj) => {
+      if (!obj.isMesh) return;
+      obj.frustumCulled = true;
+      if (Array.isArray(obj.material)) obj.material.forEach(tuneMaterial);
+      else tuneMaterial(obj.material);
+    });
+    orientationRig.add(robot);
+    fitRobot();
+    loaded = true;
+    stage.classList.remove('model-error');
+    stage.classList.add('model-ready');
+    setLoader('FULL-RES CAD / ONLINE', 1, 'DRAG TO ROTATE');
+    resize();
+    last = performance.now();
+    startLoop();
+  }
 
-    const loader = new GLTFLoader();
-    loader.load(
-      modelUrl,
-      (gltf) => {
-        robot = gltf.scene;
-        robot.traverse((obj) => {
-          if (!obj.isMesh) return;
-          obj.frustumCulled = true;
-          if (Array.isArray(obj.material)) obj.material.forEach(tuneMaterial);
-          else tuneMaterial(obj.material);
-        });
+  function progress(xhr) {
+    const loadedMB = xhr.loaded / 1024 / 1024;
+    if (xhr.total) {
+      const pct = clamp(xhr.loaded / xhr.total, 0, 1);
+      setLoader(`FULL-RES CAD / ${Math.round(pct * 100)}%`, pct, `${loadedMB.toFixed(0)} / ${(xhr.total / 1024 / 1024).toFixed(0)} MB`);
+    } else {
+      setLoader('FULL-RES CAD / LOADING', null, `${loadedMB.toFixed(0)} MB`);
+    }
+  }
 
-        orientationRig.add(robot);
-        fitRobot();
-        loaded = true;
-        stage.classList.add('model-ready');
-        setLoader('FULL-RES CAD / ONLINE', 1, 'DRAG TO ROTATE');
-        resize();
-        last = performance.now();
-        startLoop();
-      },
-      (xhr) => {
-        const loadedMB = xhr.loaded / 1024 / 1024;
-        if (xhr.total) {
-          const pct = clamp(xhr.loaded / xhr.total, 0, 1);
-          setLoader(`FULL-RES CAD / ${Math.round(pct * 100)}%`, pct, `${loadedMB.toFixed(0)} / ${(xhr.total / 1024 / 1024).toFixed(0)} MB`);
-        } else {
-          setLoader('FULL-RES CAD / LOADING', null, `${loadedMB.toFixed(0)} MB`);
-        }
-      },
-      (error) => {
-        console.warn('Full-resolution VEX card model could not be loaded:', error);
+  function tryBrowserFallback(firstError) {
+    if (retryStarted || !browserModelUrl) {
+      stage.classList.add('model-error');
+      setLoader('FULL-RES CAD / OFFLINE', 0, firstError?.message ? firstError.message.slice(0, 42) : 'NETWORK / CORS ERROR');
+      return;
+    }
+    retryStarted = true;
+    setLoader('FULL-RES CAD / RETRYING', 0, 'DIRECT RELEASE URL');
+    const fallbackLoader = new GLTFLoader();
+    fallbackLoader.setCrossOrigin('anonymous');
+    fallbackLoader.load(
+      browserModelUrl,
+      acceptModel,
+      progress,
+      (secondError) => {
+        console.warn('VEX model fallback failed:', secondError);
         stage.classList.add('model-error');
-        setLoader('FULL-RES CAD / OFFLINE', 0, 'CHECK RELEASE ASSET');
+        setLoader('FULL-RES CAD / OFFLINE', 0, 'RELEASE FETCH BLOCKED');
+      },
+    );
+  }
+
+  function loadRobot() {
+    if (loadStarted) return;
+    loadStarted = true;
+    setLoader('FULL-RES CAD / CONNECTING', 0, 'GITHUB API');
+
+    // Release asset 566073727 is confirmed uploaded. GitHub's API requires this Accept header
+    // when the binary is requested through the asset endpoint.
+    const loader = new GLTFLoader();
+    loader.setCrossOrigin('anonymous');
+    loader.setRequestHeader({ Accept: 'application/octet-stream' });
+    loader.load(
+      apiModelUrl,
+      acceptModel,
+      progress,
+      (error) => {
+        console.warn('GitHub API release-asset load failed; retrying browser URL:', error);
+        tryBrowserFallback(error);
       },
     );
   }
@@ -226,7 +237,6 @@ if (stage) {
     const rect = stage.getBoundingClientRect();
     pointerTargetX = clamp(((event.clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
     pointerTargetY = clamp(((event.clientY - rect.top) / rect.height) * 2 - 1, -1, 1);
-
     if (!dragging) return;
     const dx = event.clientX - dragStartX;
     dragDistance = Math.max(dragDistance, Math.abs(dx));
@@ -270,7 +280,6 @@ if (stage) {
   function render(now) {
     raf = 0;
     if (!inView && loaded) return;
-
     const dt = Math.min((now - last) / 1000, .04);
     last = now;
     pointerX = damp(pointerX, pointerTargetX, 7.5, dt);
@@ -287,15 +296,11 @@ if (stage) {
       if (!dragging) {
         manualYaw += yawVelocity;
         yawVelocity *= Math.pow(.035, dt);
-        if (!reducedMotion && now > resumeAutoAt) {
-          // Very slow extra reveal so the CAD is not locked to one face while following the path.
-          manualYaw += dt * .065;
-        }
+        if (!reducedMotion && now > resumeAutoAt) manualYaw += dt * .065;
       }
 
       const targetYaw = pathYaw + manualYaw + pointerX * .13;
       visualYaw += shortestAngle(visualYaw, targetYaw) * (1 - Math.pow(.0008, dt));
-
       const bob = reducedMotion ? 0 : Math.sin(now * .0015) * .035;
       const roll = reducedMotion ? 0 : Math.sin(now * .0009) * .012;
       robotRig.position.x = p.x + pointerX * .035;
@@ -308,7 +313,6 @@ if (stage) {
       shadow.position.z = p.z;
       shadow.scale.x = 1 - Math.min(Math.abs(bob) * 2.5, .08);
       shadow.material.opacity = .88 - Math.abs(bob) * 2.2;
-
       camera.position.x = damp(camera.position.x, pointerX * .16, 5.5, dt);
       camera.position.y = damp(camera.position.y, .54 - pointerY * .10, 5.5, dt);
       camera.position.z = damp(camera.position.z, 4.60 - Math.abs(pointerX) * .05, 5.5, dt);
@@ -320,8 +324,7 @@ if (stage) {
   }
 
   function startLoop() {
-    if (raf) return;
-    raf = requestAnimationFrame(render);
+    if (!raf) raf = requestAnimationFrame(render);
   }
 
   stage.addEventListener('pointermove', pointerMove);
@@ -331,7 +334,6 @@ if (stage) {
   stage.addEventListener('pointerleave', pointerLeave);
   window.addEventListener('resize', resize, { passive: true });
 
-  // The 471 MB source model is intentionally not geometry-reduced, so only request it when the card is actually near view.
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       inView = entry.isIntersecting;
