@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="home-polish.css">
   <link rel="stylesheet" href="robot-showcase.css">
-  <link rel="stylesheet" href="vex-card-robot.css">
 </head>
 <body class="home-page">
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -103,15 +102,8 @@
         <div class="work-grid">
           <a class="work-card work-vex tilt-card reveal-up" href="vex.html">
             <div class="work-card-top"><span>01 / VEX ROBOTICS</span><span class="arrow-circle">↗</span></div>
-            <div class="work-visual robot-visual vex-card-stage" data-vex-card-3d data-model="assets/vex-card-robot-full.glb" aria-label="Animated full-resolution 3D model of my VEX robot">
-              <canvas class="vex-card-canvas" aria-hidden="true"></canvas>
-              <div class="vex-card-fallback" aria-hidden="true">V5 / CAD</div>
-              <div class="vex-card-live-badge" aria-hidden="true">LIVE ROBOT MODEL</div>
-              <div class="vex-card-hint" aria-hidden="true">DRAG TO ROTATE · PATH FOLLOWING</div>
-              <div class="vex-card-loader" aria-hidden="true">
-                <div class="vex-card-loader-row"><span data-vex-card-loader-text>FULL-RES CAD / STANDBY</span><span data-vex-card-loader-meta>471 MB SOURCE</span></div>
-                <div class="vex-card-loader-track"><i data-vex-card-loader-bar></i></div>
-              </div>
+            <div class="work-visual robot-visual" aria-hidden="true">
+              <div class="grid-lines"></div><div class="robot-core">V5</div><div class="robot-node n1"></div><div class="robot-node n2"></div><div class="robot-node n3"></div>
             </div>
             <div class="work-copy"><h3>I make robots move.</h3><p>Mechanical design, autonomous control, sensors, strategy, testing, and iteration from regional events to VEX Worlds.</p></div>
             <div class="work-stat"><strong>2026</strong><span>World Championship</span></div>
@@ -172,7 +164,7 @@
           <p>Right now, I’m exploring robotics through competition, prototyping, coding, and community work. Next, I want to go deeper into intelligent robotic systems that can perceive, move, and work alongside people.</p>
         </div>
 
-        <div class="next-robot-stage reveal-scale" data-robot-showcase data-model="assets/robot-web-lite.glb" role="img" aria-label="Interactive 3D model of my VEX robot">
+        <div class="next-robot-stage reveal-scale" data-robot-showcase data-model="assets/robot-current-optimized.glb" role="img" aria-label="Interactive 3D model of my VEX robot">
           <div class="robot-ring ring-a" aria-hidden="true"></div>
           <div class="robot-ring ring-b" aria-hidden="true"></div>
           <div class="robot-ring ring-c" aria-hidden="true"></div>
@@ -221,6 +213,5 @@
     }
   </script>
   <script type="module" src="robot-showcase.js"></script>
-  <script type="module" src="vex-card-robot.js"></script>
 </body>
 </html>
