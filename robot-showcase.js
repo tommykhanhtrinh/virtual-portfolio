@@ -28,9 +28,14 @@ if (stage) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.1;
 
+  // Motion rig -> fit rig -> Z-up correction rig -> actual robot.
+  // Keeping the fit transform separate is important for large Onshape assemblies:
+  // scaling/centering the model node itself can push a transformed assembly off-screen.
   const robotRig = new THREE.Group();
+  const fitRig = new THREE.Group();
   const orientationRig = new THREE.Group();
-  robotRig.add(orientationRig);
+  robotRig.add(fitRig);
+  fitRig.add(orientationRig);
   scene.add(robotRig);
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x68638f, 2.25));
@@ -171,6 +176,59 @@ if (stage) {
     });
   }
 
+  function frameRobot(root) {
+    // The source assembly is Z-up. Apply that correction first, then measure the
+    // corrected assembly as a whole. Measuring the child and then changing its
+    // local scale/position was the reason the new model could report ONLINE yet
+    // still sit outside the camera frustum.
+    orientationRig.rotation.set(-Math.PI / 2, 0, 0);
+    orientationRig.position.set(0, 0, 0);
+    orientationRig.scale.set(1, 1, 1);
+    fitRig.position.set(0, 0, 0);
+    fitRig.scale.set(1, 1, 1);
+    orientationRig.add(root);
+
+    scene.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(orientationRig);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+
+    if (box.isEmpty() || !Number.isFinite(size.x + size.y + size.z)) {
+      throw new Error('The robot model has no measurable renderable bounds.');
+    }
+
+    const maxDimension = Math.max(size.x, size.y, size.z) || 1;
+    const modelScale = 1.92 / maxDimension;
+
+    // Scale and translate at the dedicated fit rig. The position is multiplied
+    // by the same factor so the geometric center stays at the origin after scale.
+    fitRig.scale.setScalar(modelScale);
+    fitRig.position.set(
+      -center.x * modelScale,
+      -center.y * modelScale - 0.02,
+      -center.z * modelScale,
+    );
+
+    scene.updateMatrixWorld(true);
+
+    // Keep every CAD sub-mesh renderable. With this highly transformed Onshape
+    // assembly, conservative frustum culling can hide valid instances after
+    // meshopt quantization even though the GLB parsed correctly.
+    root.traverse((obj) => {
+      if (obj.isMesh) obj.frustumCulled = false;
+    });
+
+    const fittedBox = new THREE.Box3().setFromObject(fitRig);
+    const fittedCenter = fittedBox.getCenter(new THREE.Vector3());
+    const fittedSize = fittedBox.getSize(new THREE.Vector3());
+    console.info('VEX CAD framed', {
+      sourceSize: size.toArray(),
+      fittedSize: fittedSize.toArray(),
+      fittedCenter: fittedCenter.toArray(),
+      scale: modelScale,
+    });
+  }
+
   function loadRobot() {
     if (loadStarted) return;
     loadStarted = true;
@@ -181,33 +239,29 @@ if (stage) {
     gltfLoader.load(
       modelUrl,
       (gltf) => {
-        robot = gltf.scene;
+        try {
+          robot = gltf.scene;
 
-        robot.traverse((obj) => {
-          if (!obj.isMesh) return;
-          obj.frustumCulled = true;
-          if (Array.isArray(obj.material)) obj.material.forEach(tuneMaterial);
-          else tuneMaterial(obj.material);
-        });
+          robot.traverse((obj) => {
+            if (!obj.isMesh) return;
+            if (Array.isArray(obj.material)) obj.material.forEach(tuneMaterial);
+            else tuneMaterial(obj.material);
+          });
 
-        collectMechanicalMotion(robot);
+          collectMechanicalMotion(robot);
+          frameRobot(robot);
 
-        orientationRig.rotation.x = -Math.PI / 2;
-        orientationRig.add(robot);
-
-        const box = new THREE.Box3().setFromObject(robot);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-        const modelScale = 2.38 / maxDimension;
-        robot.scale.setScalar(modelScale);
-        robot.position.copy(center).multiplyScalar(-modelScale);
-
-        modelLoaded = true;
-        stage.classList.add('robot-ready');
-        setLoader('ROBOT ONLINE / DRAG TO ROTATE', 1);
-        resize();
-        startLoop();
+          modelLoaded = true;
+          stage.classList.remove('robot-error');
+          stage.classList.add('robot-ready');
+          setLoader('ROBOT ONLINE / DRAG TO ROTATE', 1);
+          resize();
+          startLoop();
+        } catch (error) {
+          console.warn('Robot model framing failed:', error);
+          stage.classList.add('robot-error');
+          setLoader('MODEL LOADED / FRAMING ERROR', 0);
+        }
       },
       (xhr) => {
         if (!xhr.total) {
