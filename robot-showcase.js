@@ -161,7 +161,7 @@ if (stage) {
     spinningParts.length = 0;
     root.traverse((obj) => {
       const name = obj.name || '';
-      if (!/wheel|gear/i.test(name)) return;
+      if (/^occurrence of/i.test(name) || !/wheel|gear/i.test(name)) return;
       if (!obj.children.length && !obj.isMesh) return;
 
       const isFlex = /flex wheel/i.test(name);
@@ -204,9 +204,10 @@ if (stage) {
         const box = new THREE.Box3().setFromObject(robot);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        robot.position.sub(center);
         const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-        robot.scale.setScalar(2.38 / maxDimension);
+        const modelScale = 2.38 / maxDimension;
+        robot.scale.setScalar(modelScale);
+        robot.position.copy(center).multiplyScalar(-modelScale);
 
         modelLoaded = true;
         stage.classList.add('robot-ready');
