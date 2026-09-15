@@ -44,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           npm install -g gltfpack@latest
-          gltfpack -h >/dev/null
+          gltfpack -v
 
       - name: Build browser-optimized current robot
         shell: bash
