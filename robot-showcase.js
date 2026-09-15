@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 const stage = document.querySelector('[data-robot-showcase]');
 
@@ -7,7 +8,7 @@ if (stage) {
   const canvas = stage.querySelector('.next-robot-canvas');
   const loaderText = stage.querySelector('[data-robot-loader-text]');
   const loaderBar = stage.querySelector('[data-robot-loader-bar]');
-  const modelUrl = stage.dataset.model || 'assets/robot-web-lite.glb';
+  const modelUrl = stage.dataset.model || 'assets/robot-current-optimized.glb';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
 
@@ -32,7 +33,6 @@ if (stage) {
   robotRig.add(orientationRig);
   scene.add(robotRig);
 
-  // Studio lighting: enough contrast to read small CAD details without making the model look glossy.
   scene.add(new THREE.HemisphereLight(0xffffff, 0x68638f, 2.25));
 
   const keyLight = new THREE.DirectionalLight(0xffffff, 4.1);
@@ -51,7 +51,6 @@ if (stage) {
   purpleFill.position.set(-2.4, -1.1, 2.1);
   scene.add(purpleFill);
 
-  // Cheap fake shadow. Real shadow maps are expensive for a CAD assembly with many objects.
   const shadowCanvas = document.createElement('canvas');
   shadowCanvas.width = 256;
   shadowCanvas.height = 256;
@@ -71,8 +70,6 @@ if (stage) {
   shadow.position.set(0, -1.03, 0.08);
   scene.add(shadow);
 
-  // Alex Dickhans' site drives a robot along a CubicBezierCurve3 and orients it from the curve tangent.
-  // This is the same Three.js idea, scaled down to stay inside this portfolio section.
   const robotPath = new THREE.CubicBezierCurve3(
     new THREE.Vector3(-0.28, -0.045, 0.08),
     new THREE.Vector3(-0.14, 0.12, -0.11),
@@ -150,8 +147,6 @@ if (stage) {
       material.roughness = 0.58;
     }
 
-    // The web model is aggressively simplified from the 472 MB Onshape export.
-    // Flat shading lets that light mesh keep crisp mechanical edges without shipping a huge normal buffer.
     material.flatShading = true;
     material.envMapIntensity = 0.8;
     material.needsUpdate = true;
@@ -179,9 +174,10 @@ if (stage) {
   function loadRobot() {
     if (loadStarted) return;
     loadStarted = true;
-    setLoader('LOADING ROBOT / 0%', 0);
+    setLoader('LOADING LATEST ROBOT / 0%', 0);
 
     const gltfLoader = new GLTFLoader();
+    gltfLoader.setMeshoptDecoder(MeshoptDecoder);
     gltfLoader.load(
       modelUrl,
       (gltf) => {
@@ -196,11 +192,9 @@ if (stage) {
 
         collectMechanicalMotion(robot);
 
-        // Onshape exports this assembly Z-up. Convert to Three.js' Y-up world.
         orientationRig.rotation.x = -Math.PI / 2;
         orientationRig.add(robot);
 
-        // Center the entire assembly at the animation pivot and fit it consistently in the circle.
         const box = new THREE.Box3().setFromObject(robot);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
@@ -217,7 +211,7 @@ if (stage) {
       },
       (xhr) => {
         if (!xhr.total) {
-          setLoader('LOADING 3D ROBOT…');
+          setLoader('LOADING LATEST 3D ROBOT…');
           return;
         }
         const pct = clamp(xhr.loaded / xhr.total, 0, 1);
@@ -226,7 +220,7 @@ if (stage) {
       (error) => {
         console.warn('Robot model could not be loaded:', error);
         stage.classList.add('robot-error');
-        setLoader('MODEL OFFLINE / assets/robot-web-lite.glb', 0);
+        setLoader('MODEL OFFLINE / robot-current-optimized.glb', 0);
       },
     );
   }
@@ -243,7 +237,6 @@ if (stage) {
   function updateScrollProgress() {
     const rect = stage.getBoundingClientRect();
     const viewport = window.innerHeight || 1;
-    // 0 entering from below → 1 leaving through the top, mirroring the scroll-driven camera idea in the reference site.
     scrollTarget = clamp((viewport - rect.top) / (viewport + rect.height), 0, 1);
   }
 
@@ -301,7 +294,6 @@ if (stage) {
         manualVelocity *= Math.pow(0.06, dt);
       }
 
-      // Exact motion concept from the reference: cosine-eased travel on a CubicBezierCurve3.
       const pathT = reducedMotion
         ? 0.5
         : 1 - (Math.cos(((now / 3600) % 2) * Math.PI) + 1) / 2;
@@ -320,7 +312,6 @@ if (stage) {
       robotRig.rotation.x = scrollArc * -0.06 + pointerY * 0.025;
       robotRig.scale.setScalar(1 + breathe);
 
-      // Wheels and gears turn while the chassis travels. Node names come directly from the Onshape assembly.
       if (!reducedMotion) {
         spinningParts.forEach((part) => {
           const angle = now * 0.001 * part.speed * part.direction + part.phase;
@@ -329,7 +320,6 @@ if (stage) {
         });
       }
 
-      // Scroll moves the camera through a small arc, just like the full-page Three.js camera in Alex's implementation.
       const cameraTargetX = pointerX * 0.17 + scrollArc * 0.16;
       const cameraTargetY = lerp(0.48, 0.08, scrollValue) - pointerY * 0.08;
       const cameraTargetZ = 4.72 - Math.sin(scrollValue * Math.PI) * 0.22;
