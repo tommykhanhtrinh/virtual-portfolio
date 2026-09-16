@@ -27,6 +27,23 @@ jobs:
           rsync -a --exclude '.git' --exclude '.github' --exclude '_site' ./ _site/
           mkdir -p _site/assets
 
+      - name: Build homepage hover portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat \
+            assets/portrait-hover/part-0.txt \
+            assets/portrait-hover/part-1.txt \
+            assets/portrait-hover/part-2.txt \
+            assets/portrait-hover/part-3.txt \
+            assets/portrait-hover/part-4.txt \
+            | tr -d '\r\n' \
+            | base64 --decode \
+            > _site/assets/portrait-hover.webp
+          test "$(stat -c%s _site/assets/portrait-hover.webp)" = "36922"
+          test "$(sha256sum _site/assets/portrait-hover.webp | awk '{print $1}')" = "7435a09b213e049214d07eef7be2a766d5ffdb4b783d34d377b8de4a4ae2df0e"
+          echo "Homepage hover portrait reconstructed successfully."
+
       - name: Download latest full-resolution VEX CAD
         shell: bash
         run: |
@@ -155,13 +172,14 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Verify optimized robot is publicly served
+      - name: Verify optimized robot and hover portrait are publicly served
         shell: bash
         run: |
           set -euo pipefail
           BASE="${{ steps.deployment.outputs.page_url }}"
           MODEL="${BASE}assets/robot-current-optimized.glb"
           META="${BASE}assets/robot-current-optimized.json"
+          PORTRAIT="${BASE}assets/portrait-hover.webp"
 
           for attempt in 1 2 3 4 5 6 7 8; do
             if curl -L --fail --silent --show-error "$META" -o /tmp/robot-meta.json; then
@@ -178,3 +196,7 @@ jobs:
           curl -L --fail --silent --show-error --range 0-3 "$MODEL" -o /tmp/glb-magic
           test "$(cat /tmp/glb-magic)" = "glTF"
           echo "Browser-compatible latest VEX model is live: $SIZE bytes."
+
+          curl -L --fail --silent --show-error "$PORTRAIT" -o /tmp/portrait-hover.webp
+          test "$(stat -c%s /tmp/portrait-hover.webp)" = "36922"
+          echo "Homepage hover portrait is live."
