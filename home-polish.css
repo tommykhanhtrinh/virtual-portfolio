@@ -1,5 +1,37 @@
 /* Homepage polish — milestone fixes, Now/Next constellation, and richer card motion */
 
+/* ---------- Hero portrait hover swap ---------- */
+.home-page .portrait-frame{
+  position:relative;
+  overflow:hidden;
+}
+.home-page .portrait-frame::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  opacity:0;
+  background-image:url("assets/portrait-hover.webp");
+  background-size:cover;
+  background-position:center 34%;
+  background-repeat:no-repeat;
+  transform:scale(1.02);
+  transition:opacity .38s ease,transform .8s cubic-bezier(.2,.8,.2,1);
+  will-change:opacity,transform;
+}
+.home-page .portrait-frame .portrait-wash{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+}
+@media(hover:hover) and (pointer:fine){
+  .home-page .portrait-frame:hover::after{
+    opacity:1;
+    transform:scale(1.065);
+  }
+}
+
 /* ---------- Milestone cards ---------- */
 .home-page .award-cards .award-number:nth-child(4){
   position:relative;
@@ -183,4 +215,5 @@
 }
 @media(prefers-reduced-motion:reduce){
   .home-page .next-orbit::after,.home-page .next-orbit .orbit-label,.home-page .work-vex .robot-core,.home-page .work-vex .robot-node,.home-page .work-vex .grid-lines,.home-page .service-visual span,.home-page .work-project .device-body,.home-page .work-project .sensor,.home-page .work-project .signal-wave,.home-page .leadership-stack span{animation:none!important}
+  .home-page .portrait-frame::after{transition:none!important}
 }
