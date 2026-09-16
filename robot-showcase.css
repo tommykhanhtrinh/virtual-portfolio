@@ -267,6 +267,65 @@
 @keyframes robotTagC{0%,100%{transform:translate(0,0) rotate(1deg)}50%{transform:translate(7px,-7px) rotate(-2deg)}}
 @keyframes robotTagD{0%,100%{transform:translateX(-50%) translateY(0) rotate(-1deg)}50%{transform:translateX(-50%) translateY(8px) rotate(2deg)}}
 
+/* Loading-state UI: the model is large enough that visitors need explicit feedback.
+   Until the GLB is ready (or fails), turn the small status readout into a centered
+   loading card with a spinner, progress bar, and a clear please-wait message. */
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader{
+  left:50%;
+  right:auto;
+  top:50%;
+  bottom:auto;
+  width:min(72%,310px);
+  padding:28px 26px 24px;
+  transform:translate(-50%,-50%);
+  gap:13px;
+  border:1px solid rgba(10,15,24,.10);
+  border-radius:24px;
+  background:rgba(255,255,255,.84);
+  box-shadow:0 24px 70px rgba(10,15,24,.12);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  text-align:center;
+}
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader::before{
+  content:"";
+  width:34px;
+  height:34px;
+  margin:0 auto 3px;
+  border:3px solid rgba(10,15,24,.10);
+  border-top-color:#875cff;
+  border-right-color:#61d8ff;
+  border-radius:50%;
+  animation:robotLoadingSpin .85s linear infinite;
+}
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader::after{
+  content:"PLEASE WAIT · LOADING 3D ROBOT";
+  order:-1;
+  color:#0a0f18;
+  font:800 12px/1.25 "Space Grotesk",sans-serif;
+  letter-spacing:.10em;
+}
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader span{
+  color:#697181;
+  text-align:center;
+  font-size:9px;
+  letter-spacing:.09em;
+}
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader-track{
+  height:5px;
+  background:rgba(10,15,24,.08);
+}
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-fallback{
+  opacity:.12;
+  transform:translate(-50%,-50%) scale(.92);
+}
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-tag,
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-hud-title,
+.home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-model-stamp{
+  opacity:.28;
+}
+@keyframes robotLoadingSpin{to{transform:rotate(360deg)}}
+
 @media(max-width:980px){
   .home-page .next-robot-stage{justify-self:center;width:min(100%,520px)}
 }
@@ -281,11 +340,18 @@
   .home-page .robot-model-stamp{display:none}
   .home-page .robot-loader{right:6%;bottom:5.5%;width:145px}
   .home-page .robot-loader span{font-size:7px}
+  .home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader{
+    left:50%;right:auto;top:50%;bottom:auto;
+    width:min(76%,270px);
+    padding:23px 20px 20px;
+  }
+  .home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader::after{font-size:10px}
   .home-page .robot-interaction-hint{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   .home-page .next-robot-stage::after,
   .home-page .next-robot-stage.robot-ready::before,
   .home-page .robot-tag,
-  .home-page .robot-model-stamp::before{animation:none!important}
+  .home-page .robot-model-stamp::before,
+  .home-page .next-robot-stage:not(.robot-ready):not(.robot-error) .robot-loader::before{animation:none!important}
 }
